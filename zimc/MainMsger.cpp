@@ -113,7 +113,22 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			*pnNetDataLen = -1;
         }
         break;
-
+    case Msg_CsDelFriend:
+        {
+            NetMsg_t *pNetData = new NetMsg_t;
+            DelFriendItem *pDelfriend = (DelFriendItem*)pLocalData;
+            if (!pNetData || !pDelfriend) {
+                return Error_OutOfMemory;
+            }
+            pNetData->set_cmd(15);
+            pNetData->set_uid(pDelfriend->strSendName);
+            pNetData->set_tuid(pDelfriend->strdelName);
+            pNetData->set_user_id(pDelfriend->nSendId);
+            pNetData->set_tuser_id(pDelfriend->nDelId);
+            *ppbNetData = (Byte_t *)pNetData;
+            *pnNetDataLen = -1;
+        }
+        break;
 	}
 
 	return 0;
@@ -150,12 +165,14 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		ScMsgMap(Msg_ScQueryVerify,    ParserQueryVerify)
 		ScMsgMap(Msg_ScResponseVerify, ParserResponseVerify)
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
+        ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
 	EndScMsgMap
 
 	*pnLocalDataLen = nError;
 	return nRet;
 }
 
+//free NetData
 int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 {
 	if(!pLocalData) return 0;
@@ -183,10 +200,20 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 
 	case Msg_CsTextChat:
 		{
-			ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
-			::free(pChatData);
+			//ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
+			//::free(pChatData);
+            delete (NetMsg_t*)pLocalData;
 		}
+    case Msg_LoadMessage:
+        {
+            delete (NetMsg_t*)pLocalData;
+        }
 		break;
+    case Msg_CsDelFriend:
+        {
+            delete (NetMsg_t*)pLocalData;
+        }
+        break;
 	}
 
 	return 0;
@@ -236,6 +263,10 @@ int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
 			::free(pTextChat);
 		}
 		break;
+    case Msg_ScDelFriend:
+        {
+            delete (DelFriendItem*)pNetData;
+        }
 	}
 
 	return 0;
@@ -381,4 +412,14 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 
 	*ppbLocalData = pChatText;
 	return 0;
+}
+
+int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData) {
+    DelFriendItem * pDelFriend = new DelFriendItem;
+    pDelFriend->nSendId = pNetMsg->user_id();
+    pDelFriend->nDelId = pNetMsg->tuser_id();
+    pDelFriend->strSendName = pNetMsg->uid();
+    pDelFriend->strdelName = pNetMsg->tuid();
+    *ppbLocalData = pDelFriend;
+    return 0;
 }

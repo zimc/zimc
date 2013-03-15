@@ -6,6 +6,7 @@
 #include "DuiWindowBase.h"
 #include "json\json.h"
 
+using namespace Json;
 
 class CDuiWindowBase;
 class CMainMsger
@@ -34,6 +35,7 @@ private:
 	int ParserQueryVerify   (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserTextChat      (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
+    int ParserDelFriend     (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 
 
 private:

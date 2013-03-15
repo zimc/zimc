@@ -101,6 +101,10 @@ enum enumZimcMsg
 	Msg_CsResponseVerify, 
 	Msg_ScResponseVerify, 
 
+    //del friend
+    Msg_CsDelFriend,
+    Msg_ScDelFriend,
+
 	// report 
 	Msg_CsEvilReport, 
 	Msg_ScEvilReport, 
@@ -344,6 +348,17 @@ typedef struct ChatCcTextData_t
 	Obj_Init(ChatCcTextData_t);
 }ChatCcTextData_t;
 
+#include <string>
+using namespace std;
+
+class DelFriendItem {
+public:
+    DelFriendItem(){}
+    string strSendName;
+    string strdelName;
+    int nSendId;
+    int nDelId;
+};
 
 // ----------------------------------------------------------
 // 
@@ -559,6 +574,7 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	case  5: return Msg_ScTextChat;
 	case 13: return Msg_ScResponseUsers;
 	case 14: return nType == 0 ? Msg_ScQueryVerify : Msg_ScResponseVerify;
+    case 15: return Msg_ScDelFriend;
 	}
 
 	return Msg_NetUnknown;

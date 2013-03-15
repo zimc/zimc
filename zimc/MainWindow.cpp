@@ -616,11 +616,21 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
 	pNode = (CNodeList *)pList->GetItemAt(nSel)->GetTag();
 	Assert(pNode);
 
+    //TODO 
+    //发送命令道服务器端，等服务端验证成功后再做操作
+    //发送网络命令
 	switch(msg.wParam)
 	{
 	case Event_OpenItem:   { /* ... ??? */  break; }
 	case Event_ModifyItem: { ModifyItem(pNode); break; }
-	case Event_DeleteItem: { DelItem(pNode, pNode->GetParent()); break; }
+	case Event_DeleteItem: 
+        { 
+            //DelItem(pNode, pNode->GetParent());   
+            DelFriendItem dfi;
+            //TODO
+            SendImMessageX(Msg_CsDelFriend, (LPARAM)&dfi, sizeof(dfi));
+        }
+        break;
 	default:               { Assert(0); break; }
 	}
 
@@ -1405,8 +1415,14 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 				pChatDialog->OnTextMsgShow(pChatText);
 				pChatDialog->ActiveWindow();
 			}
+            bFree = TRUE;
 		}
 		break;
+    case Msg_ScDelFriend:
+        {
+            //TODO 执行删除好友的操作
+        }
+        break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, pNetData);
@@ -1509,6 +1525,12 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			}
 		}
 		break;
+    case Msg_ScDelFriend:
+        {
+            Assert(lParam != 0);
+            DelayDispatchNetCmd(nMsg, (void*)lParam);
+        }
+        break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, (void*)lParam);

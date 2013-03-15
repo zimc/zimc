@@ -63,6 +63,7 @@ bool conn_t::connectToServer() {
         return false;
     }
     if (connect(fd, res->ai_addr, res->ai_addrlen)<0) {
+        closesocket(fd);
         cerr <<"Connect to server failed!"<<endl;;
         return false; 
     }
@@ -238,6 +239,8 @@ void conn_t::proc_data(callback func) {
         msg->unserialize(buf+6);
 
         func(msg);
+
+        delete msg;
 
         if (buf != sbuf) {
             free(buf);
