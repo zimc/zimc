@@ -353,11 +353,12 @@ using namespace std;
 
 class DelFriendItem {
 public:
-    DelFriendItem(){}
+	DelFriendItem():nSendId(0),nDelId(0),succ(-1){}
     string strSendName;
     string strdelName;
     int nSendId;
     int nDelId;
+	int succ;
 };
 
 // ----------------------------------------------------------

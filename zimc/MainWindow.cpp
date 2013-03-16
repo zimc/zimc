@@ -627,7 +627,10 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
         { 
             //DelItem(pNode, pNode->GetParent());   
             DelFriendItem dfi;
-            //TODO
+			dfi.nSendId = IdLocalToNet(Type_ImcFriend, m_itemSelfInfo.nId);
+			dfi.strSendName = CT2A(m_itemSelfInfo.tstrNickName.c_str());
+			dfi.nDelId = IdLocalToNet(Type_ImcFriend, pNode->GetNodeData().nId);
+			dfi.strdelName = CT2A(pNode->GetNodeData().tstrNickName.c_str());
             SendImMessageX(Msg_CsDelFriend, (LPARAM)&dfi, sizeof(dfi));
         }
         break;
@@ -1421,6 +1424,13 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
     case Msg_ScDelFriend:
         {
             //TODO 执行删除好友的操作
+			//DelItem(pNode, pNode->GetParent());  
+			//MessageBox(NULL, (LPCWSTR)("test"), (LPCWSTR)("test"), MB_OK);
+			DelFriendItem *pDelFriend = (DelFriendItem *)pNetData;
+			if (pDelFriend->succ == 0) {
+				CNodeList *pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nDelId));
+				DelItem(pNodeinfo, pNodeinfo->GetParent());
+			}
         }
         break;
 	}

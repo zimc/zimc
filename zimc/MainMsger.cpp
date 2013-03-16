@@ -420,6 +420,7 @@ int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void *
     pDelFriend->nDelId = pNetMsg->tuser_id();
     pDelFriend->strSendName = pNetMsg->uid();
     pDelFriend->strdelName = pNetMsg->tuid();
+	pDelFriend->succ = pNetMsg->succ();
     *ppbLocalData = pDelFriend;
     return 0;
 }
