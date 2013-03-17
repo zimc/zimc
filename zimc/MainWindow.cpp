@@ -1424,13 +1424,23 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
     case Msg_ScDelFriend:
         {
             //TODO 执行删除好友的操作
-			//DelItem(pNode, pNode->GetParent());  
-			//MessageBox(NULL, (LPCWSTR)("test"), (LPCWSTR)("test"), MB_OK);
+			bool popMsgBox = false;
 			DelFriendItem *pDelFriend = (DelFriendItem *)pNetData;
+			TCHAR                tsText[1024] = {0};
 			if (pDelFriend->succ == 0) {
-				CNodeList *pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nDelId));
-				DelItem(pNodeinfo, pNodeinfo->GetParent());
+				if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) == m_itemSelfInfo.nId) {
+					_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("%s 将您移除好友列表"), CA2W(pDelFriend->strSendName.c_str()));
+				}
+				else {
+					_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("删除好友 %s 成功"), CA2W(pDelFriend->strdelName.c_str()));
+				}
+				popMsgBox = true;
 			}
+			else if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) != m_itemSelfInfo.nId) {
+				_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("删除好友 %s 失败"),CA2W(pDelFriend->strdelName.c_str()));
+			}
+			if (popMsgBox) CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), (LPCTSTR)(tsText));
+			bFree = TRUE;
         }
         break;
 	}
@@ -1538,7 +1548,18 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
     case Msg_ScDelFriend:
         {
             Assert(lParam != 0);
-            DelayDispatchNetCmd(nMsg, (void*)lParam);
+			DelFriendItem *pDelFriend = (DelFriendItem *)lParam;
+			if (pDelFriend->succ == 0) {
+				CNodeList *pNodeinfo;
+				if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) == m_itemSelfInfo.nId) {
+					pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nSendId));
+				}
+				else {
+					pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nDelId));
+				}
+				DelItem(pNodeinfo, pNodeinfo->GetParent());
+				DelayDispatchNetCmd(nMsg, (void*)lParam);
+			}
         }
         break;
 	}
