@@ -200,9 +200,9 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 
 	case Msg_CsTextChat:
 		{
-			//ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
-			//::free(pChatData);
-            delete (NetMsg_t*)pLocalData;
+			ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
+			::free(pChatData);
+            //delete (NetMsg_t*)pLocalData;
 		}
     case Msg_LoadMessage:
         {

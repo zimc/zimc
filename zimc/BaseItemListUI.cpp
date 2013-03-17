@@ -334,7 +334,7 @@ void CBaseItemListUI::SetChildVisible(CNodeList* node, bool visible)
 
 bool CBaseItemListUI::CanExpand(CNodeList* node) const
 {
-	if (!node || node == root_node_)
+	if (!node || node == root_node_ || node->GetNodeData().Type() == Type_ImcGroup || node->GetNodeData().Type() == Type_ImcTalk)
 		return false;
 
 	return node->GetNodeData().bIsHasChild;
