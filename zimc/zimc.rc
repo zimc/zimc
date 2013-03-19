@@ -13,11 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// Chinese (P.R.C.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
-LANGUAGE 4, 2
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
 #pragma code_page(936)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -25,24 +27,25 @@ LANGUAGE 4, 2
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE  
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE  
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE  
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
 END
 
 #endif    // APSTUDIO_INVOKED
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -51,7 +54,7 @@ END
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 0,0,0,2
- PRODUCTVERSION 0,1
+ PRODUCTVERSION 0,1,0,0
  FILEFLAGSMASK 0x1fL
 #ifdef _DEBUG
  FILEFLAGS 0x9L
@@ -80,6 +83,7 @@ BEGIN
     END
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -87,27 +91,27 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDI_ICON1               ICON                    "D:\\project\\zimc\\zimc\\res\\main1.ico"
 IDR_MAINFRAME           ICON                    "res\\zimc.ico"
 IDR_MAINFRAME2          ICON                    "res\\zimc2.ico"
-
+IDI_ICON2               ICON                    "res\\main2.ico"
+IDI_ICON3               ICON                    "res\\chat.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // PNG
 //
-IDR_PNG_MIN_N_LOGIN				PNG              "res\\login_min_n.png"
-IDR_PNG_MIN_H_LOGIN				PNG              "res\\login_min_h.png"
-IDR_PNG_MIN_P_LOGIN				PNG              "res\\login_min_p.png"
 
-IDR_PNG_CLOSE_N_LOGIN			PNG              "res\\login_close_n.png"
-IDR_PNG_CLOSE_H_LOGIN			PNG              "res\\login_close_h.png"
-IDR_PNG_CLOSE_P_LOGIN			PNG              "res\\login_close_p.png"
-
-IDR_PNG_CHECK_D_LOGIN			PNG              "res\\login_checkbox_1.png"
-IDR_PNG_CHECK_S_LOGIN			PNG              "res\\login_checkbox_2.png"
-
-
-#endif    // English (U.S.) resources
+IDR_PNG_MIN_N_LOGIN     PNG                     "res\\login_min_n.png"
+IDR_PNG_MIN_H_LOGIN     PNG                     "res\\login_min_h.png"
+IDR_PNG_MIN_P_LOGIN     PNG                     "res\\login_min_p.png"
+IDR_PNG_CLOSE_N_LOGIN   PNG                     "res\\login_close_n.png"
+IDR_PNG_CLOSE_H_LOGIN   PNG                     "res\\login_close_h.png"
+IDR_PNG_CLOSE_P_LOGIN   PNG                     "res\\login_close_p.png"
+IDR_PNG_CHECK_D_LOGIN   PNG                     "res\\login_checkbox_1.png"
+IDR_PNG_CHECK_S_LOGIN   PNG                     "res\\login_checkbox_2.png"
+IDB_MAIN_1              PNG                     "res\\main1.png"
+#endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

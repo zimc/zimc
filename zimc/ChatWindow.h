@@ -68,6 +68,8 @@ protected:
 	int     OnTextMsgShow_Test(TCHAR * tszText);
 	int     SaveMsgRecord();
 
+	LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled);
+
 
 private: 
 	int              m_nChatType;

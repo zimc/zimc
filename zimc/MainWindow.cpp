@@ -100,6 +100,8 @@ LRESULT CZiMainFrame::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & b
 	m_pTrayWindow->SetHwnd(m_hWnd);
 	m_pTrayWindow->AddTray();
 
+	SetIcon(128);
+
     if(m_nTimer == 0) {
         m_nTimer = ::SetTimer(m_hWnd, 1, 1000, 0);
     }

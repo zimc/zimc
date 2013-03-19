@@ -275,11 +275,71 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
+				RelativePath=".\res\chat.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\icon3.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_checkbox_1.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_checkbox_2.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_close_h.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_close_n.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_close_p.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_min_h.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_min_n.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\login_min_p.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\main1.ico"
+				>
+			</File>
+			<File
+				RelativePath=".\res\main1.png"
+				>
+			</File>
+			<File
+				RelativePath=".\res\main2.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
+				RelativePath=".\res\zimc.ico"
+				>
+			</File>
+			<File
 				RelativePath=".\zimc.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\res\zimc2.ico"
 				>
 			</File>
 		</Filter>

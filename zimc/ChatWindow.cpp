@@ -52,6 +52,15 @@ CChatDialog::CChatDialog(
 CChatDialog::~CChatDialog()
 {
 }
+LRESULT CChatDialog::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
+{
+	// 利用 WS_EX_TOOLWINDOW 不能够成功的隐藏任务栏图标, 
+	// 有可能会重新出现在任务栏中. 不知道为什么. ???
+
+	CDuiWindowBase::OnCreate(nMsg, wParam, lParam, bHandled);
+	SetIcon(128);
+	return S_OK;
+}
 
 ItemNodeInfo_t * CChatDialog::GetSelfInfo()
 {

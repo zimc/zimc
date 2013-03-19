@@ -35,7 +35,7 @@ public:
 	int FlashTray(BOOL bSet = FALSE, BOOL bNewId = 1)
 	{
 		static DWORD dwId        = 0;
-		static DWORD dwIconId[2] = { IDR_MAINFRAME, IDR_MAINFRAME2 };
+		static DWORD dwIconId[2] = { IDI_ICON1, IDI_ICON2 };
 
 		if(bSet) dwId = bNewId;
 		DoTray(NIM_MODIFY, dwIconId[dwId]);

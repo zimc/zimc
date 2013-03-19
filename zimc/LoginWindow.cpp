@@ -180,6 +180,7 @@ LRESULT CZiLogin::OnSysCommand(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bH
 LRESULT CZiLogin::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
 	CDuiWindowBase::OnCreate(uMsg, wParam, lParam, bHandled);
+	SetIcon(128);
 
 	// bg tranf
 	//#define WS_EX_LAYERED		0x00080000
