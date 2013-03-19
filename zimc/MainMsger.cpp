@@ -92,6 +92,9 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_type(pChatData->nRecvType);
 			pNetData->set_buf (pChatData->szData, pChatData->nDataLen);
 
+            pNetData->set_user_id(pChatData->nSenderId);
+            pNetData->set_tuser_id(pChatData->nRecverId);
+
 			Json::Value jsTmp;
 			jsTmp["id"]   = int(pChatData->nSenderId);
 			jsTmp["tid"]  = int(pChatData->nRecverId);
@@ -125,6 +128,14 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
             pNetData->set_tuid(pDelfriend->strdelName);
             pNetData->set_user_id(pDelfriend->nSendId);
             pNetData->set_tuser_id(pDelfriend->nDelId);
+            *ppbNetData = (Byte_t *)pNetData;
+            *pnNetDataLen = -1;
+        }
+        break;
+    case Msg_KeepAlive:
+        {
+            NetMsg_t *pNetData = new NetMsg_t;
+            pNetData->set_cmd(18);
             *ppbNetData = (Byte_t *)pNetData;
             *pnNetDataLen = -1;
         }
@@ -200,10 +211,11 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 
 	case Msg_CsTextChat:
 		{
-			ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
-			::free(pChatData);
-            //delete (NetMsg_t*)pLocalData;
+			//ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
+			//::free(pChatData);
+            delete (NetMsg_t*)pLocalData;
 		}
+        break;
     case Msg_LoadMessage:
         {
             delete (NetMsg_t*)pLocalData;
@@ -391,7 +403,7 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 		pChatText->nSenderId = MagicId_F(Msg_ScTextChat, jsRoot["id"].asInt());
 		pChatText->nRecverId = MagicId_t(Msg_ScTextChat, TypeNetToLocal(pNetMsg->type()), jsRoot["tid"].asInt());
 	}
-	else                                         return Error_InvalidNetData;
+	else return Error_InvalidNetData;
 
 	if(IsValidOfJsonValue(jsRoot, "time"))
 	{
@@ -408,7 +420,7 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 		pChatText->szData = szBuf;
 	}
 
-	pChatText->nRecvType = pNetMsg->type();
+	pChatText->nRecvType = TypeNetToLocal(pNetMsg->type());
 
 	*ppbLocalData = pChatText;
 	return 0;

@@ -81,6 +81,7 @@ private:
 private:
 	int     UpdateState();
 
+    void    OnKeepAlive();
 	void    OnTimer();
 	void    OnPrepare(TNotifyUI & msg);
 	void    OnKillFocus(TNotifyUI & msg);
@@ -151,6 +152,7 @@ private:
 	CTrayWindow         * m_pTrayWindow;
 	BOOL                  m_bFlash;
 	UINT                  m_nTimer;
+    time_t                m_nlastKeepAlive_time_;
 
 	// ´ý´¦Àí±í
 	typedef std::pair<int, void *>    ImcNetData_t;

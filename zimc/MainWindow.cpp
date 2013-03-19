@@ -9,6 +9,8 @@
 #include "NotifyWindow.h"
 #include "MainMsger.h"
 
+#include <time.h>
+
 
 CZiMainFrame::CZiMainFrame()
 	: m_chatFont()
@@ -18,6 +20,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_nTimer(0)
 	, m_nMaxTeamId(0)
 	, m_pMainMsger(0)
+    , m_nlastKeepAlive_time_(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -96,6 +99,10 @@ LRESULT CZiMainFrame::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & b
 
 	m_pTrayWindow->SetHwnd(m_hWnd);
 	m_pTrayWindow->AddTray();
+
+    if(m_nTimer == 0) {
+        m_nTimer = ::SetTimer(m_hWnd, 1, 1000, 0);
+    }
 
 	return S_OK;
 }
@@ -1289,10 +1296,21 @@ void    CZiMainFrame::FlashTray(BOOL bFlashOrNot)
 
 void    CZiMainFrame::OnTimer()
 {
-	Assert(!m_listNetData.empty());
-	Assert(m_pTrayWindow);
+    OnKeepAlive();
+	//Assert(!m_listNetData.empty());
+    CGenericLockHandler h(m_mainLock);
+    if (!m_listNetData.empty()) {
+        Assert(m_pTrayWindow);
+	    m_pTrayWindow->FlashTray();
+    }
+}
 
-	m_pTrayWindow->FlashTray();
+void CZiMainFrame::OnKeepAlive() {
+    time_t now = time(NULL);
+    if (now >= m_nlastKeepAlive_time_ + 5) {
+        m_nlastKeepAlive_time_ = now;
+        m_pMainMsger->SendImMessage(Msg_KeepAlive, NULL, 0);
+    }
 }
 
 void    CZiMainFrame::DelayDispatchNetCmd(int nMsg, void * pNetData)
@@ -1300,8 +1318,10 @@ void    CZiMainFrame::DelayDispatchNetCmd(int nMsg, void * pNetData)
 	CGenericLockHandler h(m_mainLock);
 	m_listNetData.push_back(std::make_pair(nMsg, pNetData));
 
+    /*
 	if(m_nTimer != 0) return;
 	m_nTimer = ::SetTimer(m_hWnd, 1, 1000, 0);
+    */
 	return;
 }
 
@@ -1329,8 +1349,8 @@ BOOL    CZiMainFrame::HandleNetCmd()
 
 		if(m_listNetData.empty() && m_nTimer != 0)
 		{
-			::KillTimer(m_hWnd, m_nTimer);
-			m_nTimer = 0;
+			//::KillTimer(m_hWnd, m_nTimer);
+			//m_nTimer = 0;
 		}
 	}while(0);
 
@@ -1412,12 +1432,29 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			//	// 验证 nSenderId 属于此组. 
 			//}
 
+            /*
 			CreateChatDailog(pChatText->nSenderId, &pChatDialog);
 			if(pChatDialog)  // 可能无效. 
 			{
 				pChatDialog->OnTextMsgShow(pChatText);
 				pChatDialog->ActiveWindow();
 			}
+            */
+            if (pChatText->nRecvType == Type_ImcFriend) { //好友消息
+                CreateChatDailog(pChatText->nSenderId, &pChatDialog);
+                if(pChatDialog)  // 可能无效. 
+                {
+                    pChatDialog->OnTextMsgShow(pChatText);
+                    pChatDialog->ActiveWindow();
+                }
+            }
+            else { //群消息
+                CreateChatDailog(pChatText->nRecverId, &pChatDialog);
+                if (pChatDialog) {
+                    pChatDialog->OnTextMsgShow(pChatText);
+                    pChatDialog->ActiveWindow();
+                }
+            }
             bFree = TRUE;
 		}
 		break;
@@ -1531,12 +1568,19 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 		{
 			Assert(lParam != 0);
 			CChatDialog * pChatDialog = 0;
-			ImcSubWindowTable_t::iterator it = m_mapSubWindows.find(((ChatCcTextData_t*)lParam)->nSenderId);
-			if(it != m_mapSubWindows.end()) pChatDialog = static_cast<CChatDialog*>(it->second);
-
+            ChatCcTextData_t *pChatText = (ChatCcTextData_t *)lParam;
+            if (pChatText->nRecvType == Type_ImcFriend) { //好友消息
+                CreateChatDailog(pChatText->nSenderId, &pChatDialog);
+                ImcSubWindowTable_t::iterator it = m_mapSubWindows.find(pChatText->nSenderId);
+                if(it != m_mapSubWindows.end()) pChatDialog = static_cast<CChatDialog*>(it->second);
+            }
+            else { //群消息
+                ImcSubWindowTable_t::iterator it = m_mapSubWindows.find(pChatText->nRecverId);
+                if(it != m_mapSubWindows.end()) pChatDialog = static_cast<CChatDialog*>(it->second);
+            }
 			if(pChatDialog)
 			{
-				pChatDialog->OnTextMsgShow((ChatCcTextData_t*)lParam);
+				pChatDialog->OnTextMsgShow(pChatText);
 				bFree = TRUE;
 			}
 			else

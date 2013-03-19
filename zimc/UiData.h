@@ -122,6 +122,7 @@ enum enumZimcMsg
 	Msg_InQueryVerify, 
 
     Msg_LoadMessage,
+    Msg_KeepAlive,
 
 	// unkown 
 	Msg_NetUnknown = 0x1000, 
