@@ -20,6 +20,10 @@ public:
 		return 0;
 	}
 
+    static void ErrorMessageBox(HWND hWnd, char *errmsg) {
+        ::MessageBoxA(hWnd, errmsg, "ÌבÊ¾", 0);
+    }
+
 	static int GetScreenSize(int & nWidth, int & nHeigth)
 	{
 		DEVMODE devMode = {0};

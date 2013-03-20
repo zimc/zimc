@@ -272,6 +272,12 @@ void    CChatDialog::OnGroupItemClick(TNotifyUI & msg)
 		Assert(m_pMainWindow);
 
 		CNodeList   * pNode = (CNodeList *)msg.pSender->GetTag();
+
+        //TODO 如果是打开自己 则打开个人信息页面
+        if (pNode->GetNodeData().nId == m_myselfInfo.nId) {
+            CZimcHelper::ErrorMessageBox(m_hWnd, "抱歉，不能给自己发送信息哦！");
+            return ;
+        }
 		m_pMainWindow->CreateChatDailog(pNode);
 	}
 }

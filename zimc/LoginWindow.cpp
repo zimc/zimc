@@ -189,7 +189,7 @@ LRESULT CZiLogin::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 
 	::SetWindowLong(m_hWnd, GWL_EXSTYLE, 
 		GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-	::SetLayeredWindowAttributes(m_hWnd, colorMask, 255, LWA_COLORKEY);
+	::SetLayeredWindowAttributes(m_hWnd, colorMask, 0, LWA_COLORKEY);
 	//::RedrawWindow(m_hWnd, 0, 0, RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
 
 	::SetWindowLong(m_hWnd, GWL_STYLE, GetWindowLong(m_hWnd, GWL_STYLE) & ~WS_MAXIMIZEBOX);

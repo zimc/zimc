@@ -1353,6 +1353,7 @@ BOOL    CZiMainFrame::HandleNetCmd()
 		{
 			//::KillTimer(m_hWnd, m_nTimer);
 			//m_nTimer = 0;
+            m_pTrayWindow->FlashTray(TRUE, FALSE);
 		}
 	}while(0);
 
@@ -1572,7 +1573,6 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			CChatDialog * pChatDialog = 0;
             ChatCcTextData_t *pChatText = (ChatCcTextData_t *)lParam;
             if (pChatText->nRecvType == Type_ImcFriend) { //ºÃÓÑÏûÏ¢
-                CreateChatDailog(pChatText->nSenderId, &pChatDialog);
                 ImcSubWindowTable_t::iterator it = m_mapSubWindows.find(pChatText->nSenderId);
                 if(it != m_mapSubWindows.end()) pChatDialog = static_cast<CChatDialog*>(it->second);
             }
