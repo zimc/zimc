@@ -5,8 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zimc", "zimc\zimc.vcproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuiLib", "duilib\DuiLib.vcproj", "{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "chat", "..\setup\chat\chat.vdproj", "{58E3458B-0CEF-4AE6-AE16-2B43F616C269}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -23,18 +21,14 @@ Global
 		{4C964DC9-3F62-4E48-993D-3C6C4AA647D1}.UnicodeDebug|Win32.Build.0 = Debug|Win32
 		{4C964DC9-3F62-4E48-993D-3C6C4AA647D1}.UnicodeRelease|Win32.ActiveCfg = Release|Win32
 		{4C964DC9-3F62-4E48-993D-3C6C4AA647D1}.UnicodeRelease|Win32.Build.0 = Release|Win32
-		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.Build.0 = Debug|Win32
+		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.ActiveCfg = UnicodeDebug|Win32
+		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Debug|Win32.Build.0 = UnicodeDebug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Release|Win32.ActiveCfg = Release|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.Release|Win32.Build.0 = Release|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.UnicodeDebug|Win32.ActiveCfg = UnicodeDebug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.UnicodeDebug|Win32.Build.0 = UnicodeDebug|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.UnicodeRelease|Win32.ActiveCfg = UnicodeRelease|Win32
 		{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}.UnicodeRelease|Win32.Build.0 = UnicodeRelease|Win32
-		{58E3458B-0CEF-4AE6-AE16-2B43F616C269}.Debug|Win32.ActiveCfg = Debug
-		{58E3458B-0CEF-4AE6-AE16-2B43F616C269}.Release|Win32.ActiveCfg = Release
-		{58E3458B-0CEF-4AE6-AE16-2B43F616C269}.UnicodeDebug|Win32.ActiveCfg = Debug
-		{58E3458B-0CEF-4AE6-AE16-2B43F616C269}.UnicodeRelease|Win32.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
