@@ -590,11 +590,11 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	ItemNodeInfo_t & Myself = m_myselfInfo;
 	ItemNodeInfo_t & Friend = m_friendInfo;
 
-	V1(DuiControl_SetBkImage, VerticalLayout, Myself);
+//	V1(DuiControl_SetBkImage, VerticalLayout, Myself);
 	V1(DuiControl_SetBkImage, VerticalLayout, Friend);
-	V2(DuiControl_AddText,    Label,          Myself);
+//	V2(DuiControl_AddText,    Label,          Myself);
 	V2(DuiControl_AddText,    Label,          Friend);
-	V3(DuiControl_SetText,    RichEdit,       Myself);
+//	V3(DuiControl_SetText,    RichEdit,       Myself);
 	V3(DuiControl_SetText,    RichEdit,       Friend);
 
 	return 0;
