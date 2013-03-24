@@ -3,15 +3,13 @@
 
 
 #include "DuiWindowBase.h"
-
-
-class CChatDialog;
+#include "MainWindow.h"
 
 class CReportWindow
 	: public CDuiWindowBase
 {
 public:
-	CReportWindow(CChatDialog * pMainWnd);
+	CReportWindow(CZiMainFrame * pMainWnd);
 	~CReportWindow();
 
 
@@ -32,7 +30,7 @@ public:
 
 
 private:
-	CChatDialog * m_pChatWindow;
+	CZiMainFrame * m_pMainWindow;
 };
 
 

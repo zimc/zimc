@@ -8,6 +8,7 @@
 #include "TrayWindow.h"
 #include "NotifyWindow.h"
 #include "MainMsger.h"
+#include "ReportWindow.h"
 
 #include <time.h>
 
@@ -21,6 +22,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_nMaxTeamId(0)
 	, m_pMainMsger(0)
     , m_nlastKeepAlive_time_(0)
+	, m_pReportWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -1332,7 +1334,7 @@ BOOL    CZiMainFrame::HandleNetCmd()
 	if(m_listNetData.empty() && 
 		m_nTimer == 0)
 	{
-		return TRUE;
+		return FALSE;
 	}
 
 	bool         bDo = FALSE;
@@ -1359,7 +1361,7 @@ BOOL    CZiMainFrame::HandleNetCmd()
 
 	if(bDo) HandleNetMessage(netData.first, netData.second);
 	else    m_pTrayWindow->FlashTray(TRUE, FALSE);
-	return FALSE;
+	return bDo;
 }
 
 int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
@@ -1519,7 +1521,7 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 					BOOL bHide   = ::IsWindowVisible(m_hWnd);
 
 					bNoMsg = HandleNetCmd();
-					if(!bNoMsg)
+					if(bNoMsg)
 					{
 						break;
 					}
@@ -1608,8 +1610,39 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			}
         }
         break;
+	case  Msg_ScEvilReport:
+		{
+			// 显示验证请求框, 交给用户操作. 
+			// 还需要显示请求者的信息, 未实现 ... ???
+			ReportCsEvilData_t * pReport = (ReportCsEvilData_t*)lParam;
+			char              szText[1024] = {0};
+			sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
+				"举报 %s", pReport->succ == 0 ? "成功" : "失败");
+
+			CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
+			bFree = TRUE;
+		}
+		break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, (void*)lParam);
 	return 0;
+}
+
+//report window
+void    CZiMainFrame::reportEvil()
+{
+	//TODO 
+	if(m_pReportWindow) 
+	{
+		::SetForegroundWindow(m_pReportWindow->GetHWND());
+		return ;
+	}
+	m_pReportWindow = new CReportWindow(this);
+	if(!m_pReportWindow) return ;
+	m_pReportWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	m_pReportWindow->CenterWindow();
+	m_pReportWindow->ShowWindow(true);
+	
+	return ;
 }

@@ -36,6 +36,7 @@ private:
 	int ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserTextChat      (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
     int ParserDelFriend     (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
+	int ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
 
 
 private:

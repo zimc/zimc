@@ -268,6 +268,7 @@ typedef struct ReportCsEvilData_t
 	char *  szAccount;
 	char *  szRecords;
 	char *  szDescript;
+	int     succ;
 
 	Obj_Init(ReportCsEvilData_t);
 }ReportCsEvilData_t;
@@ -577,6 +578,7 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	case 13: return Msg_ScResponseUsers;
 	case 14: return nType == 0 ? Msg_ScQueryVerify : Msg_ScResponseVerify;
     case 15: return Msg_ScDelFriend;
+	case 20: return Msg_ScEvilReport;
 	}
 
 	return Msg_NetUnknown;

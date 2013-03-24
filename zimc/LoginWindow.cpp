@@ -185,7 +185,7 @@ LRESULT CZiLogin::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 	// bg tranf
 	//#define WS_EX_LAYERED		0x00080000
 	//#define LWA_COLORKEY		0x00000001
-	COLORREF colorMask = RGB(0, 0, 0);
+	COLORREF colorMask = RGB(0, 255, 0);
 
 	::SetWindowLong(m_hWnd, GWL_EXSTYLE, 
 		GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);

@@ -441,6 +441,9 @@ int     CZiSearchWindow::HandleResponseResult(SearchScResponse_t * pSearchResult
 		pUserInfoListUi->AddNode(item, 0);
 	}
 
+	TNotifyUI nf;
+	OnDownWindow(nf);
+
 	CEditUI * pAccountEdit = DuiControl(CEditUI, 
 		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
 	pAccountEdit->SetEnabled(true);

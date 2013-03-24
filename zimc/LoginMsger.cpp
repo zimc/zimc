@@ -415,6 +415,8 @@ int ParserFriend(void * jsFriend,  NetItemInfo_t * pNetFriend, int nType)
 			pNetFriend->nAdminId      = 0;		// 由于服务器以字符串作为组的判断依据, 所以它无用. 
 			pNetFriend->strAdminName  = jsFriendx["type"].asString();
 			pNetFriend->strPicture    = jsFriendx["headurl"].asString();
+			pNetFriend->strRealName	  = jsFriendx["name"].asString();
+			pNetFriend->strSex		  = jsFriendx["sex"].asString();
 		}
 		break;
 

@@ -23,6 +23,7 @@ class CMainMsger;
 class CChatDialog;
 class CBaseItemListUI;
 class CZiSearchWindow;
+class CReportWindow;
 
 class CZiMainFrame 
 	: public CDuiWindowBase
@@ -146,7 +147,10 @@ private:
 
 	// ×Ó¶Ô»°¿ò
 	friend class CZiSearchWindow;
+	friend class CReportWindow;
+
 	CZiSearchWindow     * m_pSearchWindow;
+	CReportWindow *  m_pReportWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;
@@ -182,6 +186,9 @@ public:
 	void    DeleteGroupFriendNode(CNodeList * pParent, int nId);
 	void    DeleteTeamFriendNode(int nId);
 	void    InvalidGroupFriendNode(int nId);
+
+	//report window
+	void    reportEvil();
 };
 
 

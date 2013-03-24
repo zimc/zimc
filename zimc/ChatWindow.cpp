@@ -44,7 +44,6 @@ CChatDialog::CChatDialog(
 	, m_friendInfo(pFriendsInfo->GetNodeData())
 	, m_pGroupInfo(pFriendsInfo)
 	, m_pChatFont(pChatFont)
-	, m_pReportWindow(0)
 	, m_nChatFlag(Flag_TextChat)
 	, m_pMainWindow(pMainWindow)
 {}
@@ -284,10 +283,12 @@ void    CChatDialog::OnGroupItemClick(TNotifyUI & msg)
 
 int     CChatDialog::OnExit(TNotifyUI & msg)
 {
+	/*
 	if(m_pReportWindow)
 	{
 		m_pReportWindow->OnExit(msg);
 	}
+	*/
 
 	// 将 ViewEdit 中的消息记录添加到消息记录数据库中. 
 	SaveMsgRecord();
@@ -322,6 +323,9 @@ int     CChatDialog::OnFontSetBtn(TNotifyUI & msg)
 
 int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 {
+	//TODO 
+	m_pMainWindow->reportEvil();
+	/*
 	if(m_pReportWindow) 
 	{
 		::SetForegroundWindow(m_pReportWindow->GetHWND());
@@ -333,7 +337,7 @@ int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 	m_pReportWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	m_pReportWindow->CenterWindow();
 	m_pReportWindow->ShowWindow(true);
-
+	*/
 	return 0;
 }
 
@@ -590,11 +594,11 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	ItemNodeInfo_t & Myself = m_myselfInfo;
 	ItemNodeInfo_t & Friend = m_friendInfo;
 
-	V1(DuiControl_SetBkImage, VerticalLayout, Myself);
+	//V1(DuiControl_SetBkImage, VerticalLayout, Myself);
 	V1(DuiControl_SetBkImage, VerticalLayout, Friend);
-	V2(DuiControl_AddText,    Label,          Myself);
+	//V2(DuiControl_AddText,    Label,          Myself);
 	V2(DuiControl_AddText,    Label,          Friend);
-	V3(DuiControl_SetText,    RichEdit,       Myself);
+	//V3(DuiControl_SetText,    RichEdit,       Myself);
 	V3(DuiControl_SetText,    RichEdit,       Friend);
 
 	return 0;

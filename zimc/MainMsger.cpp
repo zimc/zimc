@@ -140,6 +140,23 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
             *pnNetDataLen = -1;
         }
         break;
+	case Msg_CsEvilReport:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			ReportCsEvilData_t *pReportData = (ReportCsEvilData_t*)pLocalData;
+			if (!pNetData) {
+				return Error_OutOfMemory;
+			}
+			pNetData->set_cmd(20);
+			pNetData->set_uid(pReportData->szSenderName);
+			pNetData->set_user_id(pReportData->nSenderId);
+			pNetData->set_tuid(pReportData->szAccount);
+			//TODO 不知中文是否有问题
+			pNetData->set_buf(pReportData->szDescript, strlen(pReportData->szDescript));
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
 	}
 
 	return 0;
@@ -177,6 +194,7 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		ScMsgMap(Msg_ScResponseVerify, ParserResponseVerify)
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
         ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
+		ScMsgMap(Msg_ScEvilReport,	   ParseReport)
 	EndScMsgMap
 
 	*pnLocalDataLen = nError;
@@ -221,7 +239,9 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
             delete (NetMsg_t*)pLocalData;
         }
 		break;
-    case Msg_CsDelFriend:
+	
+	case Msg_CsDelFriend:
+	case Msg_CsEvilReport:
         {
             delete (NetMsg_t*)pLocalData;
         }
@@ -279,6 +299,12 @@ int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
         {
             delete (DelFriendItem*)pNetData;
         }
+		break;
+	case Msg_ScEvilReport:
+		{
+			delete (ReportCsEvilData_t *)pNetData;
+		}
+		break;
 	}
 
 	return 0;
@@ -435,4 +461,11 @@ int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void *
 	pDelFriend->succ = pNetMsg->succ();
     *ppbLocalData = pDelFriend;
     return 0;
+}
+
+int CMainMsger::ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
+	ReportCsEvilData_t *pReportData = new ReportCsEvilData_t;
+	pReportData->succ = pNetMsg->succ();
+	*ppbLocalData = pReportData;
+	return 0;
 }
