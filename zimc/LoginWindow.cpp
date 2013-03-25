@@ -12,8 +12,8 @@
 
 
 #define  g_szLoginFile				"zius.dat"
-#define  g_tsRegisterUrl			_T("www.baidu.com")
-#define  g_tsFindPwdUrl				_T("www.baidu.com")
+#define  g_tsRegisterUrl			_T("www.arebank.com/?app=reg_gr")
+#define  g_tsFindPwdUrl				_T("www.arebank.com/index.php?app=findpwd")
 
 
 const TCHAR * g_tsAccountDefault  = _T("’  ∫≈");
