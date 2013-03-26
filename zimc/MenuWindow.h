@@ -6,6 +6,7 @@ enum enumMenuEvent
 	Event_OpenItem = 0, 
 	Event_ModifyItem, 
 	Event_DeleteItem, 
+	Event_CreateGroup,
 };
 
 #define DuiClickMenuMap(_ev, _func)	\
@@ -158,6 +159,7 @@ public:
 			_T("OpenMenu"), 
 			_T("ModifyMenu"), 
 			_T("DeleteMenu"), 
+			_T("CreateGroup"),
 		};
 
 		for(int i = 0; i < sizeof(s_tszMenuNameTable)/sizeof(s_tszMenuNameTable[0]); i++)

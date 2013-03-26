@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="394,300" sizebox="4,4,6,6" caption="0,0,0,50" roundcorner="4,4">
+    <Font name="微软雅黑" size="12" bold="false" italic="false" default="true" />
+    <Font name="微软雅黑" size="16" bold="true" italic="false" />
+    <Font name="微软雅黑" size="13" bold="true" italic="false" />
+    <Font name="微软雅黑" size="13" bold="false" italic="false" />
+    <Font name="微软雅黑" size="10" bold="false" italic="false" />
+    <VerticalLayout name="BgImg" pos="0,0,394,306" width="394" height="306" bkimage="file=&apos;createGroup_bg.png&apos;">
+        <HorizontalLayout name="HorizontalLayoutUI1" pos="0,0,394,36" width="394" height="36">
+            <Button name="CloseBtn" float="true" pos="470,15,485,30" align="center" normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+            <Label name="TitleLabel1" text="创建群" float="true" pos="16,9,78,26" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" font="1" />
+        </HorizontalLayout>
+        <Label name="LabelUI1" text="请填写创建群组的名称" float="true" pos="131,70,288,93" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" />
+        <Edit name="EditGroupName" float="true" pos="122,113,307,136" bkcolor="#FFFFFFFF" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Button name="ButtonYes" text="确认" float="true" pos="94,227,157,246" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Button name="ButtonNo" text="取消" float="true" pos="223,228,286,247" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+    </VerticalLayout>
+</Window>

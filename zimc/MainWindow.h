@@ -92,6 +92,7 @@ private:
 
 	int     OnClickRightButton(TNotifyUI & msg);
 	int     OnClickRightMenu(TNotifyUI & msg);
+	int		OnCreateGroup(TNotifyUI &msg);
 	int     OnReturnSearch(TNotifyUI & msg);
 	int     OnSelectSearch(TNotifyUI & msg);
 	int     OnClickMatchButton(TNotifyUI & msg);

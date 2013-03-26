@@ -224,6 +224,7 @@ void    CZiMainFrame::Notify(TNotifyUI & msg)
 		DuiClickMenuMap(Event_OpenItem,         OnClickRightMenu);
 		DuiClickMenuMap(Event_ModifyItem,       OnClickRightMenu);
 		DuiClickMenuMap(Event_DeleteItem,       OnClickRightMenu);
+		DuiClickMenuMap(Event_CreateGroup,      OnCreateGroup);
 	}
 }
 
@@ -611,6 +612,16 @@ int     CZiMainFrame::OnClickRightButton(TNotifyUI & msg)
 	return 0;
 }
 
+int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
+	if (Event_CreateGroup == msg.wParam) {
+		// TODO
+	}
+	else {
+		Assert(0);
+	}
+	return 0;
+}
+
 int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
 {
 	CNodeList * pNode  = 0;
@@ -645,7 +656,8 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
             SendImMessageX(Msg_CsDelFriend, (LPARAM)&dfi, sizeof(dfi));
         }
         break;
-	default:               { Assert(0); break; }
+	default:               
+		{ Assert(0); break; }
 	}
 
 	return 0;
