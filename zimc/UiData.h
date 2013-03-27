@@ -1,7 +1,7 @@
 #ifndef __UiData_H__
 #define __UiData_H__
 
-
+#include "common/dbstruct.h"
 // ----------------------------------------------------------
 // 好友信息冗余定义
 #define Item_Name(_str, _name)  _str##_name
@@ -104,6 +104,10 @@ enum enumZimcMsg
     //del friend
     Msg_CsDelFriend,
     Msg_ScDelFriend,
+
+	//group
+	Msg_CsCreateGroup,
+	Msg_ScCreateGroup,
 
 	// report 
 	Msg_CsEvilReport, 
@@ -331,6 +335,30 @@ typedef struct VerifyScQuery_t
 
 	Obj_Init(VerifyScQuery_t);
 }VerifyScQuery_t;
+
+
+//group
+class GroupInfoData_t {
+public:
+	GroupInfoData_t()
+	  :nSender(0)
+	  ,type(-1)
+	  ,succ(-1){}
+
+	string strSender;
+	int    nSender;
+	int	   type;
+	int    succ;
+
+	DBGroup  groupinfo;
+	DBFriend friendinfo;
+};
+enum GROUP_INFO_ {
+	GROUP_INFO_VERIFY = 0,
+	GROUP_INFO_REPLY = 1,
+	GROUP_INFO_NOTIFY = 2,
+	GROUP_INFO_CREATE = 3,
+};
 
 // --------------------------------------------
 // text chat 消息结构

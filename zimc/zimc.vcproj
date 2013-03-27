@@ -351,6 +351,10 @@
 			Name="other"
 			>
 			<File
+				RelativePath=".\json_util.h"
+				>
+			</File>
+			<File
 				RelativePath=".\jsonex.cpp"
 				>
 			</File>
@@ -443,6 +447,14 @@
 			Name="data"
 			>
 			<File
+				RelativePath=".\common\dbstruct.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\json_util.h"
+				>
+			</File>
+			<File
 				RelativePath=".\LoginMsger.cpp"
 				>
 			</File>
@@ -459,7 +471,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\common\msginterface.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\msginterface.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UiData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\utils2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\utils2.h"
 				>
 			</File>
 		</Filter>

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MainMsger.h"
+#include "common/json_util.h"
 
 
 int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_t ** ppbNetData, int * pnNetDataLen)
@@ -157,6 +158,23 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			*pnNetDataLen = -1;
 		}
 		break;
+	case Msg_CsCreateGroup:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			GroupInfoData_t *pGroupInfo = (GroupInfoData_t *)pLocalData;
+			if (!pNetData) return Error_OutOfMemory;
+			pNetData->set_cmd(16);
+			pNetData->set_uid(pGroupInfo->strSender);
+			pNetData->set_user_id(pGroupInfo->nSender);
+			pNetData->set_type(GROUP_INFO_CREATE);
+			pNetData->set_tuid(pGroupInfo->groupinfo.name);
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
+	default:
+		Assert(0);
+		break;
 	}
 
 	return 0;
@@ -242,6 +260,7 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 	
 	case Msg_CsDelFriend:
 	case Msg_CsEvilReport:
+	case Msg_CsCreateGroup:
         {
             delete (NetMsg_t*)pLocalData;
         }
@@ -304,6 +323,9 @@ int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
 		{
 			delete (ReportCsEvilData_t *)pNetData;
 		}
+		break;
+	case Msg_CsCreateGroup:
+		delete (GroupInfoData_t *)pNetData;
 		break;
 	}
 
@@ -467,5 +489,12 @@ int CMainMsger::ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLo
 	ReportCsEvilData_t *pReportData = new ReportCsEvilData_t;
 	pReportData->succ = pNetMsg->succ();
 	*ppbLocalData = pReportData;
+	return 0;
+}
+
+int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
+	GroupInfoData_t *pGroupInfo = new GroupInfoData_t();
+	pGroupInfo->succ = pNetMsg->succ();
+	//TODO
 	return 0;
 }
