@@ -606,6 +606,14 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	case 13: return Msg_ScResponseUsers;
 	case 14: return nType == 0 ? Msg_ScQueryVerify : Msg_ScResponseVerify;
     case 15: return Msg_ScDelFriend;
+	case 16:
+		{
+			if (nType == 1) {}
+			else if (nType == 2){}
+			else if (nType == 3) { return Msg_ScCreateGroup;}
+			else Assert(0);
+		}
+		break;
 	case 20: return Msg_ScEvilReport;
 	}
 

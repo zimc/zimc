@@ -149,9 +149,11 @@ private:
 	// ×Ó¶Ô»°¿ò
 	friend class CZiSearchWindow;
 	friend class CReportWindow;
+	friend class CMsgRecordWindow;
 
 	CZiSearchWindow     * m_pSearchWindow;
-	CReportWindow *  m_pReportWindow;
+	CReportWindow       * m_pReportWindow;
+	CMsgRecordWindow    * m_pMsgRecordWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;
@@ -188,8 +190,10 @@ public:
 	void    DeleteTeamFriendNode(int nId);
 	void    InvalidGroupFriendNode(int nId);
 
+	void    handleGreateGroup(GroupInfoData_t *pGroupInfoData);
 	//report window
 	void    reportEvil();
+	void    MsgRecord();
 };
 
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MainMsger.h"
 #include "common/json_util.h"
+#include "common/msginterface.h"
 
 
 int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_t ** ppbNetData, int * pnNetDataLen)
@@ -495,6 +496,14 @@ int CMainMsger::ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLo
 int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
 	GroupInfoData_t *pGroupInfo = new GroupInfoData_t();
 	pGroupInfo->succ = pNetMsg->succ();
-	//TODO
+	//pGroupInfo->nSender = LocalId_t(Type_ImcFriend, pNetMsg->user_id());
+	pGroupInfo->strSender = pNetMsg->uid();
+	pGroupInfo->type = pNetMsg->type();
+	if (parse_group(parseJsonStr(pNetMsg->msg()), pGroupInfo->groupinfo) < 0) {
+		pGroupInfo->succ = -1;
+	}
+	else {
+		//pGroupInfo->groupinfo->group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo->group_id )
+	}
 	return 0;
 }

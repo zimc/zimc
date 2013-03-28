@@ -9,6 +9,7 @@
 #include "NotifyWindow.h"
 #include "MainMsger.h"
 #include "ReportWindow.h"
+#include "MsgRecordWindow.h"
 
 #include <time.h>
 
@@ -23,6 +24,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_pMainMsger(0)
     , m_nlastKeepAlive_time_(0)
 	, m_pReportWindow(0)
+	, m_pMsgRecordWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -1635,10 +1637,24 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			bFree = TRUE;
 		}
 		break;
+	case Msg_ScCreateGroup:
+		handleGreateGroup((GroupInfoData_t *)lParam);
+		bFree = TRUE;
+		break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, (void*)lParam);
 	return 0;
+}
+
+void CZiMainFrame::handleGreateGroup(GroupInfoData_t *pGroupInfoData) {
+	if (pGroupInfoData->succ != 0) {
+		//TODO 添加群
+	}
+	char szText[1024] = {0};
+	sprintf_s(szText, sizeof(szText)/sizeof(char), "创建 %s %s", pGroupInfoData->groupinfo.name, 
+		(pGroupInfoData->succ == 0 ? "成功" : "失败"));
+	CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
 }
 
 //report window
@@ -1656,5 +1672,26 @@ void    CZiMainFrame::reportEvil()
 	m_pReportWindow->CenterWindow();
 	m_pReportWindow->ShowWindow(true);
 	
+	return ;
+}
+
+//msgrecord window
+void    CZiMainFrame::MsgRecord()
+{
+	//TODO 
+
+	if(m_pMsgRecordWindow) 
+	{
+		::SetForegroundWindow(m_pMsgRecordWindow->GetHWND());
+		return ;
+	}
+
+	m_pMsgRecordWindow = new CMsgRecordWindow(this);
+	/*
+	if(!m_pReportWindow) return ;
+	m_pMsgRecordWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	m_pMsgRecordWindow->CenterWindow();
+	m_pMsgRecordWindow->ShowWindow(true) ;	
+	*/
 	return ;
 }

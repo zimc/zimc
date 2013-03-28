@@ -215,6 +215,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MsgRecordWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ReportWindow.cpp"
 				>
 			</File>
@@ -250,6 +254,10 @@
 			</File>
 			<File
 				RelativePath=".\MenuWnd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MsgRecordWindow.h"
 				>
 			</File>
 			<File
