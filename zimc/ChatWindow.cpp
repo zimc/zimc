@@ -1,6 +1,9 @@
-#include "stdafx.h"
+#include "stdafx.h" 
 #include <windows.h>
 #include <shellapi.h>
+#include<stdio.h>
+#include <atlstr.h>
+#include<fstream>
 
 #include "ChatWindow.h"
 #include "ConcreteItemListUI.h"
@@ -291,7 +294,6 @@ int     CChatDialog::OnExit(TNotifyUI & msg)
 	*/
 
 	// 将 ViewEdit 中的消息记录添加到消息记录数据库中. 
-	SaveMsgRecord();
 	Close();
 	return 0;
 }
@@ -375,6 +377,8 @@ int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 
 int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 {
+	ChatCcTextData_t sMsgData ;	
+	sMsgData = *pTextData ;
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	if( pRichEdit == NULL ) return 1;
 
@@ -390,7 +394,8 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	LPCTSTR tszSenderName = pTextData->tsSenderName ? pTextData->tsSenderName : tsSenderName;
 	LPCTSTR tszTime       = tstrTime.c_str();
 	LPCTSTR tszText       = tsText;
-
+	//save msg
+	SaveMsgRecord(sMsgData) ;
 
 	// ------------------------------------------------------
 	// name + time
@@ -683,15 +688,46 @@ int     CChatDialog::NetSendMsg(ChatCcTextData_t & textData, const char * pchDat
 	textData.szTime       = szTime;
 
 	m_pMainWindow->SendImMessageX(Msg_CsTextChat, (LPARAM)&textData, sizeof(textData));
-	return 0;
+	return 0 ;
 }
 
-int     CChatDialog::SaveMsgRecord()
+int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 {
 	// 将 ViewEdit 中的消息记录添加到消息记录数据库中. 
 	// ...???
-
-	return 0;
+	 //存到聊天记录
+     //创建文件对象：
+	fstream fs ;
+	string filename,msgBody; 
+	if( Msg.nRecvType == Type_ImcFriend )
+	{
+		//发消息者是本人，以收消息ID命名
+		if( Msg.nRecverId.nId == m_myselfInfo.nId )
+		{
+			filename+=Msg.nRecverId.nId;//
+		}
+		else
+		{
+			filename+=Msg.nSenderId.nId ;
+		}
+	}
+	else
+	{
+		filename = "group" ;
+	}
+	filename +=".txt" ; 
+	fs.open("data/ss.txt",fstream::in|fstream::app) ;
+	msgBody = string(Msg.szData) ; 
+	int pos;
+	pos = msgBody.find('\n');
+	while (pos != -1)
+	{
+		 msgBody.replace(pos,1,"\r\r") ; //用新的串替换掉指定的串
+		 pos = msgBody.find('\n');
+	}
+	fs<<Msg.tsSenderName<<'\t'<<Msg.tsTime<<'\t'<<msgBody<<'\n' ;
+	fs.close() ;
+	return 1;
 }
 
 void    CChatDialog::ActiveWindow()

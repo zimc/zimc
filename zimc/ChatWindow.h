@@ -66,7 +66,7 @@ protected:
 
 	int     NetSendMsg(ChatCcTextData_t & textData, const char * pchData, int nDataLen);
 	int     OnTextMsgShow_Test(TCHAR * tszText);
-	int     SaveMsgRecord();
+	int     SaveMsgRecord(ChatCcTextData_t & textData);
 
 	LRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled);
 
