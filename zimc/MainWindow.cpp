@@ -1679,19 +1679,15 @@ void    CZiMainFrame::reportEvil()
 void    CZiMainFrame::MsgRecord()
 {
 	//TODO 
-
 	if(m_pMsgRecordWindow) 
 	{
 		::SetForegroundWindow(m_pMsgRecordWindow->GetHWND());
 		return ;
 	}
-
 	m_pMsgRecordWindow = new CMsgRecordWindow(this);
-	/*
-	if(!m_pReportWindow) return ;
-	m_pMsgRecordWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	if(!m_pMsgRecordWindow) return ;
+	m_pMsgRecordWindow->Create(NULL, _T("MsgRecordWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	m_pMsgRecordWindow->CenterWindow();
 	m_pMsgRecordWindow->ShowWindow(true) ;	
-	*/
 	return ;
 }

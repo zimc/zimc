@@ -1,9 +1,13 @@
 #include "stdafx.h"
 #include "MsgRecordWindow.h"
-//#include "MainWindow.h"
+#include<iostream>
 
 CMsgRecordWindow::CMsgRecordWindow(CZiMainFrame* pMainWindow)
 	: m_pMainWindow(pMainWindow)
+	  ,MsgCount(0)
+	  ,page(1)
+	  ,PageCount(0)
+
 {}
 
 CMsgRecordWindow::~CMsgRecordWindow()
@@ -45,19 +49,22 @@ int    CMsgRecordWindow::OnExit(TNotifyUI & msg)
 	return 0;
 }
 //上一页
-int    CMsgRecordWindow::OnUp(TNotifyUI & msg)
+int  *  CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
-	// 获取 
-	// EvilAccountEdit, EvilRecordEdit, EvilDescriptEdit. 
-
 	// 需要关闭吗. ?
 	OnExit(msg);
 	return 0;
 }
 //下一页
-int    CMsgRecordWindow::OnNext(TNotifyUI & msg)
-{
-	return 0;
+int * CMsgRecordWindow::OnNext(TNotifyUI & msg)
+{	
+	
+}
+
+char * CReportWindow::ReadMsgRecord(){
+	string filenam = "qqq.txt" ;
+	
+	return & '0' ;
 }
 
 //int    CMsgRecordWindow::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_t ** ppbNetData, int * pnNetDataLen)

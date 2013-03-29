@@ -346,6 +346,7 @@ int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
 {
 	// ... ???
+	m_pMainWindow->MsgRecord();
 	return 0;
 }
 
