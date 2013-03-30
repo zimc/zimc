@@ -726,7 +726,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 		 msgBody.replace(pos,1,"\r\r") ; //用新的串替换掉指定的串
 		 pos = msgBody.find('\n');
 	}
-	fs<<Msg.tsSenderName<<'\t'<<Msg.tsTime<<'\t'<<msgBody<<'\n' ;
+	fs<<CT2A(Msg.tsSenderName)<<'\t'<<CT2A(Msg.tsTime)<<'\t'<<msgBody<<'\n';
 	fs.close() ;
 	return 1;
 }
