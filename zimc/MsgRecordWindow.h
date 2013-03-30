@@ -27,7 +27,7 @@ public:
 	// extend
 	int    OnExit(TNotifyUI & msg);
 	//È¡ÄÚÈÝ
-	char * ReadMsgRecord(TNotifyUI & msg) ;
+	char ReadMsgRecord(TNotifyUI & msg) ;
 	//·­Ò³
 	int    OnUp(TNotifyUI & msg);
     int    OnNext(TNotifyUI & msg);
@@ -35,7 +35,7 @@ public:
 
 private:
 	CZiMainFrame * m_pMainWindow;
-	int * MsgCount, * page, * PageCount ;
+	int MsgCount, page, PageCount ;
 };
 
 

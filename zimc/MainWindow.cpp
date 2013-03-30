@@ -616,7 +616,14 @@ int     CZiMainFrame::OnClickRightButton(TNotifyUI & msg)
 
 int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 	if (Event_CreateGroup == msg.wParam) {
-		// TODO
+		// TODO 先模拟发送创建群的命令
+		
+		GroupInfoData_t groupinfo;
+		groupinfo.strSender = CT2A(m_itemSelfInfo.tstrNickName.c_str());
+		groupinfo.nSender = IdLocalToNet(Type_ImcFriendX, m_itemSelfInfo.nId);
+		groupinfo.groupinfo.name = "test1";
+		SendImMessageX(Msg_CsCreateGroup, (LPARAM)&groupinfo, sizeof(groupinfo));
+		
 	}
 	else {
 		Assert(0);
@@ -1648,11 +1655,23 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 }
 
 void CZiMainFrame::handleGreateGroup(GroupInfoData_t *pGroupInfoData) {
-	if (pGroupInfoData->succ != 0) {
+	if (pGroupInfoData->succ == 0) {
 		//TODO 添加群
+		ItemNodeInfo_t item;
+		ItemDataNetToLocal(*pGroupInfoData, item);
+		AddItem(&item, 0);
+
+		//添加成员
+		CNodeList *pNodeParent = GetNodeInfo(item.nId);
+		Assert(pNodeParent);
+		for (size_t i = 0; i < pGroupInfoData->groupinfo.members.size(); i++) {
+			ItemNodeInfo_t group_member;
+			ItemDataNetToLocal(pGroupInfoData->groupinfo.members[i], group_member, Type_ImcFriendX);
+			AddItem(&group_member, pNodeParent);
+		}
 	}
 	char szText[1024] = {0};
-	sprintf_s(szText, sizeof(szText)/sizeof(char), "创建 %s %s", pGroupInfoData->groupinfo.name, 
+	sprintf_s(szText, sizeof(szText)/sizeof(char), "创建 %s %s", pGroupInfoData->groupinfo.name.c_str(),
 		(pGroupInfoData->succ == 0 ? "成功" : "失败"));
 	CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
 }

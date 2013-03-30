@@ -214,6 +214,7 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
         ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
 		ScMsgMap(Msg_ScEvilReport,	   ParseReport)
+		ScMsgMap(Msg_ScCreateGroup,    ParseCreateGroup)
 	EndScMsgMap
 
 	*pnLocalDataLen = nError;
@@ -496,14 +497,16 @@ int CMainMsger::ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLo
 int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
 	GroupInfoData_t *pGroupInfo = new GroupInfoData_t();
 	pGroupInfo->succ = pNetMsg->succ();
-	//pGroupInfo->nSender = LocalId_t(Type_ImcFriend, pNetMsg->user_id());
+	pGroupInfo->nSender = pNetMsg->user_id();//LocalId_t(Type_ImcFriend, pNetMsg->user_id());
 	pGroupInfo->strSender = pNetMsg->uid();
 	pGroupInfo->type = pNetMsg->type();
-	if (parse_group(parseJsonStr(pNetMsg->msg()), pGroupInfo->groupinfo) < 0) {
+	Value json = parseJsonStr(pNetMsg->msg());
+	if (!check_obj_member(json, "group") || parse_group(json["group"], pGroupInfo->groupinfo) < 0) {
 		pGroupInfo->succ = -1;
 	}
 	else {
-		//pGroupInfo->groupinfo->group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo->group_id )
+		pGroupInfo->groupinfo.group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo.group_id );
 	}
+	*ppbLocalData = pGroupInfo;
 	return 0;
 }

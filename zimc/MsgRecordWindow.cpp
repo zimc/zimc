@@ -49,22 +49,23 @@ int    CMsgRecordWindow::OnExit(TNotifyUI & msg)
 	return 0;
 }
 //上一页
-int  *  CMsgRecordWindow::OnUp(TNotifyUI & msg)
+int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
 	// 需要关闭吗. ?
 	OnExit(msg);
 	return 0;
 }
 //下一页
-int * CMsgRecordWindow::OnNext(TNotifyUI & msg)
+int CMsgRecordWindow::OnNext(TNotifyUI & msg)
 {	
 	
+	return 0;
 }
 
-char * CReportWindow::ReadMsgRecord(){
+char CMsgRecordWindow::ReadMsgRecord(TNotifyUI & msg){
 	string filenam = "qqq.txt" ;
 	
-	return & '0' ;
+	return 0 ;
 }
 
 //int    CMsgRecordWindow::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_t ** ppbNetData, int * pnNetDataLen)

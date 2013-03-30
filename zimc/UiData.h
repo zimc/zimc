@@ -687,5 +687,34 @@ inline void ItemDataNetToLocal(NetItemInfo_t & netNode, ItemNodeInfo_t & localNo
 	localNode.tstrDescription  = CA2T(netNode.strDescription.c_str());
 }
 
+inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & localNode) {
+	localNode.chType           = Type_ImcGroup;
+	localNode.chStatus         = localNode.IsInvalid() ? State_Invalid : State_Read;
+	localNode.bIsFolder        = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsHasChild      = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsChildVisible  = localNode.Type() == Type_ImcTeam;
+
+	// ... ???
+	localNode.nId              = LocalId_t(Type_ImcGroup, groupNode.groupinfo.group_id );
+	localNode.nAdminId         = 0;
+	localNode.tstrNickName     = CA2T(groupNode.groupinfo.name.c_str());
+	//localNode.tstrAdminName    = CA2T(groupNode.groupinfo.strAdminName.c_str());
+	//localNode.tstrDescription  = CA2T(groupNode.groupinfo.strDescription.c_str());
+}
+
+inline void ItemDataNetToLocal(DBUser &dbuser, ItemNodeInfo_t & localNode, int type) {
+	localNode.chType           = type;
+	localNode.chStatus         = localNode.IsInvalid() ? State_Invalid : State_Read;
+	localNode.bIsFolder        = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsHasChild      = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsChildVisible  = localNode.Type() == Type_ImcTeam;
+
+	// ... ???
+	localNode.nId              = LocalId_t(type, dbuser.user_id);
+	localNode.nAdminId         = 0;
+	localNode.tstrNickName     = CA2T(dbuser.user_name.c_str());
+	localNode.tstrAdminName    = CA2T(dbuser.type.c_str());
+	localNode.tstrDescription  = CA2T(dbuser.experience.c_str());
+}
 
 #endif
