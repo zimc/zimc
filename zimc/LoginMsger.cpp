@@ -401,7 +401,7 @@ int ParserFriend(void * jsFriend,  NetItemInfo_t * pNetFriend, int nType)
 	// Sex);          \
 	// Height);       \
 	// NativePlace);  \
-	// Brithday);     \
+	// Birthday);     \
 	// Position);     \
 	// Studies);      \
 	// Experience);   \
@@ -417,6 +417,13 @@ int ParserFriend(void * jsFriend,  NetItemInfo_t * pNetFriend, int nType)
 			pNetFriend->strPicture    = jsFriendx["headurl"].asString();
 			pNetFriend->strRealName	  = jsFriendx["name"].asString();
 			pNetFriend->strSex		  = jsFriendx["sex"].asString();
+			pNetFriend->strHeight     = jsFriendx["height"].asString();
+			pNetFriend->strNativePlace= jsFriendx["place"].asString();
+			pNetFriend->strBirthday   = jsFriendx["birthday"].asString();
+			pNetFriend->strPosition   = jsFriendx["job"].asString();
+			//pNetFriend->strStudies    = jsFriendx[""]
+			pNetFriend->strExperience  = jsFriendx["experience"].asString();
+			pNetFriend->strEvaluation = jsFriendx["selfdescription"].asString();
 		}
 		break;
 

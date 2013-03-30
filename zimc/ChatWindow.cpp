@@ -589,16 +589,16 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 		_F(_L, _W, Sex) \
 		_F(_L, _W, Height) \
 		_F(_L, _W, NativePlace) \
-		_F(_L, _W, Brithday) \
+		_F(_L, _W, Birthday) \
 		_F(_L, _W, Position)
 
+	//_F(_E, _W, Studies)
 	#define V3(_F, _E, _W)	\
-		_F(_E, _W, Studies) \
 		_F(_E, _W, Experience) \
 		_F(_E, _W, Evaluation)
 
 
-	ItemNodeInfo_t & Myself = m_myselfInfo;
+	//ItemNodeInfo_t & Myself = m_myselfInfo;
 	ItemNodeInfo_t & Friend = m_friendInfo;
 
 	//V1(DuiControl_SetBkImage, VerticalLayout, Myself);

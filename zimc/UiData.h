@@ -34,7 +34,7 @@
 	_string_type                Item_Name(_pre, Sex);          \
 	_string_type                Item_Name(_pre, Height);       \
 	_string_type                Item_Name(_pre, NativePlace);  \
-	_string_type                Item_Name(_pre, Brithday);     \
+	_string_type                Item_Name(_pre, Birthday);     \
 	_string_type                Item_Name(_pre, Position);     \
 	_string_type                Item_Name(_pre, Studies);      \
 	_string_type                Item_Name(_pre, Experience);   \
@@ -685,6 +685,15 @@ inline void ItemDataNetToLocal(NetItemInfo_t & netNode, ItemNodeInfo_t & localNo
 	localNode.tstrNickName     = CA2T(netNode.strNickName.c_str());
 	localNode.tstrAdminName    = CA2T(netNode.strAdminName.c_str());
 	localNode.tstrDescription  = CA2T(netNode.strDescription.c_str());
+	localNode.tstrRealName     = CA2T(netNode.strRealName.c_str());
+	localNode.tstrSex		   = CA2T(netNode.strSex.c_str());
+    localNode.tstrHeight       = CA2T(netNode.strHeight.c_str());
+	localNode.tstrNativePlace  = CA2T(netNode.strNativePlace.c_str());
+	localNode.tstrBirthday     = CA2T(netNode.strBirthday.c_str());
+	localNode.tstrPosition     = CA2T(netNode.strPosition.c_str());
+	localNode.tstrStudies      = CA2T(netNode.strStudies.c_str());
+	localNode.tstrExperience   = CA2T(netNode.strExperience.c_str());
+	localNode.tstrEvaluation   = CA2T(netNode.strEvaluation.c_str()); 
 }
 
 inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & localNode) {
