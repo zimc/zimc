@@ -63,32 +63,7 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg)
 }
 
 char CMsgRecordWindow::ReadMsgRecord(TNotifyUI & msg){
-	string filenam = "qqq.txt" ;
+	string filename = "qqq.txt" ;
 	
 	return 0 ;
 }
-
-//int    CMsgRecordWindow::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_t ** ppbNetData, int * pnNetDataLen)
-//{
-//	Assert(nMsg != 0 && pLocalData && nLocalDataLen > 0);
-//	int nRet = 0;
-//
-//	switch(nMsg)
-//	{
-//	case Msg_CsEvilReport:
-//		{
-//			ReportCsEvilData_t * pReportData = (ReportCsEvilData_t*)pLocalData;
-//
-//			// ...
-//		}
-//		break;
-//	}
-//
-//	return 0;
-//}
-//
-//int    CMsgRecordWindow::FreeData(int nMsg, void * pbData)
-//{
-//	// ...
-//	return 0;
-//}

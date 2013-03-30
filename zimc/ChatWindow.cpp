@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include <atlstr.h>
 #include<fstream>
+#include<string>
 
 #include "ChatWindow.h"
 #include "ConcreteItemListUI.h"
@@ -11,7 +12,7 @@
 #include "ReportWindow.h"
 #include "MainWindow.h"
 
-
+using namespace std;
 const TCHAR* const g_tstrChatCloseButtonName     = _T("CloseBtn");
 const TCHAR* const g_tstrChatMinButtonName       = _T("MinBtn");
 const TCHAR* const g_tstrChatMaxButtonName       = _T("MaxBtn");
@@ -699,25 +700,44 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 	 //存到聊天记录
      //创建文件对象：
 	fstream fs ;
-	string filename,msgBody; 
+	string msgBody,s_filename ; 
+    char cfilename[200] ;
 	if( Msg.nRecvType == Type_ImcFriend )
 	{
 		//发消息者是本人，以收消息ID命名
 		if( Msg.nRecverId.nId == m_myselfInfo.nId )
 		{
-			filename+=Msg.nRecverId.nId;//
+			sprintf(cfilename, "%d", Msg.nRecverId.nId);
+            //filename=string(Msg.nRecverId.nId);//
 		}
 		else
 		{
-			filename+=Msg.nSenderId.nId ;
+			sprintf(cfilename, "%d", Msg.nSenderId.nId);
+            //filename=Msg.nSenderId.nId ;
 		}
+        s_filename=cfilename;
 	}
 	else
 	{
-		filename = "group" ;
+		//filename = "group" ;
 	}
-	filename +=".txt" ; 
-	fs.open("data/ss.txt",fstream::in|fstream::app) ;
+	//s_filename = "data/"+s_filename +".txt" ; 
+    /*
+    char test[1024]={0};
+    strcat(test,"data/");
+    strcat(test, filename);
+    strcat(test,".txt");
+    */
+    //string file;
+    //stringstream idstr;
+    //idstr<<id;
+
+
+    string file = "data/" + s_filename + ".txt";
+    //strcat("data/",cfilename) ;
+    //strcat(cfilename,".txt") ;
+    //cfilename = static_cast<>(s_filename) ;
+	fs.open(cfilename,fstream::in|fstream::app) ;
 	msgBody = string(Msg.szData) ; 
 	int pos;
 	pos = msgBody.find('\n');
@@ -726,7 +746,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 		 msgBody.replace(pos,1,"\r\r") ; //用新的串替换掉指定的串
 		 pos = msgBody.find('\n');
 	}
-	fs<<Msg.tsSenderName<<'\t'<<Msg.tsTime<<'\t'<<msgBody<<'\n' ;
+	fs<<CT2A(Msg.tsSenderName)<<'\t'<<CT2A(Msg.tsTime)<<'\t'<<msgBody<<'\n' ;
 	fs.close() ;
 	return 1;
 }
