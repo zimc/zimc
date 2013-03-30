@@ -191,6 +191,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\CreateGroupWindow.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\DuiWindowBase.cpp"
 				>
 				<FileConfiguration
@@ -238,6 +242,10 @@
 			</File>
 			<File
 				RelativePath=".\ChatWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CreateGroupWindow.h"
 				>
 			</File>
 			<File

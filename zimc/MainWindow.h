@@ -24,6 +24,7 @@ class CChatDialog;
 class CBaseItemListUI;
 class CZiSearchWindow;
 class CReportWindow;
+class CCreateGroupWindow;
 
 class CZiMainFrame 
 	: public CDuiWindowBase
@@ -150,10 +151,12 @@ private:
 	friend class CZiSearchWindow;
 	friend class CReportWindow;
 	friend class CMsgRecordWindow;
+	friend class CCreateGroupWindow;
 
 	CZiSearchWindow     * m_pSearchWindow;
 	CReportWindow       * m_pReportWindow;
 	CMsgRecordWindow    * m_pMsgRecordWindow;
+	CCreateGroupWindow  * m_pCreateGroupWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;

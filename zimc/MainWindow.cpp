@@ -10,6 +10,7 @@
 #include "MainMsger.h"
 #include "ReportWindow.h"
 #include "MsgRecordWindow.h"
+#include "CreateGroupWindow.h"
 
 #include <time.h>
 
@@ -25,6 +26,7 @@ CZiMainFrame::CZiMainFrame()
     , m_nlastKeepAlive_time_(0)
 	, m_pReportWindow(0)
 	, m_pMsgRecordWindow(0)
+	, m_pCreateGroupWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -618,12 +620,15 @@ int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 	if (Event_CreateGroup == msg.wParam) {
 		// TODO 先模拟发送创建群的命令
 		
-		GroupInfoData_t groupinfo;
-		groupinfo.strSender = CT2A(m_itemSelfInfo.tstrNickName.c_str());
-		groupinfo.nSender = IdLocalToNet(Type_ImcFriendX, m_itemSelfInfo.nId);
-		groupinfo.groupinfo.name = "test1";
-		SendImMessageX(Msg_CsCreateGroup, (LPARAM)&groupinfo, sizeof(groupinfo));
+		if (m_pCreateGroupWindow) {
+			::SetForegroundWindow(m_pCreateGroupWindow->GetHWND());
+			return 0;
+		}
 		
+		m_pCreateGroupWindow = new CCreateGroupWindow(this);
+		m_pCreateGroupWindow->Create(NULL, _T("创建群组"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+		m_pCreateGroupWindow->CenterWindow();
+		m_pCreateGroupWindow->ShowWindow(true);		
 	}
 	else {
 		Assert(0);
