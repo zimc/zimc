@@ -636,6 +636,26 @@ int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 	return 0;
 }
 
+int     CZiMainFrame::DelItem(CNodeList *pNode) {
+
+	Assert(pNode);
+	DelFriendItem dfi;
+	dfi.type = pNode->GetNodeData().chType;
+	dfi.nSendId = IdLocalToNet(Type_ImcFriend, m_itemSelfInfo.nId);
+	dfi.strSendName = CT2A(m_itemSelfInfo.tstrNickName.c_str());
+
+	dfi.nDelId = IdLocalToNet(dfi.type, pNode->GetNodeData().nId);
+	dfi.strdelName = CT2A(pNode->GetNodeData().tstrNickName.c_str());
+
+	if (dfi.type == Type_ImcTeam && dfi.strdelName.compare("我的好友") == 0) {
+		//MessageBox(m_hWnd, _T("不能删除默认分组"), _T("错误"), 0);
+		return 0;
+	}
+
+	SendImMessageX(Msg_CsDelFriend, (LPARAM)&dfi, sizeof(dfi));
+	return 0;
+}
+
 int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
 {
 	CNodeList * pNode  = 0;
@@ -661,13 +681,7 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
 	case Event_ModifyItem: { ModifyItem(pNode); break; }
 	case Event_DeleteItem: 
         { 
-            //DelItem(pNode, pNode->GetParent());   
-            DelFriendItem dfi;
-			dfi.nSendId = IdLocalToNet(Type_ImcFriend, m_itemSelfInfo.nId);
-			dfi.strSendName = CT2A(m_itemSelfInfo.tstrNickName.c_str());
-			dfi.nDelId = IdLocalToNet(Type_ImcFriend, pNode->GetNodeData().nId);
-			dfi.strdelName = CT2A(pNode->GetNodeData().tstrNickName.c_str());
-            SendImMessageX(Msg_CsDelFriend, (LPARAM)&dfi, sizeof(dfi));
+			DelItem(pNode);
         }
         break;
 	default:               
@@ -1183,11 +1197,12 @@ void    CZiMainFrame::DeleteGroupNode(int nId)
 	//	it->second.clear();
 	//}
 
-	m_mapGroupTable.clear();
+	//m_mapGroupTable.clear();
 
 	ImcNodeTable_t::iterator it = m_mapNodeTable.find(nId);
 	if(it != m_mapNodeTable.end())
 	{
+		delete (it->second);
 		m_mapNodeTable.erase(it);
 	}
 }
@@ -1494,20 +1509,38 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
             //TODO 执行删除好友的操作
 			bool popMsgBox = false;
 			DelFriendItem *pDelFriend = (DelFriendItem *)pNetData;
-			TCHAR                tsText[1024] = {0};
-			if (pDelFriend->succ == 0) {
-				if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) == m_itemSelfInfo.nId) {
-					_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("%s 将您移除好友列表"), CA2W(pDelFriend->strSendName.c_str()));
+			char  tsText[1024] = {0};
+			int nDelId = IdNetToLocal(pDelFriend->type, pDelFriend->nDelId);
+			int nSendId = IdNetToLocal(Type_ImcFriend, pDelFriend->nSendId);
+			//TODO
+			if (pDelFriend->type == Type_ImcTeam) {
+			}
+			else if (pDelFriend->type == Type_ImcFriend) {
+				if (nDelId == m_itemSelfInfo.nId) {
+					if (pDelFriend->succ == 0) {
+						sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除好友列表", CA2T((pDelFriend->strSendName.c_str())));
+						popMsgBox = true;
+					}
 				}
 				else {
-					_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("删除好友 %s 成功"), CA2W(pDelFriend->strdelName.c_str()));
+					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除好友 %s %s", CA2T((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
+					popMsgBox = true;
+				}		
+			}
+			else if (pDelFriend->type == Type_ImcFriendX) {
+			}
+			else if (pDelFriend->type == Type_ImcGroup) {
+				if (nSendId == m_itemSelfInfo.nId) {
+					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除群 %s %s", CA2T((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
+					popMsgBox = true;
 				}
-				popMsgBox = true;
+				else if (pDelFriend->succ == 0) {
+				    sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除群 %s", CA2T((pDelFriend->strdelName.c_str())), CA2T((pDelFriend->strdelName.c_str())));
+					popMsgBox = true;
+				}
 			}
-			else if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) != m_itemSelfInfo.nId) {
-				_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), _T("删除好友 %s 失败"),CA2W(pDelFriend->strdelName.c_str()));
+			else {
 			}
-			if (popMsgBox) CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), (LPCTSTR)(tsText));
 			bFree = TRUE;
         }
         break;
@@ -1623,17 +1656,34 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
         {
             Assert(lParam != 0);
 			DelFriendItem *pDelFriend = (DelFriendItem *)lParam;
-			if (pDelFriend->succ == 0) {
-				CNodeList *pNodeinfo;
-				if (IdNetToLocal(Type_ImcFriend, pDelFriend->nDelId) == m_itemSelfInfo.nId) {
-					pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nSendId));
+			if (pDelFriend->succ == 0) {				
+				int nDelId = IdNetToLocal(pDelFriend->type, pDelFriend->nDelId);
+				int nSendId = IdNetToLocal(Type_ImcFriend, pDelFriend->nSendId);
+				//TODO
+				if (pDelFriend->type == Type_ImcTeam) {
+				}
+				else if (pDelFriend->type == Type_ImcFriend) {
+					CNodeList *pNodeinfo = NULL;
+					if (nDelId == m_itemSelfInfo.nId) {
+						pNodeinfo = GetNodeInfo(nSendId);
+					}
+					else {
+						pNodeinfo = GetNodeInfo(nDelId);
+					}
+					if (pNodeinfo) {
+						DelItem(pNodeinfo, pNodeinfo->GetParent());
+					}
+				}
+				else if (pDelFriend->type == Type_ImcFriendX) {
+
+				}
+				else if (pDelFriend->type == Type_ImcGroup) {
+					DeleteGroupNode(nDelId);
 				}
 				else {
-					pNodeinfo = GetNodeInfo(IdNetToLocal(Type_ImcFriend,pDelFriend->nDelId));
-				}
-				DelItem(pNodeinfo, pNodeinfo->GetParent());
-				DelayDispatchNetCmd(nMsg, (void*)lParam);
+				}	
 			}
+			DelayDispatchNetCmd(nMsg, (void*)lParam);
         }
         break;
 	case  Msg_ScEvilReport:

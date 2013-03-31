@@ -51,6 +51,9 @@ public:
 	int     AddItem (NetItemInfo_t  * pItemInfo, CNodeList * pNodeInfoParent);
 	int     AddItem (ItemNodeInfo_t * pItemInfo, CNodeList * pNodeInfoParent);
 	int     DelItem (CNodeList * pNodeInfo, CNodeList * pNodeInfoParent);
+	//É¾³ýºÃÓÑ »òÈº
+	int     DelItem(CNodeList *pNode);
+
 	int     MoveItem(CNodeList * pNodeInfoSrc, CNodeList * pNodeInfoSrcParent, CNodeList * pNodeInfoDesParent);
 	int     ModifyItem(CNodeList * pNodeInfo);
 

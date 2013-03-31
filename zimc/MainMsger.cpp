@@ -130,6 +130,7 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
             pNetData->set_tuid(pDelfriend->strdelName);
             pNetData->set_user_id(pDelfriend->nSendId);
             pNetData->set_tuser_id(pDelfriend->nDelId);
+			pNetData->set_type(pDelfriend->type);
             *ppbNetData = (Byte_t *)pNetData;
             *pnNetDataLen = -1;
         }
@@ -483,6 +484,7 @@ int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void *
     pDelFriend->strSendName = pNetMsg->uid();
     pDelFriend->strdelName = pNetMsg->tuid();
 	pDelFriend->succ = pNetMsg->succ();
+	pDelFriend->type = pNetMsg->type();
     *ppbLocalData = pDelFriend;
     return 0;
 }
