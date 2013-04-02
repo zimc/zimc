@@ -1202,7 +1202,7 @@ void    CZiMainFrame::DeleteGroupNode(int nId)
 	ImcNodeTable_t::iterator it = m_mapNodeTable.find(nId);
 	if(it != m_mapNodeTable.end())
 	{
-		delete (it->second);
+		//delete (it->second);
 		m_mapNodeTable.erase(it);
 	}
 }
@@ -1518,12 +1518,12 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			else if (pDelFriend->type == Type_ImcFriend) {
 				if (nDelId == m_itemSelfInfo.nId) {
 					if (pDelFriend->succ == 0) {
-						sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除好友列表", CA2T((pDelFriend->strSendName.c_str())));
+						sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除好友列表", ((pDelFriend->strSendName.c_str())));
 						popMsgBox = true;
 					}
 				}
 				else {
-					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除好友 %s %s", CA2T((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
+					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除好友 %s %s", ((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
 					popMsgBox = true;
 				}		
 			}
@@ -1531,15 +1531,18 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			}
 			else if (pDelFriend->type == Type_ImcGroup) {
 				if (nSendId == m_itemSelfInfo.nId) {
-					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除群 %s %s", CA2T((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
+					sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "删除群 %s %s", ((pDelFriend->strdelName.c_str())), (pDelFriend->succ == 0 ? "成功" : "失败"));
 					popMsgBox = true;
 				}
 				else if (pDelFriend->succ == 0) {
-				    sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除群 %s", CA2T((pDelFriend->strdelName.c_str())), CA2T((pDelFriend->strdelName.c_str())));
+				    sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除群 %s", ((pDelFriend->strdelName.c_str())), CA2T((pDelFriend->strdelName.c_str())));
 					popMsgBox = true;
 				}
 			}
 			else {
+			}
+			if (popMsgBox) {
+				CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(tsText));
 			}
 			bFree = TRUE;
         }
@@ -1678,7 +1681,13 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 
 				}
 				else if (pDelFriend->type == Type_ImcGroup) {
-					DeleteGroupNode(nDelId);
+					CNodeList *pNodeInfo = GetNodeInfo(nDelId);
+					m_mapGroupTable.erase(pNodeInfo);
+					Assert(pNodeInfo);
+					ItemNodeInfo_t  & itemInfo    = pNodeInfo->GetNodeData();
+					CBaseItemListUI * pItemListUi = GetNodeListUi(itemInfo.chType);
+					Assert(pItemListUi);
+					pItemListUi->RemoveNode(pNodeInfo);
 				}
 				else {
 				}	

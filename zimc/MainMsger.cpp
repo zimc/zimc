@@ -507,7 +507,7 @@ int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **
 		pGroupInfo->succ = -1;
 	}
 	else {
-		pGroupInfo->groupinfo.group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo.group_id );
+		//pGroupInfo->groupinfo.group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo.group_id );
 	}
 	*ppbLocalData = pGroupInfo;
 	return 0;

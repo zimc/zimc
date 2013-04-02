@@ -82,12 +82,14 @@ private:
 			strPort    = IMC_SERV_PORT;
 		}
 
-		if(strAddress.empty())
+		/*
+		if(!strAddress.empty())
 		{
 			unsigned long ulAddr = ::inet_addr(strAddress.c_str());
 			phe = ::gethostbyaddr((const char *)&ulAddr, sizeof(ulAddr), AF_INET);
 			if(!phe) strAddress.clear();
 		}
+		*/
 
 		if(strAddress.empty())
 		{
