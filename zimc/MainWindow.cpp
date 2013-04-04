@@ -52,6 +52,11 @@ int     CZiMainFrame::Uninit()
 		delete m_pMainMsger;
 		m_pMainMsger = 0;
 	}
+	if (m_pTrayWindow) {
+		m_pTrayWindow->DeleteTray();
+		delete m_pTrayWindow;
+		m_pTrayWindow = 0;
+	}
 
 	return 0;
 }
@@ -1624,7 +1629,18 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			bFree = TRUE;
 		}
 		break;
-
+	case Msg_ScResponseGroup:
+		{
+			SearchGroup_t *pSearchGroup = (SearchGroup_t *)lParam;
+			if (wParam != 0) {
+				CZimcHelper::ErrorMessageBox(m_hWnd, nMsg, wParam);
+			}
+			else if (m_pSearchWindow) {
+				m_pSearchWindow->HandleResponseResultForGroup(pSearchGroup);
+			}
+			bFree = TRUE;
+		}
+		break;
 	case Msg_ScQueryVerify:
 	case Msg_ScResponseVerify:
 		Assert(lParam != 0);

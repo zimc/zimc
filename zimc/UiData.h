@@ -94,6 +94,8 @@ enum enumZimcMsg
 	// search. 
 	Msg_CsQueryUsers, 
 	Msg_ScResponseUsers, 
+	Msg_CsQueryGroup, //reserved
+	Msg_ScResponseGroup,
 
 	// add friend. 
 	Msg_CsQueryVerify, 
@@ -299,6 +301,10 @@ typedef struct SearchScResponse_t
 	Obj_Init(SearchScResponse_t);
 }SearchScResponse_t;
 
+class SearchGroup_t {
+public:
+	vector <DBGroup> groups;
+};
 
 // --------------------------------------------
 // add friend 消息结构
@@ -604,7 +610,7 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	{
 	case  1: return Msg_ScLogin;
 	case  5: return Msg_ScTextChat;
-	case 13: return Msg_ScResponseUsers;
+	case 13: return nType == 1 ? Msg_ScResponseUsers : Msg_ScResponseGroup;
 	case 14: return nType == 0 ? Msg_ScQueryVerify : Msg_ScResponseVerify;
     case 15: return Msg_ScDelFriend;
 	case 16:
@@ -708,6 +714,21 @@ inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & loca
 	localNode.nId              = LocalId_t(Type_ImcGroup, groupNode.groupinfo.group_id );
 	localNode.nAdminId         = 0;
 	localNode.tstrNickName     = CA2T(groupNode.groupinfo.name.c_str());
+	//localNode.tstrAdminName    = CA2T(groupNode.groupinfo.strAdminName.c_str());
+	//localNode.tstrDescription  = CA2T(groupNode.groupinfo.strDescription.c_str());
+}
+
+inline void ItemDataNetToLocal(DBGroup &groupNode, ItemNodeInfo_t & localNode) {
+	localNode.chType           = Type_ImcGroup;
+	localNode.chStatus         = localNode.IsInvalid() ? State_Invalid : State_Read;
+	localNode.bIsFolder        = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsHasChild      = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsChildVisible  = localNode.Type() == Type_ImcTeam;
+
+	// ... ???
+	localNode.nId              = LocalId_t(Type_ImcGroup, groupNode.group_id );
+	localNode.nAdminId         = 0;
+	localNode.tstrNickName     = CA2T(groupNode.name.c_str());
 	//localNode.tstrAdminName    = CA2T(groupNode.groupinfo.strAdminName.c_str());
 	//localNode.tstrDescription  = CA2T(groupNode.groupinfo.strDescription.c_str());
 }

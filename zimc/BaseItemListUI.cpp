@@ -400,7 +400,7 @@ bool CBaseItemListUI::SelectItem(int iIndex, bool bTakeFocus)
 bool CBaseItemListUI::SetItemText(CNodeList * pNode)
 {
 	SetItemNickNameText(pNode);
-	SetItemDescriptText(pNode);
+	//SetItemDescriptText(pNode);
 
 	return true;
 }

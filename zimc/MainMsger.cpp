@@ -210,6 +210,7 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 
 	BeginScMsgMap
 		ScMsgMap(Msg_ScResponseUsers,  ParserSearchUser)
+		ScMsgMap(Msg_ScResponseGroup,  ParserSearchGroup)
 		ScMsgMap(Msg_ScQueryVerify,    ParserQueryVerify)
 		ScMsgMap(Msg_ScResponseVerify, ParserResponseVerify)
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
@@ -359,6 +360,23 @@ int CMainMsger::ParserSearchUser(NetMsg_t * pNetMsg, Json::Value & jsRoot, void 
 	}
 
 	*ppbLocalData = pSearchResult;
+	return 0;
+}
+
+int CMainMsger::ParserSearchGroup(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData) {
+    SearchGroup_t *pSearchGroup = new SearchGroup_t;
+	if (pNetMsg->succ() == 0) {
+		Value json = parseJsonStr(pNetMsg->msg());
+		if (json.isObject() && check_arr_member(json, "groupinfos")) {
+			Value groups = json["groupinfos"];
+			for (size_t i = 0; i < groups.size(); i++) {
+				pSearchGroup->groups.push_back(DBGroup());
+				pSearchGroup->groups[i].group_id = groups[i]["group_id"].asInt();
+				pSearchGroup->groups[i].name = groups[i]["name"].asString();
+			}
+		}
+	}
+	*ppbLocalData = pSearchGroup;
 	return 0;
 }
 

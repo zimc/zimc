@@ -3,7 +3,7 @@
 #include "SearchWindow.h"
 #include "AddFriendWindow.h"
 #include "ConcreteItemListUI.h"
-
+#include "common/dbstruct.h"
 
 CZiSearchWindow::CZiSearchWindow(CZiMainFrame * pMainWnd)
 	: m_pMainWindow(pMainWnd)
@@ -432,6 +432,48 @@ int     CZiSearchWindow::HandleResponseResult(SearchScResponse_t * pSearchResult
 		NetItemInfo_t itemInfo = pSearchResult->pItemInfo[i];
 		Assert(itemInfo.nItemType == Type_ImcFriend);
 
+		// 由于使用了 button, 不知道该如何实现背景变换. ???
+		// 改为使用 CBaseItemListUI. 
+		ItemNodeInfo_t item;
+		ItemDataNetToLocal(itemInfo, item);
+		item.tstrLogo = _T("search_btn_add_friend_1.png");
+
+		pUserInfoListUi->AddNode(item, 0);
+	}
+
+	TNotifyUI nf;
+	OnDownWindow(nf);
+
+	CEditUI * pAccountEdit = DuiControl(CEditUI, 
+		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
+	pAccountEdit->SetEnabled(true);
+	return 0;
+}
+
+int CZiSearchWindow::HandleResponseResultForGroup(SearchGroup_t *pSearchGroup) {
+	Assert(pSearchGroup);
+
+	CBaseItemListUI * pUserInfoListUi = DuiControl(CNewUserItemUI, _T("UserInfoList"));
+	Assert(pUserInfoListUi);
+
+	// ... ???
+	if(pUserInfoListUi->GetCount() > 0)
+	{
+		ZiLogger(RSZLOG_TEST, "SearchWindow Remove All, Begin.");
+		pUserInfoListUi->RemoveAll();
+		ZiLogger(RSZLOG_TEST, "SearchWindow Remove All, End.  ");
+	}
+
+	if(pSearchGroup->groups.size() == 0)
+	{
+		MessageBox(m_hWnd, _T("未查询到任何相关信息"), _T("提示"), 0);
+	}
+
+	// 空间不够, 难道仅仅允许显示两个好友. ???
+	for(size_t i = 0; i < pSearchGroup->groups.size(); i++)
+	{
+		DBGroup &itemInfo = pSearchGroup->groups[i];
+	
 		// 由于使用了 button, 不知道该如何实现背景变换. ???
 		// 改为使用 CBaseItemListUI. 
 		ItemNodeInfo_t item;
