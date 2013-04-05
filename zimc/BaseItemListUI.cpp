@@ -400,7 +400,7 @@ bool CBaseItemListUI::SelectItem(int iIndex, bool bTakeFocus)
 bool CBaseItemListUI::SetItemText(CNodeList * pNode)
 {
 	SetItemNickNameText(pNode);
-	//SetItemDescriptText(pNode);
+	SetItemDescriptText(pNode);
 
 	return true;
 }
@@ -455,7 +455,7 @@ bool CBaseItemListUI::SetItemDescriptText(CNodeList * pNode)
 		if (description != NULL)
 		{
 			// ÑÕÉ«ÓÉ xml ¿ØÖÆ. 
-			description->SetShowHtml(true);
+			//description->SetShowHtml(true);
 			description->SetText(itemNode.tstrDescription.c_str());
 		}
 	}

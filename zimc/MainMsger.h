@@ -39,7 +39,7 @@ private:
     int ParserDelFriend     (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParseReport         (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
 	int ParseCreateGroup    (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
-
+	int ParseAddGroupVerify (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
 
 private:
 	CDuiWindowBase * m_pMsgWindow;

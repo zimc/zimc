@@ -118,7 +118,7 @@ int  NetCallBackProxy(msg_t * msg)
 
 	// ...
 	int nNetMsg   = msg->cmd();
-	int nMsgType  = (nNetMsg == 14 || nNetMsg == 16) ? msg->type() : 0;
+	int nMsgType  = (nNetMsg == 14 || nNetMsg == 16 || nNetMsg == 13) ? msg->type() : 0;
 	pNet->Dispatch(CmdNetToLocal(nNetMsg, nMsgType), (LPARAM)msg, -1);
 	return 0;
 }

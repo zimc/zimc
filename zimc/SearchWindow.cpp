@@ -159,14 +159,14 @@ int     CZiSearchWindow::OnExit(TNotifyUI & msg)
 
 int     CZiSearchWindow::OnDownWindow(TNotifyUI & msg)
 {
-	Assert(m_nWindowIndex == 0);
+	if (m_nWindowIndex == 1) return 0;
 	m_nWindowIndex  = 1;
 	return SyncWndState(true);
 }
 
 int     CZiSearchWindow::OnUpWindow(TNotifyUI & msg)
 {
-	Assert(m_nWindowIndex == 1);
+	if (m_nWindowIndex == 0) return 0;
 	m_nWindowIndex  = 0;
 	return SyncWndState(false);
 }
@@ -211,7 +211,7 @@ int     CZiSearchWindow::OnReturnAccount(TNotifyUI & msg)
 		::_tcscmp(ptsAccount, _T("")) != 0 && 
 		::_tcscmp(ptsAccount, _T("输入帐号")) != 0)
 	{
-		pAccountEdit->SetEnabled(false);
+		//pAccountEdit->SetEnabled(false);
 		::SendMessage(::GetFocus(), WM_KILLFOCUS, 0, 0);
 		return QuerySearchFriend(ptsAccount, m_nSearchType);
 	}
@@ -309,7 +309,7 @@ int     CZiSearchWindow::SyncWndState(bool bUpToDown)
 	// data
 	pDstExactMatch->Selected(pSrcExactMatch->IsSelected());
 	pDstGroupMatch->Selected(pSrcGroupMatch->IsSelected());
-	pDstAccount   ->SetEnabled(pSrcAccount ->IsEnabled());
+	//pDstAccount   ->SetEnabled(pSrcAccount ->IsEnabled());
 	pDstAccount   ->SetText (pSrcAccount   ->GetText());
 
 	// 
@@ -447,6 +447,7 @@ int     CZiSearchWindow::HandleResponseResult(SearchScResponse_t * pSearchResult
 	CEditUI * pAccountEdit = DuiControl(CEditUI, 
 		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
 	pAccountEdit->SetEnabled(true);
+	pAccountEdit->SetText(CA2T(pSearchResult->szSearchName));
 	return 0;
 }
 
@@ -478,6 +479,7 @@ int CZiSearchWindow::HandleResponseResultForGroup(SearchGroup_t *pSearchGroup) {
 		// 改为使用 CBaseItemListUI. 
 		ItemNodeInfo_t item;
 		ItemDataNetToLocal(itemInfo, item);
+		item.bIsFolder = FALSE;
 		item.tstrLogo = _T("search_btn_add_friend_1.png");
 
 		pUserInfoListUi->AddNode(item, 0);
@@ -489,6 +491,7 @@ int CZiSearchWindow::HandleResponseResultForGroup(SearchGroup_t *pSearchGroup) {
 	CEditUI * pAccountEdit = DuiControl(CEditUI, 
 		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
 	pAccountEdit->SetEnabled(true);
+	pAccountEdit->SetText(CA2T(pSearchGroup->strSearchName.c_str()));
 	return 0;
 }
 

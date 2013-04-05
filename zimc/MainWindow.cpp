@@ -971,6 +971,16 @@ bool    CZiMainFrame::IsUnknownFriend(int nId)
 	return bRet;
 }
 
+bool    CZiMainFrame::IsUnknownGroup(int nid) {
+	bool bRet = true;
+	CNodeList *pNode = GetNodeInfo(nid);
+	if (pNode && pNode->GetNodeData().chType == Type_ImcGroup) {
+		MessageBox(m_hWnd, _T("您已经加入了该群组"), _T("提示"), 0);
+		bRet = false;
+	}
+	return bRet;
+}
+
 int     CZiMainFrame::SearchFriendsNode(LPCTSTR lptsMask,  ImcNodeList_t & nodeList)
 {
 	Assert(lptsMask);
@@ -1617,7 +1627,7 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 	case Msg_ScResponseUsers:
 		{
 			SearchScResponse_t * pResponse = (SearchScResponse_t*)lParam;
-			if(wParam != 0 && wParam != Error_SearchNoValidUser)
+			if(wParam != 0)
 			{
 				CZimcHelper::ErrorMessageBox(m_hWnd, Msg_CsQueryUsers, wParam);
 			}

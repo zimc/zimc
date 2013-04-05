@@ -93,7 +93,10 @@ int     CAddFriendWindow::OnAddFriend(TNotifyUI & msg)
 	// Assert(m_pParentNode);		// 默认为我的好友
 	Assert(m_pMainWindow);
 	Assert(m_pUserInfo);
-	Assert(m_pUserInfo->Type() == Type_ImcFriend);
+	//Assert(m_pUserInfo->Type() == Type_ImcFriend);
+	if (m_pUserInfo->Type() != Type_ImcFriend) {
+		return addGroup(msg);
+	}
 
 	CEditUI   * pVerifyUi    = DuiControl(CEditUI,   _T("VerifyInfoEdit"));
 	CButtonUI * pAddFriendUi = DuiControl(CButtonUI, _T("AddFriendBtn"));
@@ -133,6 +136,49 @@ int     CAddFriendWindow::OnAddFriend(TNotifyUI & msg)
 		pAddFriendUi->SetEnabled(false);
 		m_pMainWindow->SendImMessageX(Msg_CsQueryVerify, (LPARAM)&verifyQuery, sizeof(verifyQuery));
 	}
+
+	Close();
+	return 0;
+}
+
+int     CAddFriendWindow::addGroup(TNotifyUI & msg) {
+
+	CEditUI   * pVerifyUi    = DuiControl(CEditUI,   _T("VerifyInfoEdit"));
+	CButtonUI * pAddFriendUi = DuiControl(CButtonUI, _T("AddFriendBtn"));
+	Assert(pVerifyUi && pAddFriendUi);
+
+	// 首先判断是否已经是好友了
+	if(!m_pMainWindow->IsUnknownGroup(m_pUserInfo->nId))
+	{
+		Close();
+		return 0;
+	}
+
+	if(!pVerifyUi->GetText().GetData() || 
+		pVerifyUi->GetText().GetLength() == 0)
+	{
+		MessageBox(m_hWnd, _T("验证信息为空"), _T("错误"), 0);
+		return 0;
+	}
+
+	Assert(m_pMainWindow && m_pMainWindow->GetSelfInfo());
+	AddGroupInfo_t addgroupinfo;
+	CT2A pszVerifyText(pVerifyUi->GetText().GetData());
+	CT2A pszSenderName(m_pMainWindow->GetSelfInfo()->tstrNickName.c_str());
+	CT2A pszRecverName(m_pUserInfo->tstrNickName.c_str());
+
+	addgroupinfo.groupinfo.group_id = LocalId_t(Type_ImcGroup, m_pUserInfo->nId);
+	addgroupinfo.groupinfo.name = pszRecverName;
+	addgroupinfo.nSenderId = LocalId_t(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
+	addgroupinfo.strSenderName = pszSenderName;
+	addgroupinfo.strVerify = pszVerifyText;
+	addgroupinfo.type = GROUP_INFO_VERIFY;
+	addgroupinfo.pSenderLocalQInfo = m_pMainWindow->GetNodeData(m_pMainWindow->GetSelfInfo()->nId);
+	
+	pVerifyUi->SetEnabled(false);
+	pAddFriendUi->SetEnabled(false);
+
+	m_pMainWindow->SendImMessageX(Msg_CsAddGroupVerify, (LPARAM)&addgroupinfo, sizeof(addgroupinfo));
 
 	Close();
 	return 0;

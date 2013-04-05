@@ -189,6 +189,7 @@ public:
 	int     FindTeamId(LPCTSTR tsTeamName);
 	int     SearchFriendsNode(LPCTSTR tsMask,  ImcNodeList_t & nodeList);
 	bool    IsUnknownFriend(int nId);
+	bool    IsUnknownGroup(int nid);
 
 	void    DeleteGroupNode(int nId);
 	void    DeleteTeamNode(int nId);

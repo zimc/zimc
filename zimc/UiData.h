@@ -107,6 +107,12 @@ enum enumZimcMsg
     Msg_CsDelFriend,
     Msg_ScDelFriend,
 
+	//add group
+	Msg_CsAddGroupVerify,
+	Msg_ScAddGroupVerify,
+	Msg_CsResponseAddGroup,
+	Msg_ScResponseAddGroup,
+
 	//group
 	Msg_CsCreateGroup,
 	Msg_ScCreateGroup,
@@ -297,12 +303,14 @@ typedef struct SearchScResponse_t
 	int              nMatchType;
 	int              nItemSize;
 	NetItemInfo_t  * pItemInfo;
+	char            szSearchName[256];
 
 	Obj_Init(SearchScResponse_t);
 }SearchScResponse_t;
 
 class SearchGroup_t {
 public:
+	string strSearchName;
 	vector <DBGroup> groups;
 };
 
@@ -341,6 +349,31 @@ typedef struct VerifyScQuery_t
 
 	Obj_Init(VerifyScQuery_t);
 }VerifyScQuery_t;
+
+class AddGroupInfo_t {
+public:
+	int    nSenderId;
+	string strSenderName;
+	int    nAdminId;
+	string strAdminName;
+	int    type;  //0:发送验证， 1：回复验证， 2：通知
+	int    succ;
+	
+	string strVerify;
+	
+	DBUser  userinfo;
+    DBGroup groupinfo;
+
+	ItemNodeInfo_t * pSenderLocalQInfo;
+
+	AddGroupInfo_t()
+		:nSenderId(0),
+		nAdminId(0),
+		type(-1),
+		succ(-1),
+		pSenderLocalQInfo(0)
+	{}
+};
 
 
 //group
