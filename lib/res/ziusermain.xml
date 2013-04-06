@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="266,531" roundcorner="20,20" defaultfontcolor="#FF000001">
+	<Font name="宋体" size="12" bold="false" default="true" />
+	<Font name="宋体" size="12" bold="true"/>
+	<Font name="宋体" size="12" />
+	<Default name="VScrollBar" value="button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
+		button1hotimage=&quot;file='zimc_scrollbar.png' source='16,0,32,16,16'&quot; 
+		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
+		button2normalimage=&quot;file='zimc_scrollbar.png' source='0,32,16,48'&quot; 
+		button2hotimage=&quot;file='zimc_scrollbar.png' source='16,32,32,48'&quot; 
+		button2pushedimage=&quot;file='zimc_scrollbar.png' source='32,32,48,48'&quot; 
+		thumbnormalimage=&quot;file='zimc_scrollbar.png' source='0,48,16,64' corner='0,2,0,2'&quot; 
+		thumbhotimage=&quot;file='zimc_scrollbar.png' source='16,48,32,64' corner='0,2,0,2'&quot; 
+		thumbpushedimage=&quot;file='zimc_scrollbar.png' source='32,48,48,64' corner='0,2,0,2'&quot; 
+		bknormalimage=&quot;file='zimc_scrollbar.png' source='0,16,16,32'&quot;" />
+
+	<VerticalLayout name="BackgroudImg" bkimage="file='user_bg_0.png' corner='230,500,1,1'" hole="true">
+		<!-----
+		-- dui 中没有设置控件高度的是通过已知控件高度计算出来的. 如果首尾控件其中一个有高度, 则计算是从有高度的一个开始. 
+		-- StateBtn, text需要程序动态设置. 
+		------>
+		<VerticalLayout height="138">
+			<Button name="CloseBtn" float="true" pos="230,30,0,0" width="15" height="15" 
+				normalimage="login_btn_close_1.png" hotimage="login_btn_close23.png" pushedimage="login_btn_close_23.png" />
+			<Label  name="StateBtn" float="true" pos="74,46,0,0" width="148" height="29" 
+				textcolor="#FF00FFFF" disabledtextcolor="#FFA7A6AA" />
+
+			<Combo  name="SearchCombo" droptype="droplist" 
+				float="true" pos="0, 115, 266, 140" textpadding="5,1,1,1" 
+				normalimage="file='zimc_combo.png' source='0,0,100,22'  corner='2,2,20,2'" 
+				hotimage="file='zimc_combo.png'    source='0,22,100,44' corner='2,2,22,2'" 
+				pushedimage="file='zimc_combo.png' source='0,44,100,66' corner='2,2,22,2'" >
+			</Combo>
+			<Edit   name="SearchEdit" float="true" pos="1, 116, 245, 138" 
+				 textpadding="5,1,1,1" inset="4,1,1,1" font="2" text="搜索联系人或群组消息" />
+		</VerticalLayout>
+
+		<!---
+		<HorizontalLayout height="23" padding="1,0,1,0">
+			<Button   name="SearchTip"  height="23" textpadding="4,2,4,3" text="搜索联系人或群组消息" align="left" />
+			<RichEdit name="SearchEdit" height="23" visible="false" inset="4,4,4,3" text="搜索联系人或群组消息" multiline="false" rich="false" />
+			<Button   name="SearchBtn"  height="23" width="24" showhtml="true" text="{i search_btn.png}{/i}" />
+		</HorizontalLayout>
+		---->
+
+		<!----
+		-- user_glow_bg.png 是好友框的整个背景, 应该是灰色的. 
+		-- user_list_bg.png 是除滚动条的上下箭头宽度的背景，应该是白色的. 
+		----->
+		<VerticalLayout bkimage="file='user_glow_bg.png'" inset="0,0,0,0">
+			<HorizontalLayout height="20" padding="0, 0, 0, 0">
+				<Option name="FriendBtn" group="true" text="联系人"    selectedimage="file='zimc_select_23.png'" width="136" selected="true" />
+				<Option name="GroupBtn"  group="true" text="群/讨论组" selectedimage="file='zimc_select_23.png'" width="130" />
+			</HorizontalLayout>
+			<Control height="10" />
+			<HorizontalLayout inset="0,0,0,0">
+				<HorizontalLayout width="1" inset="1,0,1,0">
+				</HorizontalLayout>
+				<Container name="3">
+				<TabLayout name="Tabs" bkimage="file='user_list_bg.png'" menu="true">
+					<HorizontalLayout>
+						<FriendList name="FriendsList" header="hidden" itemshowhtml="true" vscrollbar="true" menu="true"/>
+					</HorizontalLayout>
+					<HorizontalLayout>
+						<GroupList  name="GroupsList"  header="hidden" itemshowhtml="true" vscrollbar="true" menu="true"/>
+					</HorizontalLayout>
+				</TabLayout>
+				</Container>
+				<HorizontalLayout width="1" inset="0,1,1,0">
+				</HorizontalLayout>
+			</HorizontalLayout>
+		</VerticalLayout>
+
+		<VerticalLayout height="70">
+			<Control height="30" />
+			<HorizontalLayout height="30">
+				<Button name="SettingBtn" width="74" height="26" padding="40,0,0,0" 
+					text = "设 置" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+				<Button name="SearchBtn"  width="74" height="26" padding="40,0,0,0" 
+					text = "查 找" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+			</HorizontalLayout>
+		</VerticalLayout>
+	</VerticalLayout>
+</Window>

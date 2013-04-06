@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window name="login" size="268,364" bktrans="true">
+	<Font name="宋体" size="13" bold="false" italic="false"/>
+	<Font name="宋体" size="16" bold="false" italic="false"/>
+<HorizontalLayout>
+	<Container name="LoginBg1" bordersize="0" width="268" height="364" bkimage="file='login_bg_1.png' hole='false'">
+		<Button name="CloseBtn" float="true" pos="240,13,0,0" width="15" height="15" 
+			normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+		<!------
+			<Combo name="AccountCombo" font="2" droptype="droplist" float="true" pos="137, 118, 317, 146" textpadding="4,1,1,1" 
+				normalimage="file='combo.png' source='0,0,100,22'  corner='2,2,20,2'" 
+				hotimage="file='combo.png'    source='0,22,100,44' corner='2,2,22,2'" 
+				pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'"
+				textpadding="1,1,1,1" >
+				<ListLabelElement text="张三" font="2" selected="true" height="23"/>
+				<ListLabelElement text="李四" font="2" height="23"/>
+			</Combo>
+			<Edit   name="AccountEdit" font="2" float="true" pos="2, 220, 0, 0"  width="263" height="28" 
+				textcolor="#FF000001" tooltip="请在这里输入您的账号"/>
+		----->
+
+		<Edit name="AccountEdit1" bordersize="0" float="true" pos="2,220,0,0" width="263" height="28" 
+			bkcolor="#FFEFEEE2" bkcolor2="#00EFEEE2" bordercolor="#00FFFFFF" focusbordercolor="#00EFEEE2" nativebkcolor="#FFEFEEE2" 
+			text="帐 号" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的账号" />
+		<Edit name="PwdEdit1" bordersize="0" float="true" pos="2,251,0,0" width="263" height="28"
+			bkcolor="#FFFFFFFF" bkcolor2="#FFFFFFFF" bordercolor="#00FFFFFF" focusbordercolor="#FFFFFFFF"  nativebkcolor="#FFFFFFFF" 
+			text="密 码" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的密码" />
+<!--
+		<Edit name="AccountEdit1" bordersize="0" float="true" pos="2,220,0,0" width="263" height="28" 
+			bkcolor="#FFEFEEE2" bkcolor2="#00EFEEE2" bordercolor="#00FFFFFF" focusbordercolor="#00EFEEE2" nativebkcolor="#FFEFEEE2" 
+			text="carrie" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的账号" />
+		<Edit name="PwdEdit1" bordersize="0" float="true" pos="2,251,0,0" width="263" height="28"
+			bkcolor="#FFFFFFFF" bkcolor2="#FFFFFFFF" bordercolor="#00FFFFFF" focusbordercolor="#FFFFFFFF"  nativebkcolor="#FFFFFFFF" 
+			text="test001" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的密码" />
+-->
+		<Button name="WinPushBtn" float="true" pos="127,288,0,0" width="15" height="13" align="center" 
+			normalimage="login_btn_down_1.png" hotimage="login_btn_down_23.png" pushedimage="login_btn_down_23.png" />
+	</Container>
+    <Container name="LoginBg2" bordersize="0" width="268" height="364" bkimage="login_bg_2.png">
+    	<Button name="CloseBtn" float="true" pos="240,13,0,0" width="15" height="15"  
+			normalimage="login_btn_close_1.png" hotimage="login_btn_close23.png" pushedimage="login_btn_close_23_png" />
+
+		<Edit name="AccountEdit2" bordersize="0" float="true" pos="2,220,0,0" width="263" height="28" 
+			bkcolor="#FFEFEEE2" bkcolor2="#00EFEEE2" bordercolor="#00FFFFFF" focusbordercolor="#00EFEEE2" nativebkcolor="#FFEFEEE2" 
+			text="帐 号" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的账号" />
+		<Edit name="PwdEdit2"     bordersize="0" float="true" pos="2,251,0,0" width="263" height="28"
+			bkcolor="#FFFFFFFF" bkcolor2="#FFFFFFFF" bordercolor="#00FFFFFF" focusbordercolor="#FFFFFFFF"  nativebkcolor="#FFFFFFFF" 
+			text="密 码" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
+			tooltip="请在这里输入您的密码" />
+
+        <CheckBox name="SavePwdBtn" float="true" pos="32,298,0,0" width="14" height="14" 
+        	normalimage="login_checkbox_1.png" selectedimage="login_checkbox_3.png" disabledimage="login_checkbox_1.png" />
+		<CheckBox name="AutoLoginBtn" float="true" pos="32,321,0,0" width="14" height="14" 
+			normalimage="login_checkbox_1.png" selectedimage="login_checkbox_3.png" disabledimage="login_checkbox_1.png" />
+
+		<Label name="LabelUI1" bordersize="0" float="true" pos="50,297,0,0" width="57" height="17" 
+			text="记住密码" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+		<Label name="LabelUI2" bordersize="0" float="true" pos="50,320,0,0" width="57" height="17" 
+			text="自动登录" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+		<Button name="FindPwdBtn" bordersize="0" float="true" pos="178,297,0,0" width="57" height="17" 
+			text="找回密码" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+		<Button name="RegisterBtn" bordersize="0" float="true" pos="178,320,0,0" width="57" height="17" 
+			text="注册帐号" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+
+		<Button name="WinUpBtn" float="true" pos="127,345,0,0" width="15" height="10" align="center" 
+			normalimage="login_btn_up_1.png" hotimage="login_btn_up_23.png" pushedimage="login_btn_up_23.png" />
+
+	</Container>
+</HorizontalLayout>
+</Window>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+	<ListContainerElement>
+		<VerticalLayout>
+			<VerticalLayout height="20">
+				<HorizontalLayout>
+					<Label name="nickname" bordersize="0" textcolor="#FF000000" disabledtextcolor="#FF808080" />
+				</HorizontalLayout>
+			</VerticalLayout>
+		</VerticalLayout>
+	</ListContainerElement>
+</Window>

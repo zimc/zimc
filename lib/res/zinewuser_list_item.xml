@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window>
+	<ListContainerElement name="NewUserItem">
+		<VerticalLayout>
+			<VerticalLayout height="32" bkimage="search_select_23.png">
+				<HorizontalLayout>
+					<VerticalLayout>
+						<HorizontalLayout>
+							<Label name="nickname" bordersize="0" textcolor="#FF000001" padding="30,0,0,0" />
+							<Label name="Account"  bordersize="0" textcolor="#FF000001" />
+							<Label />
+						</HorizontalLayout>
+					</VerticalLayout>
+					<VerticalLayout name="logo_container" width="30">
+						<Button name="logo" width="17" height="17" padding="8,7,0,0" 
+							normalimage="search_btn_add_friend_1.png" hotimage="search_btn_add_friend_23.png" pushedimage="search_btn_add_friend_23.png"/>
+					</VerticalLayout>
+				</HorizontalLayout>
+			</VerticalLayout>
+		</VerticalLayout>
+	</ListContainerElement>
+</Window>
