@@ -103,6 +103,7 @@ private:
 	int     OnClickSettingButton(TNotifyUI & msg);
 	int     OnClickSearchButton(TNotifyUI & msg);
 	int     OnClickVerifyResponse(WPARAM wp, LPARAM lp);
+	int     OnClickAddGroupResponse(WPARAM wp, LPARAM lp);
 
 	int     AddComboItem(LPCTSTR lpctsName);
 	int     ClearComboItem();
@@ -198,6 +199,7 @@ public:
 	void    InvalidGroupFriendNode(int nId);
 
 	void    handleGreateGroup(GroupInfoData_t *pGroupInfoData);
+	void    handlerAddGroupVerify(AddGroupInfo_t *pAddgroup);
 	//report window
 	void    reportEvil();
 	void    MsgRecord();
