@@ -183,15 +183,25 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_type(pAddgroup->type);
 			pNetData->set_uid(pAddgroup->strSenderName);
 			pNetData->set_user_id(pAddgroup->nSenderId);
-			//pNetData->set_tuid(pAddgroup->strSenderName);
-			//pNetData->set_tuser_id(pAddgroup->nAddGroupId);
+			pNetData->set_succ(pAddgroup->succ);
 
 			Value json(objectValue);
 			json["verifyInfo"] = pAddgroup->strVerify;
-			json["group_id"] = pAddgroup->groupinfo.group_id;
-			json["group_name"] = pAddgroup->groupinfo.name;
-			Assert(pAddgroup->pSenderLocalQInfo);
-			PacketFriend(&json["friend"], pAddgroup->pSenderLocalQInfo, Type_ImcFriend);
+			DBGroup dbgroup;
+			dbgroup.group_id = pAddgroup->groupinfo.group_id;
+			dbgroup.name  = pAddgroup->groupinfo.name;
+			json["group"] = buildGroupJson(dbgroup);
+			//Assert(pAddgroup->pSenderLocalQInfo);
+			//PacketFriend(&json["friend"], pAddgroup->pSenderLocalQInfo, Type_ImcFriend);
+			buildDBUserJson(json["friend"], pAddgroup->userinfo);
+			if (pAddgroup->type == GROUP_INFO_VERIFY) {
+				//TODO
+			}
+			else { //GROUP_INFO_REPLY
+				pNetData->set_tuid(pAddgroup->strAdminName);
+				pNetData->set_tuser_id(pAddgroup->nAdminId);
+			}
+
 			pNetData->set_msg(getJsonStr(json));
 			*ppbNetData   = (Byte_t*)pNetData;
 			*pnNetDataLen = -1;
@@ -558,6 +568,36 @@ int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **
 }
 
 int CMainMsger::ParseAddGroupVerify(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
+	AddGroupInfo_t *pAddgroup = new AddGroupInfo_t;
+	if (!pAddgroup) return Error_OutOfMemory;
+	
+	*ppbLocalData = pAddgroup;
 
+	pAddgroup->type = pNetMsg->type();
+	pAddgroup->strSenderName = pNetMsg->uid();
+	pAddgroup->nSenderId = pNetMsg->user_id();
+	pAddgroup->strAdminName = pNetMsg->tuid();
+	pAddgroup->nAdminId = pNetMsg->tuser_id();
+	pAddgroup->succ = pNetMsg->succ();
+	Value json = parseJsonStr(pNetMsg->msg());
+	if (json.isObject() && json.isMember("verifyInfo")) {
+		/*&& json.isMember("group_id") && json.isMember("group_name")) {*/
+			pAddgroup->strVerify = json["verifyInfo"].asString();
+			//pAddgroup->groupinfo.group_id = json["group_id"].asInt();
+			//pAddgroup->groupinfo.name = json["group_name"].asString();
+	}
+	else {
+		return Error_InvalidNetData;
+	}
+	//pAddgroup->pSenderLocalQInfo = (ItemNodeInfo_t *)::calloc(sizeof(ItemNodeInfo_t), 1);
+	//if (!pAddgroup->pSenderLocalQInfo) return Error_OutOfMemory;
+	if (json.isMember("friend") && json["friend"].isObject()) {
+		//ParserFriend(&json["friend"], pAddgroup->pSenderLocalQInfo, Type_ImcGroup);
+		parse_user(json["friend"], pAddgroup->userinfo);
+	}
+	if (json.isMember("group") && json["group"].isObject()) {
+		parse_group(json["group"], pAddgroup->groupinfo);
+	}
+	else  return Error_InvalidNetData;
 	return 0;
 }

@@ -167,13 +167,14 @@ int     CAddFriendWindow::addGroup(TNotifyUI & msg) {
 	CT2A pszSenderName(m_pMainWindow->GetSelfInfo()->tstrNickName.c_str());
 	CT2A pszRecverName(m_pUserInfo->tstrNickName.c_str());
 
-	addgroupinfo.groupinfo.group_id = LocalId_t(Type_ImcGroup, m_pUserInfo->nId);
+	addgroupinfo.groupinfo.group_id = IdLocalToNet(Type_ImcGroup, m_pUserInfo->nId);
 	addgroupinfo.groupinfo.name = pszRecverName;
-	addgroupinfo.nSenderId = LocalId_t(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
+	addgroupinfo.nSenderId = IdLocalToNet(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
 	addgroupinfo.strSenderName = pszSenderName;
 	addgroupinfo.strVerify = pszVerifyText;
 	addgroupinfo.type = GROUP_INFO_VERIFY;
-	addgroupinfo.pSenderLocalQInfo = m_pMainWindow->GetNodeData(m_pMainWindow->GetSelfInfo()->nId);
+	//addgroupinfo.pSenderLocalQInfo = m_pMainWindow->GetNodeData(m_pMainWindow->GetSelfInfo()->nId);
+	ItemDataLocatToNet(*(m_pMainWindow->GetNodeData(m_pMainWindow->GetSelfInfo()->nId)), addgroupinfo.userinfo);
 	
 	pVerifyUi->SetEnabled(false);
 	pAddFriendUi->SetEnabled(false);

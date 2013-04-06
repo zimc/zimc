@@ -38,6 +38,7 @@ Value buildGroupJson(DBGroup &dbgroup) {
     json["notice"] = dbgroup.notice;
     json["headurl"] = dbgroup.headurl;
     json["id"] = dbgroup.group_id;
+	json["group_id"] = dbgroup.group_id;
     Value members(arrayValue);
     for (size_t i = 0; i < dbgroup.members.size(); i++) {
         Value userjson(objectValue);
@@ -126,7 +127,7 @@ void parse_friends(Value &json, vector <DBFriend> &dbfriends) {
 
 int parse_group(Value &json, DBGroup &dbgroup) {
     if (!get_int_member(json, "id", dbgroup.group_id)) {
-        return -1;
+        get_int_member(json, "group_id", dbgroup.group_id);
     }
 	get_str_member(json, "uid", dbgroup.name);
 	get_str_member(json, "notice", dbgroup.notice);

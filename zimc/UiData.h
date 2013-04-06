@@ -133,6 +133,9 @@ enum enumZimcMsg
 	Msg_InTray, 
 	Msg_InQueryVerify, 
 
+	Msg_addGroupReserved,
+	Msg_InAddGroupVerify,
+
     Msg_LoadMessage,
     Msg_KeepAlive,
 
@@ -648,8 +651,7 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
     case 15: return Msg_ScDelFriend;
 	case 16:
 		{
-			if (nType == 1) {}
-			else if (nType == 2){}
+			if (nType == GROUP_INFO_VERIFY || nType == GROUP_INFO_REPLY) { return Msg_ScAddGroupVerify;}
 			else if (nType == 3) { return Msg_ScCreateGroup;}
 			else Assert(0);
 		}
@@ -779,6 +781,12 @@ inline void ItemDataNetToLocal(DBUser &dbuser, ItemNodeInfo_t & localNode, int t
 	localNode.tstrNickName     = CA2T(dbuser.user_name.c_str());
 	localNode.tstrAdminName    = CA2T(dbuser.type.c_str());
 	localNode.tstrDescription  = CA2T(dbuser.experience.c_str());
+}
+
+inline void ItemDataLocatToNet(ItemNodeInfo_t & localNode, DBUser &dbuser) {
+	dbuser.user_id = IdLocalToNet(Type_ImcFriend, localNode.nId);
+	dbuser.user_name = CT2A(localNode.tstrNickName.c_str());
+	//TODO
 }
 
 #endif

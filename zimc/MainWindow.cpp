@@ -1345,6 +1345,29 @@ int     CZiMainFrame::OnClickVerifyResponse(WPARAM wp, LPARAM lp)
 	return 0;
 }
 
+int CZiMainFrame::OnClickAddGroupResponse(WPARAM wp, LPARAM lp) {
+	Assert(lp);
+	AddGroupInfo_t *pAddgroup = (AddGroupInfo_t *)lp;
+
+	if(wp == 1) { //ok
+		//TODD 获取组 然后加入组
+		CNodeList *pNodeParent = GetNodeInfo(IdNetToLocal(Type_ImcGroup,pAddgroup->groupinfo.group_id));
+		if (pNodeParent) {
+			ItemNodeInfo_t item;
+			ItemDataNetToLocal(pAddgroup->userinfo, item, Type_ImcFriend);
+			AddItem(&item, pNodeParent);
+		}
+	}
+	// Msg_ScQueryVerify -> Msg_CsResponseVerify ..??
+	//100 拒绝
+	pAddgroup->succ = wp == 1 ? 0 : 100;
+	pAddgroup->type = GROUP_INFO_REPLY;
+	Assert(m_pMainMsger);
+	m_pMainMsger->SendImMessage(Msg_CsAddGroupVerify, (LPARAM)pAddgroup, sizeof(AddGroupInfo_t));
+	m_pMainMsger->FreeDataEx(Msg_ScAddGroupVerify, pAddgroup);
+	return 0;
+}
+
 void    CZiMainFrame::FlashTray(BOOL bFlashOrNot)
 {
 	if(bFlashOrNot == m_bFlash) return ; 
@@ -1480,27 +1503,6 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			// 将消息显示到消息框中. ???
 			ChatCcTextData_t * pChatText   = (ChatCcTextData_t*)pNetData;
 			CChatDialog      * pChatDialog = 0;
-
-			//Assert ...??
-			//if(pChatText->nRecvType == 1)
-			//{
-			//	// 好友
-			//	Assert(pChatText->nRecverId == m_itemSelfInfo.nId);
-			//}
-			//else
-			//{
-			//	// 群, 讨论组
-			//	// 验证 nSenderId 属于此组. 
-			//}
-
-            /*
-			CreateChatDailog(pChatText->nSenderId, &pChatDialog);
-			if(pChatDialog)  // 可能无效. 
-			{
-				pChatDialog->OnTextMsgShow(pChatText);
-				pChatDialog->ActiveWindow();
-			}
-            */
             if (pChatText->nRecvType == Type_ImcFriend) { //好友消息
                 CreateChatDailog(pChatText->nSenderId, &pChatDialog);
                 if(pChatDialog)  // 可能无效. 
@@ -1562,6 +1564,9 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			bFree = TRUE;
         }
         break;
+	case Msg_ScAddGroupVerify:
+		handlerAddGroupVerify((AddGroupInfo_t *)pNetData);
+		break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, pNetData);
@@ -1653,6 +1658,7 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 		break;
 	case Msg_ScQueryVerify:
 	case Msg_ScResponseVerify:
+	case Msg_ScAddGroupVerify:
 		Assert(lParam != 0);
 		DelayDispatchNetCmd(nMsg, (void*)lParam);
 		break;
@@ -1738,6 +1744,10 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 		handleGreateGroup((GroupInfoData_t *)lParam);
 		bFree = TRUE;
 		break;
+	case Msg_InAddGroupVerify:
+		Assert(lParam);
+		OnClickAddGroupResponse(wParam, lParam);
+		break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, (void*)lParam);
@@ -1764,6 +1774,58 @@ void CZiMainFrame::handleGreateGroup(GroupInfoData_t *pGroupInfoData) {
 	sprintf_s(szText, sizeof(szText)/sizeof(char), "创建 %s %s", pGroupInfoData->groupinfo.name.c_str(),
 		(pGroupInfoData->succ == 0 ? "成功" : "失败"));
 	CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
+}
+
+void CZiMainFrame::handlerAddGroupVerify(AddGroupInfo_t *pAddgroup) {
+	Assert(pAddgroup);
+	// 显示验证请求框, 交给用户操作. 
+	// 还需要显示请求者的信息, 未实现 ... ???
+	char              szText[1024] = {0};
+	if (pAddgroup->type == GROUP_INFO_VERIFY) {
+		sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
+			"'%s' 请求加入群 <%s>, 验证信息: '%s'", 
+			pAddgroup->strSenderName.c_str(),
+			pAddgroup->groupinfo.name.c_str(),
+			pAddgroup->strVerify.c_str());
+
+		CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), 
+			CA2T(szText), _T("同意"), _T("不同意"), 
+			Msg_InAddGroupVerify, pAddgroup);
+	}
+	else { //GROUP_INFO_REPLY
+		if (IdNetToLocal(Type_ImcFriend, pAddgroup->nAdminId) != m_itemSelfInfo.nId && pAddgroup->succ == 0) {
+			CNodeList *pNodeParent = GetNodeInfo(IdNetToLocal(Type_ImcGroup,pAddgroup->groupinfo.group_id));
+			if (pNodeParent) {
+				ItemNodeInfo_t item;
+				ItemDataNetToLocal(pAddgroup->userinfo, item, Type_ImcFriend);
+				AddItem(&item, pNodeParent);
+			}
+		}
+		//TODO 如果添加者 需要弹框提示
+		if (IdNetToLocal(Type_ImcFriend, pAddgroup->nSenderId) == m_itemSelfInfo.nId) {
+			sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
+				"加入群 %s %s", 
+				pAddgroup->groupinfo.name.c_str(), (pAddgroup->succ == 0 ? "成功" : "失败"));
+
+			CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"),CA2T(szText), 0);
+			if (pAddgroup->succ == 0) {
+				//TODO 添加群
+				ItemNodeInfo_t item;
+				ItemDataNetToLocal(pAddgroup->groupinfo, item);
+				AddItem(&item, 0);
+
+				//添加成员
+				CNodeList *pNodeParent = GetNodeInfo(item.nId);
+				Assert(pNodeParent);
+				for (size_t i = 0; i < pAddgroup->groupinfo.members.size(); i++) {
+					ItemNodeInfo_t group_member;
+					ItemDataNetToLocal(pAddgroup->groupinfo.members[i], group_member, Type_ImcFriendX);
+					AddItem(&group_member, pNodeParent);
+				}
+			}
+		}
+		m_pMainMsger->FreeDataEx(Msg_ScAddGroupVerify, pAddgroup);
+	}	
 }
 
 //report window
