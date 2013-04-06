@@ -39,6 +39,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.txt
 
 # Build results
 [Dd]ebug/
@@ -66,6 +67,7 @@ local.properties
 #packages/
 
 # Visual C++ cache files
+data/
 bin/
 ipch/
 *.aps

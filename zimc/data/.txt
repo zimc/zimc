@@ -1,4 +1,0 @@
-myname		ll	data/.txt
-myname		1	data/.txt
-myname		2	data/.txt
-shuaiyu		myname ÊÕÏûÏ¢°É	data/.txt

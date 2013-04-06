@@ -733,7 +733,6 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
         strSenderName = Msg.szSenderNamex;
         strSenderTime = Msg.szTime ;
     }
-
 	s_filename = "data/"+s_filename +".txt" ;
     /*
     char test[1024]={0} ;

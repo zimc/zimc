@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "MsgRecordWindow.h"
 #include<iostream>
+#include<fstream>
+#include<vector>
+
 
 CMsgRecordWindow::CMsgRecordWindow(CZiMainFrame* pMainWindow)
 	: m_pMainWindow(pMainWindow)
@@ -21,7 +24,7 @@ LPCTSTR CMsgRecordWindow::GetWindowClassName() const
 
 tstring CMsgRecordWindow::GetSkinFile()
 {
-	return _T("zichatconfig.xml");
+	return _T("msgrecord.xml");
 }
 
 void    CMsgRecordWindow::Notify(TNotifyUI & msg)
@@ -43,26 +46,49 @@ void    CMsgRecordWindow::OnFinalMessage(HWND hWnd)
 	delete this;
 }
 
-int    CMsgRecordWindow::OnExit(TNotifyUI & msg)
+int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 {
 	Close();
 	return 0;
 }
 //上一页
-int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
+int   CMsgRecordWindow::OnUp(char filename,int page)
 {
 	// 需要关闭吗. ?
-	OnExit(msg);
+	//OnExit(msg);
+    //数组指针
+    vector <string> arrMsgRecord ;
+    arrMsgRecord = ::ReadMsgRecord(filename) ;
+    //
+    if( (arrMsgRecord.size()-page*10)>0){
+        if( this->page < this->PageCount ){
+            this->page=this->page-1 ;
+        }
+    }
 	return 0;
 }
 //下一页
-int CMsgRecordWindow::OnNext(TNotifyUI & msg)
+int CMsgRecordWindow::OnNext(char filename,int page)
 {	
-	
-	return 0;
+	//数组指针
+     if( this->page < this->PageCount ){
+            this->page=this->page+1 ;
+     }
+    return 0 ;
 }
 
-char CMsgRecordWindow::ReadMsgRecord(TNotifyUI & msg){
-	string filename = "qqq.txt" ;	
-	return 0 ;
+//把文件存入数组
+char * CMsgRecordWindow::ReadMsgRecord(char filename){
+	FILE * fileP=NULL ;
+    char buffer[600] ;
+    vector <string> arrMsgRecord ;
+    fstream out ;
+    out.open(filename,ios::in) ;
+    while(!out.eof())    {
+        out.getline(buffer,600,'\n');//getline(char *,int,char) 表示该行字符达到256个或遇到换行就结束
+        arrMsgRecord.push_back(buffer) ;
+        //cout<<buffer<<endl;
+    }  
+    this->PageCount = arrMsgRecord.size/10 ;
+	return fileP ;
 }

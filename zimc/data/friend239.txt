@@ -1,4 +1,0 @@
-carrie	2013年04月05日 21:27:40	kskssk	data/friend239.txt
-carrie	2013年04月05日 21:29:08	flsa;fs;adfa;fafaf	data/friend239.txt
-	2013年04月05日 21:41:18	hello	data/friend239.txt
-carrie	2013年04月05日 21:43:08	2123123	data/friend239.txt

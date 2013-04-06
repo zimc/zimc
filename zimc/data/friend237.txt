@@ -1,5 +1,0 @@
-carrie	2013年04月05日 21:15:14	123	data/friend237.txt
-carrie	2013年04月05日 21:29:37	kllkk	data/friend237.txt
-carrie	2013年04月05日 21:29:55	kkk	data/friend237.txt
-	2013年04月05日 21:34:04	kkk	data/friend237.txt
-myname	2013年04月06日 09:44:31	今天早上发的消息 收到了不？
