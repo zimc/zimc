@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window name="MsgRecordWnd" size="510,484" caption="0,0,0,50" roundcorner="4,4,4,4" bktrans="true">
+	<Font name="宋体" size="12" bold="false" default="true" />
+	<Font name="宋体" size="16" bold="true"  />
+	<Font name="宋体" size="13" bold="true"  />
+	<Font name="宋体" size="13" bold="false" />
+	<Font name="宋体" size="12" bold="false" />
+	<Default name="VScrollBar" value="button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
+		button1hotimage=&quot;file='zimc_scrollbar.png' source='16,0,32,16,16'&quot; 
+		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
+		button2normalimage=&quot;file='zimc_scrollbar.png' source='0,32,16,48'&quot; 
+		button2hotimage=&quot;file='zimc_scrollbar.png' source='16,32,32,48'&quot; 
+		button2pushedimage=&quot;file='zimc_scrollbar.png' source='32,32,48,48'&quot; 
+		thumbnormalimage=&quot;file='zimc_scrollbar.png' source='0,48,16,64' corner='0,2,0,2'&quot; 
+		thumbhotimage=&quot;file='zimc_scrollbar.png' source='16,48,32,64' corner='0,2,0,2'&quot; 
+		thumbpushedimage=&quot;file='zimc_scrollbar.png' source='32,48,48,64' corner='0,2,0,2'&quot; 
+		bknormalimage=&quot;file='zimc_scrollbar.png' source='0,16,16,32'&quot;" />
+	<VerticalLayout name="BackgroudImg" bkimage="file='msg_record_bg.png'">
+		<VerticalLayout name="header" height="72">
+			<HorizontalLayout name="title">
+				<Label name="TitleLabel1" width="350" height="30" font="2" padding="70,10,0,0" textcolor="0xFF000001" text="聊天记录" />			
+				<Button  name="CloseBtn" float="true" pos="460,15,0,0"  width="15" height="15" normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+			</HorizontalLayout>
+		</VerticalLayout>
+		<VerticalLayout name="RecordText" height="20">
+				<Label  name="TitleLabel2" font="3" textcolor="0xFF000001" align="center" 
+				text="华润公司致力于为用户提供健康和谐的网络交流平台" />
+		</VerticalLayout>
+		<VerticalLayout name="RecordText_3" inset="30,25,0,0" >
+			<RichEdit name="ViewRichEdit"  multiline="true" text="聊天记录" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
+		</VerticalLayout>
+		<HorizontalLayout height="43">
+			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 
+				font="0" textcolor="0xFF000001" text="请放心, 您的隐私将回得到保护" /> 
+			<Button name="UpBtn" width="74" height="26"  padding="8,0,0,0" font="0" textcolor="0xFF000001" 
+				text = "上一页"/>
+			<Button name="NextBtn" width="74"  height="26" padding="10,0,0,0" font="0" textcolor="0xFF000001" 
+				text = "下一页"  pushedimage="user_btn_click_23.png" />
+		</HorizontalLayout>
+	</VerticalLayout>
+</Window>

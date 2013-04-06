@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window name="NotifyWnd" size="300,200" caption="0,0,0,50" roundcorner="4,4,4,4" bordersize="1">
+	<Font name="宋体" size="12" bold="false" default="false" />
+	<Font name="宋体" size="13" bold="false" default="true" />
+
+	<VerticalLayout bkcolor="0xFFFFFFFF">
+		<HorizontalLayout >
+			<RichEdit name="EditText" padding="10,12,0,0" font="1" multiline="true" readonly="true" enabled="false" 
+				textcolor="0xFF000001" />
+		</HorizontalLayout>
+		<HorizontalLayout height="35">
+			<Button name="BtnOk"     width="74" height="26"  padding="50,0,0,0" font="0" textcolor="0xFF000001" 
+				text="确 定" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+			<Button name="BtnCancel" width="74" height="26"  padding="30,0,0,0" font="0" textcolor="0xFF000001" 
+				text="取 消" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+		</HorizontalLayout>
+	</VerticalLayout>
+</Window>

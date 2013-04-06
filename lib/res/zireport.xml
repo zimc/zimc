@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window name="ReportWnd" size="510,484" caption="0,0,0,50" roundcorner="4,4,4,4">
+	<Font name="宋体" size="12" bold="false" default="true" />
+	<Font name="宋体" size="16" bold="true"  />
+	<Font name="宋体" size="13" bold="true"  />
+	<Font name="宋体" size="13" bold="false" />
+	<Font name="宋体" size="12" bold="false" />
+
+	<Default name="VScrollBar" value="button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
+		button1hotimage=&quot;file='zimc_scrollbar.png' source='16,0,32,16,16'&quot; 
+		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
+		button2normalimage=&quot;file='zimc_scrollbar.png' source='0,32,16,48'&quot; 
+		button2hotimage=&quot;file='zimc_scrollbar.png' source='16,32,32,48'&quot; 
+		button2pushedimage=&quot;file='zimc_scrollbar.png' source='32,32,48,48'&quot; 
+		thumbnormalimage=&quot;file='zimc_scrollbar.png' source='0,48,16,64' corner='0,2,0,2'&quot; 
+		thumbhotimage=&quot;file='zimc_scrollbar.png' source='16,48,32,64' corner='0,2,0,2'&quot; 
+		thumbpushedimage=&quot;file='zimc_scrollbar.png' source='32,48,48,64' corner='0,2,0,2'&quot; 
+		bknormalimage=&quot;file='zimc_scrollbar.png' source='0,16,16,32'&quot;" />
+
+	<VerticalLayout name="BackgroudImg" bkimage="file='report_bg_0.png'">
+		<HorizontalLayout height="60">
+			<Button name="CloseBtn" float="true" pos="470,15,0,0" width="15" height="15" 
+				normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+			<Label  name="TitleLabel1" float="true" pos="70,28,0,0" width="50" height="30" 
+				font="1" textcolor="0xFF000001" text="举报" />
+		</HorizontalLayout>
+		<HorizontalLayout height="45" >
+			<Label  name="TitleLabel2" font="2" textcolor="0xFF000001" align="center" 
+				text="华润公司致力于为用户提供健康和谐的网络交流平台" />
+		</HorizontalLayout>
+
+		<Control height="19" />
+		<VerticalLayout height="45">
+			<Label  name="EvilAccountLabel" padding="52,0,0,0" height="18"
+				font="3" textcolor="0xFF000001" text="恶意帐号: " /> 
+			<Edit   name="EvilAccountEdit"  padding="42,4,0,0" width="423" height="21" font="4" textcolor="0xFF000001" 
+				bordersize="1" bordercolor="0xFF000001" borderround="2,2" />
+		</VerticalLayout>
+
+		<HorizontalLayout height="23">
+			<Label  name="EvilRecordLabel1" padding="52,5,0,0" height="23" width="52" 
+				font="3" textcolor="0xFF000001" text="举报证据" /> 
+			<Label  name="EvilRecordLabel2" padding="5,12,0,0" 
+				font="0" textcolor="0xFF000001" text="( 请选择一条或多条聊天记录作为证据 )" />
+		</HorizontalLayout>
+			<RichEdit name="EvilRecordEdit" height="78" width="423" padding="42,6,0,0" inset="5,2,2,2" 
+				font="4" multiline="true" vscrollbar="true" autovscroll="true" textcolor="0xFF000001" 
+				bordersize="1" bordercolor="0xFF000001" borderround="2,2" />
+
+		<VerticalLayout >
+			<Label  name="EvilDescriptLabel1" height="23" width="80"  padding="52,10,0,0" 
+				font="3" textcolor="0xFF000001" text="举报说明: " /> 
+			<RichEdit name="EvilDescriptEdit" height="78" width="423" padding="42,1,0,0" inset="5,2,2,2" 
+				font="4" multiline="true" vscrollbar="true" autovscroll="true" textcolor="0xFF000001" 
+				bordersize="1" bordercolor="0xFF000001" borderround="2,2" />
+		</VerticalLayout>
+
+		<HorizontalLayout height="33">
+			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 
+				font="0" textcolor="0xFF000001" text="请放心, 您的隐私将回得到保护" /> 
+			<Button name="SubmitBtn"        width="74" height="26"  padding="8,0,0,0" font="0" textcolor="0xFF000001" 
+				text = "提 交" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+			<Button name="CancelBtn"        width="74"  height="26" padding="10,0,0,0" font="0" textcolor="0xFF000001" 
+				text = "取 消" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+		</HorizontalLayout>
+	</VerticalLayout>
+</Window>

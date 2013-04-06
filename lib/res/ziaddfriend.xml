@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window name="login" size="394,315" caption="0,0,0,50" roundcorner="4,4,4,4">
+	<Font name="微软雅黑" size="16" bold="true"  italic="false"/>
+	<Font name="微软雅黑" size="12" bold="false" italic="false"/>
+	<Font name="微软雅黑" size="14" bold="true"  italic="false"/>
+	<Font name="微软雅黑" size="10" bold="false" italic="false"/>
+	<VerticalLayout name="AddFriendWnd" bkimage="file='add_friend_bg_0.png' corner='390,300,1,1'" hole="true">
+		<HorizontalLayout height="50">
+			<Label name="TitleLabel1" float="true" pos="20,5,0,0" width="200" height="30" font="0" 
+				text="添加好友" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+			<Button name="CloseBtn"   float="true" pos="360,17,0,0" width="15" height="15" 
+				normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+		</HorizontalLayout>
+		<Control height="20" />
+		<HorizontalLayout height="200">
+			<VerticalLayout width="125">
+				<Control height="100" />
+				<!------
+				-- 好友信息, 需要程序改变. 
+				------->
+				<Label    name="NickNameLabel"  padding="30,0,0,0" width="100" height="20" 
+					text="miss su"   textcolor="#FFA00E00" font="2" />
+				<Label    name="AccountLabel"   padding="31,0,0,0" width="100" height="10" 
+					text="666666668" textcolor="#FF000001" font="3" />
+				<Control height="8" />
+				<Label    name="SexLabel"       padding="31,0,0,0" width="100" height="15" 
+					text="性别: 女"   textcolor="#FF000001" font="3" />
+				<Label    name="AgeLabel"       padding="31,0,0,0" width="100" height="15" 
+					text="年龄: 20"   textcolor="#FF000001" font="3" />
+				<Label    name="AddressLabel"   padding="31,0,0,0" width="100" height="15" 
+					text="地址: 广州" textcolor="#FF000001" font="3" />
+			</VerticalLayout>
+			<VerticalLayout padding="13, 0, 0, 0">
+				<Label    name="TitleLabel2"  width="160" height="30" font="1"
+					text="请输入验证信息:" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
+				<RichEdit name="VerifyInfoEdit" padding="1,0,0,0" width="233" height="70" bordersize="0" 
+					inset="2,1,1,1" textcolor="#FF000001" font="1" textpadding="1,1,1,1" autovscroll="true"/>
+			</VerticalLayout>
+		</HorizontalLayout>
+		<HorizontalLayout padding="210, 9, 0, 0">
+			<Button name="AddFriendBtn" width="74" height="26" font="1"
+				text = "加为好友" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+			<Button name="CloseBtn2"    width="74" height="26" padding="10, 0, 0, 0" font="1"
+				text = "关 闭"    normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+		</HorizontalLayout>
+	</VerticalLayout>
+</Window>
