@@ -21,7 +21,7 @@ LPCTSTR CMsgRecordWindow::GetWindowClassName() const
 
 tstring CMsgRecordWindow::GetSkinFile()
 {
-	return _T("msgrecord.xml");
+	return _T("zichatconfig.xml");
 }
 
 void    CMsgRecordWindow::Notify(TNotifyUI & msg)
@@ -63,7 +63,6 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg)
 }
 
 char CMsgRecordWindow::ReadMsgRecord(TNotifyUI & msg){
-	string filename = "qqq.txt" ;
-	
+	string filename = "qqq.txt" ;	
 	return 0 ;
 }

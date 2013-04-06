@@ -700,44 +700,58 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 	 //存到聊天记录
      //创建文件对象：
 	fstream fs ;
-	string msgBody,s_filename ; 
+	string msgBody,s_filename ;
+    string strSenderName,strSenderTime;
     char cfilename[200] ;
-	if( Msg.nRecvType == Type_ImcFriend )
+	if( TypeNetToLocal(Msg.nRecvType) == Type_ImcFriend )
 	{
 		//发消息者是本人，以收消息ID命名
-		if( Msg.nRecverId.nId == m_myselfInfo.nId )
+		if( IdNetToLocal(Type_ImcFriend,Msg.nRecverId.nId) == m_myselfInfo.nId )
 		{
-			sprintf(cfilename, "%d", Msg.nRecverId.nId);
+			sprintf(cfilename, "friend%d", Msg.nSenderId.nId) ;
             //filename=string(Msg.nRecverId.nId);//
 		}
 		else
 		{
-			sprintf(cfilename, "%d", Msg.nSenderId.nId);
+			sprintf(cfilename, "friend%d", Msg.nRecverId.nId) ;
             //filename=Msg.nSenderId.nId ;
 		}
-        s_filename=cfilename;
+        s_filename=cfilename ;
 	}
 	else
 	{
-		//filename = "group" ;
+		//群组id+本地发送者id+group 作为文件名
+        //filename = "group" ;
+        //s_filename = "group" ;
+        sprintf(cfilename, "group%d", Msg.nRecverId.nId) ;
 	}
-	//s_filename = "data/"+s_filename +".txt" ; 
+    if( IdNetToLocal(Type_ImcFriend,Msg.nSenderId.nId) == m_myselfInfo.nId ) {
+        strSenderName = CT2A(Msg.tsSenderName);
+        strSenderTime = CT2A(Msg.tsTime);
+    }
+    else {
+        strSenderName = Msg.szSenderNamex;
+        strSenderTime = Msg.szTime ;
+    }
+
+	s_filename = "data/"+s_filename +".txt" ;
     /*
-    char test[1024]={0};
-    strcat(test,"data/");
-    strcat(test, filename);
-    strcat(test,".txt");
+    char test[1024]={0} ;
+    strcat(test,"data/") ;
+    strcat(test, filename) ;
+    strcat(test,".txt") ;
     */
-    //string file;
+    //string file ;
     //stringstream idstr;
     //idstr<<id;
 
 
-    string file = "data/" + s_filename + ".txt";
+    //s_filename = "data/" + s_filename + ".txt";
+    //cfilename=s_filename.c_str() ;
     //strcat("data/",cfilename) ;
     //strcat(cfilename,".txt") ;
     //cfilename = static_cast<>(s_filename) ;
-	fs.open(cfilename,fstream::in|fstream::app) ;
+    fs.open(s_filename.c_str(),fstream::in|fstream::app) ;
 	msgBody = string(Msg.szData) ; 
 	int pos;
 	pos = msgBody.find('\n');
@@ -746,7 +760,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 		 msgBody.replace(pos,1,"\r\r") ; //用新的串替换掉指定的串
 		 pos = msgBody.find('\n');
 	}
-	fs<<CT2A(Msg.tsSenderName)<<'\t'<<CT2A(Msg.tsTime)<<'\t'<<msgBody<<'\n';
+    fs<<strSenderName.c_str()<<'\t'<<strSenderTime<<'\t'<<msgBody<<'\n';
 	fs.close() ;
 	return 1;
 }
