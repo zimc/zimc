@@ -27,10 +27,10 @@ public:
 	// extend
 	int    OnExit(TNotifyUI & msg);
 	//È¡ÄÚÈÝ
-	char ReadMsgRecord(TNotifyUI & msg) ;
+	char* ReadMsgRecord(char *filename) ;
 	//·­Ò³
-	int    OnUp(TNotifyUI & msg);
-    int    OnNext(TNotifyUI & msg);
+	int    OnUp(char *filename,int page);
+    int    OnNext(char *filename,int page);
 
 
 private:

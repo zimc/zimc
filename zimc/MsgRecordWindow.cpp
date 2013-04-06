@@ -32,8 +32,8 @@ void    CMsgRecordWindow::Notify(TNotifyUI & msg)
 	if(msg.sType == _T("click"))
 	{
 		DuiClickButtonMap(_T("CloseBtn"),   OnExit);
-		DuiClickButtonMap(_T("UpBtn"),  OnUp);
-		DuiClickButtonMap(_T("NextBtn"),  OnNext);
+		//DuiClickButtonMap(_T("UpBtn"),  OnUp);
+		//DuiClickButtonMap(_T("NextBtn"),  OnNext);
 	}
 }
 
@@ -52,34 +52,37 @@ int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 	return 0;
 }
 //上一页
-int   CMsgRecordWindow::OnUp(char filename,int page)
+int   CMsgRecordWindow::OnUp(char *filename,int page)
 {
 	// 需要关闭吗. ?
 	//OnExit(msg);
     //数组指针
-    vector <string> arrMsgRecord ;
-    arrMsgRecord = ::ReadMsgRecord(filename) ;
+    //vector <string> arrMsgRecord ;
+    //arrMsgRecord = ReadMsgRecord(filename) ;
     //
-    if( (arrMsgRecord.size()-page*10)>0){
+/*    if( (arrMsgRecord.size()-page*10)>0){
         if( this->page < this->PageCount ){
             this->page=this->page-1 ;
         }
-    }
+    }*/
 	return 0;
 }
 //下一页
-int CMsgRecordWindow::OnNext(char filename,int page)
+int CMsgRecordWindow::OnNext(char *filename,int page)
 {	
 	//数组指针
+    /*
      if( this->page < this->PageCount ){
             this->page=this->page+1 ;
      }
+     */
     return 0 ;
 }
 
 //把文件存入数组
-char * CMsgRecordWindow::ReadMsgRecord(char filename){
+char * CMsgRecordWindow::ReadMsgRecord(char *filename){
 	FILE * fileP=NULL ;
+    /*
     char buffer[600] ;
     vector <string> arrMsgRecord ;
     fstream out ;
@@ -90,5 +93,7 @@ char * CMsgRecordWindow::ReadMsgRecord(char filename){
         //cout<<buffer<<endl;
     }  
     this->PageCount = arrMsgRecord.size/10 ;
-	return fileP ;
+	return  fileP ;
+    */
+    return NULL;
 }
