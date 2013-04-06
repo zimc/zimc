@@ -15,6 +15,7 @@ public:
 	~CZiSearchWindow();
 
 	int     HandleResponseResult(SearchScResponse_t * pSearchResult);
+	int     HandleResponseResultForGroup(SearchGroup_t *pSearchGroup);
 
 
 private:

@@ -130,6 +130,7 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
             pNetData->set_tuid(pDelfriend->strdelName);
             pNetData->set_user_id(pDelfriend->nSendId);
             pNetData->set_tuser_id(pDelfriend->nDelId);
+			pNetData->set_type(pDelfriend->type);
             *ppbNetData = (Byte_t *)pNetData;
             *pnNetDataLen = -1;
         }
@@ -173,6 +174,29 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			*pnNetDataLen = -1;
 		}
 		break;
+	case Msg_CsAddGroupVerify:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			if (!pNetData) return Error_OutOfMemory;
+			AddGroupInfo_t *pAddgroup = (AddGroupInfo_t *)pLocalData;
+		    pNetData->set_cmd(16);
+			pNetData->set_type(pAddgroup->type);
+			pNetData->set_uid(pAddgroup->strSenderName);
+			pNetData->set_user_id(pAddgroup->nSenderId);
+			//pNetData->set_tuid(pAddgroup->strSenderName);
+			//pNetData->set_tuser_id(pAddgroup->nAddGroupId);
+
+			Value json(objectValue);
+			json["verifyInfo"] = pAddgroup->strVerify;
+			json["group_id"] = pAddgroup->groupinfo.group_id;
+			json["group_name"] = pAddgroup->groupinfo.name;
+			Assert(pAddgroup->pSenderLocalQInfo);
+			PacketFriend(&json["friend"], pAddgroup->pSenderLocalQInfo, Type_ImcFriend);
+			pNetData->set_msg(getJsonStr(json));
+			*ppbNetData   = (Byte_t*)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
 	default:
 		Assert(0);
 		break;
@@ -209,12 +233,14 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 
 	BeginScMsgMap
 		ScMsgMap(Msg_ScResponseUsers,  ParserSearchUser)
+		ScMsgMap(Msg_ScResponseGroup,  ParserSearchGroup)
 		ScMsgMap(Msg_ScQueryVerify,    ParserQueryVerify)
 		ScMsgMap(Msg_ScResponseVerify, ParserResponseVerify)
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
         ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
 		ScMsgMap(Msg_ScEvilReport,	   ParseReport)
 		ScMsgMap(Msg_ScCreateGroup,    ParseCreateGroup)
+		ScMsgMap(Msg_ScAddGroupVerify, ParseAddGroupVerify)
 	EndScMsgMap
 
 	*pnLocalDataLen = nError;
@@ -349,6 +375,7 @@ int CMainMsger::ParserSearchUser(NetMsg_t * pNetMsg, Json::Value & jsRoot, void 
 
 	pSearchResult->pItemInfo  = pFriendList;
 	pSearchResult->nItemSize  = jsRoot.size();
+	memcpy(pSearchResult->szSearchName, pNetMsg->tuid().c_str(), pNetMsg->tuid().size() > 255 ? 255 : pNetMsg->tuid().size());
 
 	int i     = 0;
 	for(Json::Value::iterator it =  jsRoot.begin(); 
@@ -358,6 +385,24 @@ int CMainMsger::ParserSearchUser(NetMsg_t * pNetMsg, Json::Value & jsRoot, void 
 	}
 
 	*ppbLocalData = pSearchResult;
+	return 0;
+}
+
+int CMainMsger::ParserSearchGroup(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData) {
+    SearchGroup_t *pSearchGroup = new SearchGroup_t;
+	pSearchGroup->strSearchName = pNetMsg->tuid();
+	if (pNetMsg->succ() == 0) {
+		Value json = parseJsonStr(pNetMsg->msg());
+		if (json.isObject() && check_arr_member(json, "groupinfos")) {
+			Value groups = json["groupinfos"];
+			for (size_t i = 0; i < groups.size(); i++) {
+				pSearchGroup->groups.push_back(DBGroup());
+				pSearchGroup->groups[i].group_id = groups[i]["group_id"].asInt();
+				pSearchGroup->groups[i].name = groups[i]["name"].asString();
+			}
+		}
+	}
+	*ppbLocalData = pSearchGroup;
 	return 0;
 }
 
@@ -483,6 +528,7 @@ int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void *
     pDelFriend->strSendName = pNetMsg->uid();
     pDelFriend->strdelName = pNetMsg->tuid();
 	pDelFriend->succ = pNetMsg->succ();
+	pDelFriend->type = pNetMsg->type();
     *ppbLocalData = pDelFriend;
     return 0;
 }
@@ -505,8 +551,13 @@ int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **
 		pGroupInfo->succ = -1;
 	}
 	else {
-		pGroupInfo->groupinfo.group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo.group_id );
+		//pGroupInfo->groupinfo.group_id = LocalId_t(Type_ImcGroup, pGroupInfo->groupinfo.group_id );
 	}
 	*ppbLocalData = pGroupInfo;
+	return 0;
+}
+
+int CMainMsger::ParseAddGroupVerify(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
+
 	return 0;
 }

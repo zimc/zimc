@@ -3,7 +3,7 @@
 #include "SearchWindow.h"
 #include "AddFriendWindow.h"
 #include "ConcreteItemListUI.h"
-
+#include "common/dbstruct.h"
 
 CZiSearchWindow::CZiSearchWindow(CZiMainFrame * pMainWnd)
 	: m_pMainWindow(pMainWnd)
@@ -159,14 +159,14 @@ int     CZiSearchWindow::OnExit(TNotifyUI & msg)
 
 int     CZiSearchWindow::OnDownWindow(TNotifyUI & msg)
 {
-	Assert(m_nWindowIndex == 0);
+	if (m_nWindowIndex == 1) return 0;
 	m_nWindowIndex  = 1;
 	return SyncWndState(true);
 }
 
 int     CZiSearchWindow::OnUpWindow(TNotifyUI & msg)
 {
-	Assert(m_nWindowIndex == 1);
+	if (m_nWindowIndex == 0) return 0;
 	m_nWindowIndex  = 0;
 	return SyncWndState(false);
 }
@@ -211,7 +211,7 @@ int     CZiSearchWindow::OnReturnAccount(TNotifyUI & msg)
 		::_tcscmp(ptsAccount, _T("")) != 0 && 
 		::_tcscmp(ptsAccount, _T("输入帐号")) != 0)
 	{
-		pAccountEdit->SetEnabled(false);
+		//pAccountEdit->SetEnabled(false);
 		::SendMessage(::GetFocus(), WM_KILLFOCUS, 0, 0);
 		return QuerySearchFriend(ptsAccount, m_nSearchType);
 	}
@@ -309,7 +309,7 @@ int     CZiSearchWindow::SyncWndState(bool bUpToDown)
 	// data
 	pDstExactMatch->Selected(pSrcExactMatch->IsSelected());
 	pDstGroupMatch->Selected(pSrcGroupMatch->IsSelected());
-	pDstAccount   ->SetEnabled(pSrcAccount ->IsEnabled());
+	//pDstAccount   ->SetEnabled(pSrcAccount ->IsEnabled());
 	pDstAccount   ->SetText (pSrcAccount   ->GetText());
 
 	// 
@@ -447,6 +447,51 @@ int     CZiSearchWindow::HandleResponseResult(SearchScResponse_t * pSearchResult
 	CEditUI * pAccountEdit = DuiControl(CEditUI, 
 		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
 	pAccountEdit->SetEnabled(true);
+	pAccountEdit->SetText(CA2T(pSearchResult->szSearchName));
+	return 0;
+}
+
+int CZiSearchWindow::HandleResponseResultForGroup(SearchGroup_t *pSearchGroup) {
+	Assert(pSearchGroup);
+
+	CBaseItemListUI * pUserInfoListUi = DuiControl(CNewUserItemUI, _T("UserInfoList"));
+	Assert(pUserInfoListUi);
+
+	// ... ???
+	if(pUserInfoListUi->GetCount() > 0)
+	{
+		ZiLogger(RSZLOG_TEST, "SearchWindow Remove All, Begin.");
+		pUserInfoListUi->RemoveAll();
+		ZiLogger(RSZLOG_TEST, "SearchWindow Remove All, End.  ");
+	}
+
+	if(pSearchGroup->groups.size() == 0)
+	{
+		MessageBox(m_hWnd, _T("未查询到任何相关信息"), _T("提示"), 0);
+	}
+
+	// 空间不够, 难道仅仅允许显示两个好友. ???
+	for(size_t i = 0; i < pSearchGroup->groups.size(); i++)
+	{
+		DBGroup &itemInfo = pSearchGroup->groups[i];
+	
+		// 由于使用了 button, 不知道该如何实现背景变换. ???
+		// 改为使用 CBaseItemListUI. 
+		ItemNodeInfo_t item;
+		ItemDataNetToLocal(itemInfo, item);
+		item.bIsFolder = FALSE;
+		item.tstrLogo = _T("search_btn_add_friend_1.png");
+
+		pUserInfoListUi->AddNode(item, 0);
+	}
+
+	TNotifyUI nf;
+	OnDownWindow(nf);
+
+	CEditUI * pAccountEdit = DuiControl(CEditUI, 
+		m_nWindowIndex == 0 ? _T("AccountEdit1") : _T("AccountEdit2"));
+	pAccountEdit->SetEnabled(true);
+	pAccountEdit->SetText(CA2T(pSearchGroup->strSearchName.c_str()));
 	return 0;
 }
 

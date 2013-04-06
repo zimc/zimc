@@ -32,13 +32,14 @@ public:
 
 private:
 	int ParserSearchUser    (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
+	int ParserSearchGroup   (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserQueryVerify   (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
 	int ParserTextChat      (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
     int ParserDelFriend     (NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData);
-	int ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
-	int ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
-
+	int ParseReport         (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
+	int ParseCreateGroup    (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
+	int ParseAddGroupVerify (NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData);
 
 private:
 	CDuiWindowBase * m_pMsgWindow;

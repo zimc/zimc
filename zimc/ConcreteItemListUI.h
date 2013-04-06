@@ -49,8 +49,8 @@ public:
 		Assert(pNode);
 		NodeData_t & itemNode = pNode->GetNodeData();
 
-		Assert(itemNode.chType == Type_ImcFriend);
-		Assert(!itemNode.bIsFolder && !itemNode.bIsHasChild);
+		//Assert(itemNode.chType == Type_ImcFriend);
+		//Assert(!itemNode.bIsFolder && !itemNode.bIsHasChild);
 		Assert(itemNode.nId > 0);
 
 		TCHAR stBuf[MAX_PATH] = {0};
@@ -60,8 +60,8 @@ public:
 			itemNode.pListElement, _T("Account")));
 		Assert(pAccountUi);
 
-		pAccountUi->SetShowHtml(true);
-		pAccountUi->SetText(stBuf);
+		//pAccountUi->SetShowHtml(true);
+		//pAccountUi->SetText(stBuf);
 		return true;
 	}
 };

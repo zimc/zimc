@@ -377,6 +377,7 @@ tstring CDuiWindowBase::GetSkinFolder()
 // -------
 int     CDuiWindowBase::OnClickClose(TNotifyUI & notifyUi)
 {
+	Uninit();
 	::PostQuitMessage(0);
 	return 0;
 }

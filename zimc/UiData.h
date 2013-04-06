@@ -34,7 +34,7 @@
 	_string_type                Item_Name(_pre, Sex);          \
 	_string_type                Item_Name(_pre, Height);       \
 	_string_type                Item_Name(_pre, NativePlace);  \
-	_string_type                Item_Name(_pre, Brithday);     \
+	_string_type                Item_Name(_pre, Birthday);     \
 	_string_type                Item_Name(_pre, Position);     \
 	_string_type                Item_Name(_pre, Studies);      \
 	_string_type                Item_Name(_pre, Experience);   \
@@ -94,6 +94,8 @@ enum enumZimcMsg
 	// search. 
 	Msg_CsQueryUsers, 
 	Msg_ScResponseUsers, 
+	Msg_CsQueryGroup, //reserved
+	Msg_ScResponseGroup,
 
 	// add friend. 
 	Msg_CsQueryVerify, 
@@ -104,6 +106,12 @@ enum enumZimcMsg
     //del friend
     Msg_CsDelFriend,
     Msg_ScDelFriend,
+
+	//add group
+	Msg_CsAddGroupVerify,
+	Msg_ScAddGroupVerify,
+	Msg_CsResponseAddGroup,
+	Msg_ScResponseAddGroup,
 
 	//group
 	Msg_CsCreateGroup,
@@ -295,10 +303,16 @@ typedef struct SearchScResponse_t
 	int              nMatchType;
 	int              nItemSize;
 	NetItemInfo_t  * pItemInfo;
+	char            szSearchName[256];
 
 	Obj_Init(SearchScResponse_t);
 }SearchScResponse_t;
 
+class SearchGroup_t {
+public:
+	string strSearchName;
+	vector <DBGroup> groups;
+};
 
 // --------------------------------------------
 // add friend 消息结构
@@ -335,6 +349,31 @@ typedef struct VerifyScQuery_t
 
 	Obj_Init(VerifyScQuery_t);
 }VerifyScQuery_t;
+
+class AddGroupInfo_t {
+public:
+	int    nSenderId;
+	string strSenderName;
+	int    nAdminId;
+	string strAdminName;
+	int    type;  //0:发送验证， 1：回复验证， 2：通知
+	int    succ;
+	
+	string strVerify;
+	
+	DBUser  userinfo;
+    DBGroup groupinfo;
+
+	ItemNodeInfo_t * pSenderLocalQInfo;
+
+	AddGroupInfo_t()
+		:nSenderId(0),
+		nAdminId(0),
+		type(-1),
+		succ(-1),
+		pSenderLocalQInfo(0)
+	{}
+};
 
 
 //group
@@ -383,12 +422,13 @@ using namespace std;
 
 class DelFriendItem {
 public:
-	DelFriendItem():nSendId(0),nDelId(0),succ(-1){}
+	DelFriendItem():nSendId(0),nDelId(0),succ(-1),type(0){}
     string strSendName;
     string strdelName;
     int nSendId;
     int nDelId;
 	int succ;
+	int type; //0: 删除好友 1:删除群
 };
 
 // ----------------------------------------------------------
@@ -603,7 +643,7 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	{
 	case  1: return Msg_ScLogin;
 	case  5: return Msg_ScTextChat;
-	case 13: return Msg_ScResponseUsers;
+	case 13: return nType == 1 ? Msg_ScResponseUsers : Msg_ScResponseGroup;
 	case 14: return nType == 0 ? Msg_ScQueryVerify : Msg_ScResponseVerify;
     case 15: return Msg_ScDelFriend;
 	case 16:
@@ -685,6 +725,15 @@ inline void ItemDataNetToLocal(NetItemInfo_t & netNode, ItemNodeInfo_t & localNo
 	localNode.tstrNickName     = CA2T(netNode.strNickName.c_str());
 	localNode.tstrAdminName    = CA2T(netNode.strAdminName.c_str());
 	localNode.tstrDescription  = CA2T(netNode.strDescription.c_str());
+	localNode.tstrRealName     = CA2T(netNode.strRealName.c_str());
+	localNode.tstrSex		   = CA2T(netNode.strSex.c_str());
+    localNode.tstrHeight       = CA2T(netNode.strHeight.c_str());
+	localNode.tstrNativePlace  = CA2T(netNode.strNativePlace.c_str());
+	localNode.tstrBirthday     = CA2T(netNode.strBirthday.c_str());
+	localNode.tstrPosition     = CA2T(netNode.strPosition.c_str());
+	localNode.tstrStudies      = CA2T(netNode.strStudies.c_str());
+	localNode.tstrExperience   = CA2T(netNode.strExperience.c_str());
+	localNode.tstrEvaluation   = CA2T(netNode.strEvaluation.c_str()); 
 }
 
 inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & localNode) {
@@ -698,6 +747,21 @@ inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & loca
 	localNode.nId              = LocalId_t(Type_ImcGroup, groupNode.groupinfo.group_id );
 	localNode.nAdminId         = 0;
 	localNode.tstrNickName     = CA2T(groupNode.groupinfo.name.c_str());
+	//localNode.tstrAdminName    = CA2T(groupNode.groupinfo.strAdminName.c_str());
+	//localNode.tstrDescription  = CA2T(groupNode.groupinfo.strDescription.c_str());
+}
+
+inline void ItemDataNetToLocal(DBGroup &groupNode, ItemNodeInfo_t & localNode) {
+	localNode.chType           = Type_ImcGroup;
+	localNode.chStatus         = localNode.IsInvalid() ? State_Invalid : State_Read;
+	localNode.bIsFolder        = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsHasChild      = localNode.Type() != Type_ImcFriend && localNode.Type() != Type_ImcFriendX;
+	localNode.bIsChildVisible  = localNode.Type() == Type_ImcTeam;
+
+	// ... ???
+	localNode.nId              = LocalId_t(Type_ImcGroup, groupNode.group_id );
+	localNode.nAdminId         = 0;
+	localNode.tstrNickName     = CA2T(groupNode.name.c_str());
 	//localNode.tstrAdminName    = CA2T(groupNode.groupinfo.strAdminName.c_str());
 	//localNode.tstrDescription  = CA2T(groupNode.groupinfo.strDescription.c_str());
 }

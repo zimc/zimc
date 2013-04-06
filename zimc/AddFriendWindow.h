@@ -33,6 +33,7 @@ private:
 	// extend. 
 	int     OnExit(TNotifyUI & msg);
 	int     OnAddFriend(TNotifyUI & msg);
+	int     addGroup(TNotifyUI & msg);
 
 
 private:

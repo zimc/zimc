@@ -455,7 +455,7 @@ bool CBaseItemListUI::SetItemDescriptText(CNodeList * pNode)
 		if (description != NULL)
 		{
 			// ÑÕÉ«ÓÉ xml ¿ØÖÆ. 
-			description->SetShowHtml(true);
+			//description->SetShowHtml(true);
 			description->SetText(itemNode.tstrDescription.c_str());
 		}
 	}
