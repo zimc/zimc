@@ -97,6 +97,7 @@ private:
 	int     OnClickRightButton(TNotifyUI & msg);
 	int     OnClickRightMenu(TNotifyUI & msg);
 	int		OnCreateGroup(TNotifyUI &msg);
+	int     OnModifyGroupName(CNodeList *pNode);
 	int     OnReturnSearch(TNotifyUI & msg);
 	int     OnSelectSearch(TNotifyUI & msg);
 	int     OnClickMatchButton(TNotifyUI & msg);
@@ -161,6 +162,7 @@ private:
 	CReportWindow       * m_pReportWindow;
 	CMsgRecordWindow    * m_pMsgRecordWindow;
 	CCreateGroupWindow  * m_pCreateGroupWindow;
+	CCreateGroupWindow  * m_pModifyGroupWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;

@@ -10,7 +10,7 @@
 			</HorizontalLayout>
 		</VerticalLayout>
 		<VerticalLayout name="header" height="152">
-			<Label name="TitleLabel1" width="350" height="30" font="0" padding="140,0,0,0" textcolor="0xFF000001" text="请填写创建群组的名称" />			
+			<Label name="TitleLabel2" width="350" height="30" font="0" padding="140,0,0,0" textcolor="0xFF000001" text="请填写创建群组的名称" />			
 			<Edit name="GroupName" padding="140, 3, 0, 0" width="168" height="24" bordersize="1" bordercolor="#A59B92" text="输入帐号" textcolor="#FF000001" font="0" textpadding="4,2,2,2" />
 		</VerticalLayout>
 		<HorizontalLayout height="35">

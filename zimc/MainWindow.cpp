@@ -27,6 +27,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_pReportWindow(0)
 	, m_pMsgRecordWindow(0)
 	, m_pCreateGroupWindow(0)
+	, m_pModifyGroupWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -624,20 +625,31 @@ int     CZiMainFrame::OnClickRightButton(TNotifyUI & msg)
 int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 	if (Event_CreateGroup == msg.wParam) {
 		// TODO 先模拟发送创建群的命令
-		
 		if (m_pCreateGroupWindow) {
 			::SetForegroundWindow(m_pCreateGroupWindow->GetHWND());
 			return 0;
 		}
-		
 		m_pCreateGroupWindow = new CCreateGroupWindow(this);
 		m_pCreateGroupWindow->Create(NULL, _T("创建群组"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 		m_pCreateGroupWindow->CenterWindow();
-		m_pCreateGroupWindow->ShowWindow(true);		
+		m_pCreateGroupWindow->ShowWindow(true);	
 	}
 	else {
 		Assert(0);
 	}
+	return 0;
+}
+
+int CZiMainFrame::OnModifyGroupName(CNodeList *pNode) {	
+	if (m_pModifyGroupWindow) {
+		::SetForegroundWindow(m_pModifyGroupWindow->GetHWND());
+		return 0;
+	}
+	CT2A pszRecverName(pNode->GetNodeData().tstrNickName.c_str());
+	m_pModifyGroupWindow = new CCreateGroupWindow(this, 1, pszRecverName);
+	m_pModifyGroupWindow->Create(NULL, _T("修改群名称"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	m_pModifyGroupWindow->CenterWindow();
+	m_pModifyGroupWindow->ShowWindow(true);	
 	return 0;
 }
 
@@ -683,7 +695,7 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
 	switch(msg.wParam)
 	{
 	case Event_OpenItem:   { /* ... ??? */  break; }
-	case Event_ModifyItem: { ModifyItem(pNode); break; }
+	case Event_ModifyItem: { OnModifyGroupName(pNode); break; }
 	case Event_DeleteItem: 
         { 
 			DelItem(pNode);

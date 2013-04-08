@@ -2,8 +2,10 @@
 #include "CreateGroupWindow.h"
 
 
-CCreateGroupWindow::CCreateGroupWindow(CZiMainFrame* pMainWindow)
-	: m_pMainWindow(pMainWindow)
+CCreateGroupWindow::CCreateGroupWindow(CZiMainFrame* pMainWindow,int type,char *group_name)
+	: m_pMainWindow(pMainWindow),
+	m_nType(type),
+	m_chName(group_name)
 {}
 
 CCreateGroupWindow::~CCreateGroupWindow()
@@ -20,6 +22,26 @@ tstring CCreateGroupWindow::GetSkinFile()
 	return _T("zicreategroup.xml");
 }
 
+LRESULT CCreateGroupWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+	LRESULT res = CDuiWindowBase::OnCreate(uMsg, wParam, lParam, bHandled);
+	if (res == S_OK) {
+		if (m_nType == 1) {
+			CLabelUI *pLabelTitle = DuiControl(CLabelUI, _T("TitleLabel1"));
+			CLabelUI *pLabelName  = DuiControl(CLabelUI, _T("TitleLabel2"));
+			CLabelUI *pEdit = DuiControl(CEditUI, _T("GroupName"));
+			Assert(pLabelTitle);
+			Assert(pLabelName);
+			pLabelTitle->SetText(_T("修改群名称"));
+			pLabelName->SetText(_T("请在下面修改群名称"));
+			if (m_chName) {
+				pEdit->SetText(CA2T(m_chName));
+				pEdit->SetFocus();
+			}
+		}
+	}
+	return res;
+}
+
 void    CCreateGroupWindow::Notify(TNotifyUI & msg)
 {
 	if(msg.sType == _T("click"))
@@ -32,7 +54,12 @@ void    CCreateGroupWindow::Notify(TNotifyUI & msg)
 
 void    CCreateGroupWindow::OnFinalMessage(HWND hWnd)
 {
-	m_pMainWindow->m_pCreateGroupWindow = 0;
+	if (m_nType) {
+		m_pMainWindow->m_pModifyGroupWindow = 0;
+	}
+	else {
+		m_pMainWindow->m_pCreateGroupWindow = 0;
+	}
 
 	CDuiWindowBase::OnFinalMessage(hWnd);
 	delete this;
