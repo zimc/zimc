@@ -116,6 +116,8 @@ enum enumZimcMsg
 	//group
 	Msg_CsCreateGroup,
 	Msg_ScCreateGroup,
+	Msg_CsModifyGroup,
+	Msg_ScModifyGroup,
 
 	// report 
 	Msg_CsEvilReport, 
@@ -400,6 +402,7 @@ enum GROUP_INFO_ {
 	GROUP_INFO_REPLY = 1,
 	GROUP_INFO_NOTIFY = 2,
 	GROUP_INFO_CREATE = 3,
+	GROUP_INFO_MODIFY = 4,
 };
 
 // --------------------------------------------
@@ -652,7 +655,8 @@ inline int  CmdNetToLocal(int nNetCmd, int nType)
 	case 16:
 		{
 			if (nType == GROUP_INFO_VERIFY || nType == GROUP_INFO_REPLY) { return Msg_ScAddGroupVerify;}
-			else if (nType == 3) { return Msg_ScCreateGroup;}
+			else if (nType == GROUP_INFO_CREATE) { return Msg_ScCreateGroup;}
+			else if (nType == GROUP_INFO_MODIFY) { return Msg_ScModifyGroup;}
 			else Assert(0);
 		}
 		break;

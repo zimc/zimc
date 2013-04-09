@@ -9,7 +9,7 @@ class CCreateGroupWindow
 	: public CDuiWindowBase
 {
 public:
-	CCreateGroupWindow(CZiMainFrame * pMainWnd, int type = 0, char *group_name=NULL);
+	CCreateGroupWindow(CZiMainFrame * pMainWnd, int type = 0, char *group_name=NULL,int group_id=0);
 	~CCreateGroupWindow();
 
 
@@ -34,6 +34,7 @@ private:
 	CZiMainFrame * m_pMainWindow;
 	int m_nType;  //0 创建群, 1:修改群名称
 	char* m_chName;
+	int m_nGroupId;
 };
 
 

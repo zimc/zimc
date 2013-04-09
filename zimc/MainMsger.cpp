@@ -207,8 +207,75 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			*pnNetDataLen = -1;
 		}
 		break;
+	case Msg_CsModifyGroup:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			GroupInfoData_t *pGroupInfo = (GroupInfoData_t *)pLocalData;
+			if (!pNetData) return Error_OutOfMemory;
+			pNetData->set_cmd(16);
+			pNetData->set_uid(pGroupInfo->strSender);
+			pNetData->set_user_id(pGroupInfo->nSender);
+			pNetData->set_type(GROUP_INFO_MODIFY);
+			pNetData->set_tuid(pGroupInfo->groupinfo.name);
+			pNetData->set_tuser_id(pGroupInfo->groupinfo.group_id);
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
 	default:
 		Assert(0);
+		break;
+	}
+
+	return 0;
+}
+//free NetData
+int CMainMsger::FreeData  (int nMsg, void * pLocalData)
+{
+	if(!pLocalData) return 0;
+
+	switch(nMsg)
+	{
+	case Msg_CsQueryUsers:
+		{
+			delete (NetMsg_t*)pLocalData;
+		}
+		break;
+
+	case Msg_CsQueryVerify:
+		{
+			delete (NetMsg_t*)pLocalData;
+		}
+		break;
+
+	case Msg_CsResponseVerify:
+		{
+			NetMsg_t * pNetMsg = (NetMsg_t*)pLocalData;
+			delete pNetMsg;
+		}
+		break;
+
+	case Msg_CsTextChat:
+		{
+			//ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
+			//::free(pChatData);
+			delete (NetMsg_t*)pLocalData;
+		}
+		break;
+	case Msg_LoadMessage:
+		{
+			delete (NetMsg_t*)pLocalData;
+		}
+		break;
+
+	case Msg_CsDelFriend:
+	case Msg_CsEvilReport:
+	case Msg_CsCreateGroup:
+	case Msg_CsAddGroupVerify:
+	case Msg_CsModifyGroup:
+		{
+			delete (NetMsg_t*)pLocalData;
+		}
 		break;
 	}
 
@@ -251,61 +318,11 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		ScMsgMap(Msg_ScEvilReport,	   ParseReport)
 		ScMsgMap(Msg_ScCreateGroup,    ParseCreateGroup)
 		ScMsgMap(Msg_ScAddGroupVerify, ParseAddGroupVerify)
+		ScMsgMap(Msg_ScModifyGroup,    ParseModifyGroup)
 	EndScMsgMap
 
 	*pnLocalDataLen = nError;
 	return nRet;
-}
-
-//free NetData
-int CMainMsger::FreeData  (int nMsg, void * pLocalData)
-{
-	if(!pLocalData) return 0;
-
-	switch(nMsg)
-	{
-	case Msg_CsQueryUsers:
-		{
-			delete (NetMsg_t*)pLocalData;
-		}
-		break;
-
-	case Msg_CsQueryVerify:
-		{
-			delete (NetMsg_t*)pLocalData;
-		}
-		break;
-
-	case Msg_CsResponseVerify:
-		{
-			NetMsg_t * pNetMsg = (NetMsg_t*)pLocalData;
-			delete pNetMsg;
-		}
-		break;
-
-	case Msg_CsTextChat:
-		{
-			//ChatCcTextData_t * pChatData = (ChatCcTextData_t*)pLocalData;
-			//::free(pChatData);
-            delete (NetMsg_t*)pLocalData;
-		}
-        break;
-    case Msg_LoadMessage:
-        {
-            delete (NetMsg_t*)pLocalData;
-        }
-		break;
-	
-	case Msg_CsDelFriend:
-	case Msg_CsEvilReport:
-	case Msg_CsCreateGroup:
-        {
-            delete (NetMsg_t*)pLocalData;
-        }
-        break;
-	}
-
-	return 0;
 }
 
 int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
@@ -363,7 +380,11 @@ int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
 		}
 		break;
 	case Msg_CsCreateGroup:
+	case Msg_CsModifyGroup:
 		delete (GroupInfoData_t *)pNetData;
+		break;
+	case Msg_ScAddGroupVerify:
+		//TODO 在别处释放了
 		break;
 	}
 
@@ -599,5 +620,17 @@ int CMainMsger::ParseAddGroupVerify(NetMsg_t *pNetMsg, Json::Value &jsRoot, void
 		parse_group(json["group"], pAddgroup->groupinfo);
 	}
 	else  return Error_InvalidNetData;
+	return 0;
+}
+
+int CMainMsger::ParseModifyGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
+	GroupInfoData_t *pGroupInfo = new GroupInfoData_t();
+	pGroupInfo->succ = pNetMsg->succ();
+	pGroupInfo->nSender = (int)LocalId_t(Type_ImcFriend, pNetMsg->user_id());
+	pGroupInfo->strSender = pNetMsg->uid();
+	pGroupInfo->type = pNetMsg->type();
+	pGroupInfo->groupinfo.name = pNetMsg->tuid();
+	pGroupInfo->groupinfo.group_id = (int)LocalId_t(Type_ImcGroup, pNetMsg->tuser_id());
+	*ppbLocalData = pGroupInfo;
 	return 0;
 }

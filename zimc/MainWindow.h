@@ -202,6 +202,7 @@ public:
 
 	void    handleGreateGroup(GroupInfoData_t *pGroupInfoData);
 	void    handlerAddGroupVerify(AddGroupInfo_t *pAddgroup);
+	void    handlerModifyGroup(GroupInfoData_t *pGroupInfoData);
 	//report window
 	void    reportEvil();
 	void    MsgRecord();
