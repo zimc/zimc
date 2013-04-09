@@ -80,20 +80,19 @@ int CMsgRecordWindow::OnNext(char *filename,int page)
 }
 
 //把文件存入数组
-char * CMsgRecordWindow::ReadMsgRecord(char *filename){
-	FILE * fileP=NULL ;
-    /*
+char * CMsgRecordWindow::ReadMsgRecord(char *filename/*,vector<string> &vRecord,int nNumPerPage*/){
     char buffer[600] ;
+    /*
     vector <string> arrMsgRecord ;
     fstream out ;
     out.open(filename,ios::in) ;
     while(!out.eof())    {
         out.getline(buffer,600,'\n');//getline(char *,int,char) 表示该行字符达到256个或遇到换行就结束
         arrMsgRecord.push_back(buffer) ;
-        //cout<<buffer<<endl;
     }  
-    this->PageCount = arrMsgRecord.size/10 ;
-	return  fileP ;
-    */
+    this->PageCount = arrMsgRecord.size/10+(arrMsgRecord.size%10 == 0 ? 0 : 1) ;
+    vRecord = arrMsgRecord[(this->PageCount-nNumPerPage)*10] ;
+    this->PageCount = arrMsgRecord.size/10+(arrMsgRecord.size%10 == 0 ? 0 : 1) ;
+    return vRecord ;*/
     return NULL;
 }

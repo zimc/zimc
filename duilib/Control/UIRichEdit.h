@@ -3,6 +3,9 @@
 
 #pragma once
 
+#include <textserv.h>
+#include <richedit.h>
+#include <RichOle.h>
 namespace DuiLib {
 
 class CTxtWinHost;
@@ -124,6 +127,12 @@ public:
 
     LRESULT MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, bool& bHandled);
 
+	//added by tian
+	ITextHost * GetTextHost();
+	ITextServices * GetTextServices();
+	BOOL SetOleCallback(IRichEditOleCallback* pCallback);
+	BOOL CanPaste(UINT nFormat = 0);
+	void PasteSpecial(UINT uClipFormat, DWORD dwAspect = 0, HMETAFILE hMF = 0);
 protected:
     CTxtWinHost* m_pTwh;
     bool m_bVScrollBarFixing;
