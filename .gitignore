@@ -10,6 +10,7 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.txt
 local.properties
 .classpath
 .settings/
@@ -70,6 +71,8 @@ local.properties
 data/
 bin/
 ipch/
+data/
+zimc/data/
 *.aps
 *.ncb
 *.opensdf

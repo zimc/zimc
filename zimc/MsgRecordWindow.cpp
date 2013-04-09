@@ -39,9 +39,8 @@ void    CMsgRecordWindow::Notify(TNotifyUI & msg)
 
 void    CMsgRecordWindow::OnFinalMessage(HWND hWnd)
 {
-	//m_pChatWindow->m_pMsgRecordWindow = 0;
-	m_pMainWindow->m_pMsgRecordWindow = 0;
-
+	//m_pChatWindow->m_pMsgRecordWindow = 0 ;
+	m_pMainWindow->m_pMsgRecordWindow = 0 ;
 	CDuiWindowBase::OnFinalMessage(hWnd);
 	delete this;
 }
@@ -65,7 +64,7 @@ int   CMsgRecordWindow::OnUp(char *filename,int page)
             this->page=this->page-1 ;
         }
     }*/
-	return 0;
+	return 0 ;
 }
 //обр╩рЁ
 int CMsgRecordWindow::OnNext(char *filename,int page)

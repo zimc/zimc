@@ -54,7 +54,7 @@ protected:
 	int     OnFontSetBtn       (TNotifyUI & msg);
     int     OnSendMsg          (TNotifyUI & msg);
     int     OnReportEvil       (TNotifyUI & msg);
-    int     OnMsgRecord        (TNotifyUI & msg);
+    int     OnMsgRecord        ();
 
 	int     UpdateRightChatWindow();
 	int     UpdateTextChatWindow(CContainerUI * pChatUi);
