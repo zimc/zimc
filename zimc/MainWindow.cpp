@@ -11,6 +11,7 @@
 #include "ReportWindow.h"
 #include "MsgRecordWindow.h"
 #include "CreateGroupWindow.h"
+#include "Setting.h"
 
 #include <time.h>
 
@@ -28,6 +29,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_pMsgRecordWindow(0)
 	, m_pCreateGroupWindow(0)
 	, m_pModifyGroupWindow(0)
+    , m_pSettingWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -53,6 +55,9 @@ int     CZiMainFrame::Uninit()
 		delete m_pMainMsger;
 		m_pMainMsger = 0;
 	}
+    if (m_nTimer) {
+        ::KillTimer(m_hWnd, m_nTimer);
+    }
 	if (m_pTrayWindow) {
 		m_pTrayWindow->DeleteTray();
 		delete m_pTrayWindow;
@@ -786,10 +791,16 @@ int     CZiMainFrame::OnClickMatchButton(TNotifyUI & msg)
 
 int     CZiMainFrame::OnClickSettingButton(TNotifyUI & msg)
 {
-	// ... ???
-	//CNotifyWindow::MessageBox(
-	//	m_hWnd, _T("²âÊÔ"), _T("aaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-
+    if (m_pSettingWindow) {
+        ::SetForegroundWindow(m_pSettingWindow->GetHWND());
+        return 0;
+    }
+    m_pSettingWindow = new CSettingWindow(this);
+    if(!m_pSettingWindow) return -1;
+    m_pSettingWindow->Create(NULL, _T("SeetingWndx"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+    m_pSettingWindow->CenterWindow();
+    m_pSettingWindow->ShowWindow(true);
+   
 	return 0;
 }
 

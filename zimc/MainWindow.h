@@ -157,12 +157,14 @@ private:
 	friend class CReportWindow;
 	friend class CMsgRecordWindow;
 	friend class CCreateGroupWindow;
+    friend class CSettingWindow;
 
 	CZiSearchWindow     * m_pSearchWindow;
 	CReportWindow       * m_pReportWindow;
 	CMsgRecordWindow    * m_pMsgRecordWindow;
 	CCreateGroupWindow  * m_pCreateGroupWindow;
 	CCreateGroupWindow  * m_pModifyGroupWindow;
+    CSettingWindow      * m_pSettingWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;

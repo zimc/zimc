@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Setting.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Utils.cpp"
 				>
 			</File>
@@ -302,6 +306,10 @@
 			</File>
 			<File
 				RelativePath=".\SearchWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Setting.h"
 				>
 			</File>
 			<File
