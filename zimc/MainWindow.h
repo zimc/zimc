@@ -157,12 +157,14 @@ private:
 	friend class CReportWindow;
 	friend class CMsgRecordWindow;
 	friend class CCreateGroupWindow;
+    friend class CSettingWindow;
 
 	CZiSearchWindow     * m_pSearchWindow;
 	CReportWindow       * m_pReportWindow;
 	CMsgRecordWindow    * m_pMsgRecordWindow;
 	CCreateGroupWindow  * m_pCreateGroupWindow;
 	CCreateGroupWindow  * m_pModifyGroupWindow;
+    CSettingWindow      * m_pSettingWindow;
 
 	// tray
 	CTrayWindow         * m_pTrayWindow;
@@ -202,6 +204,7 @@ public:
 
 	void    handleGreateGroup(GroupInfoData_t *pGroupInfoData);
 	void    handlerAddGroupVerify(AddGroupInfo_t *pAddgroup);
+	void    handlerModifyGroup(GroupInfoData_t *pGroupInfoData);
 	//report window
 	void    reportEvil();
 	void    MsgRecord();

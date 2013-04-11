@@ -207,6 +207,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\FileDialogEx.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\LoginWindow.cpp"
 				>
 			</File>
@@ -227,7 +231,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RichEditUtil.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\SearchWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Setting.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils.cpp"
 				>
 			</File>
 		</Filter>
@@ -250,6 +266,14 @@
 			</File>
 			<File
 				RelativePath=".\DuiWindowBase.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileDialogEx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\IImageOle.h"
 				>
 			</File>
 			<File
@@ -277,11 +301,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RichEditUtil.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SearchWindow.h"
 				>
 			</File>
 			<File
+				RelativePath=".\Setting.h"
+				>
+			</File>
+			<File
 				RelativePath=".\TrayWindow.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utils.h"
 				>
 			</File>
 		</Filter>

@@ -2,10 +2,11 @@
 #include "CreateGroupWindow.h"
 
 
-CCreateGroupWindow::CCreateGroupWindow(CZiMainFrame* pMainWindow,int type,char *group_name)
+CCreateGroupWindow::CCreateGroupWindow(CZiMainFrame* pMainWindow,int type,char *group_name,int group_id)
 	: m_pMainWindow(pMainWindow),
 	m_nType(type),
-	m_chName(group_name)
+	m_chName(group_name),
+	m_nGroupId(group_id)
 {}
 
 CCreateGroupWindow::~CCreateGroupWindow()
@@ -91,7 +92,13 @@ int    CCreateGroupWindow::OnCreateGroup(TNotifyUI & msg)
 	groupinfo.strSender = CT2A(m_pMainWindow->GetSelfInfo()->tstrNickName.c_str());
 	groupinfo.nSender = IdLocalToNet(Type_ImcFriendX, m_pMainWindow->GetSelfInfo()->nId);
 	groupinfo.groupinfo.name = pAData1;
-	m_pMainWindow->SendImMessageX(Msg_CsCreateGroup, (LPARAM)&groupinfo, sizeof(groupinfo));
+	groupinfo.groupinfo.group_id = IdLocalToNet(Type_ImcGroup, m_nGroupId);
+	if (m_nType) {
+		m_pMainWindow->SendImMessageX(Msg_CsModifyGroup, (LPARAM)&groupinfo, sizeof(groupinfo));
+	}
+	else {
+		m_pMainWindow->SendImMessageX(Msg_CsCreateGroup, (LPARAM)&groupinfo, sizeof(groupinfo));
+	}
 	
 	// ะ่าชนุฑีย๐. ?
 	OnExit(msg);

@@ -11,6 +11,7 @@
 #include "ReportWindow.h"
 #include "MsgRecordWindow.h"
 #include "CreateGroupWindow.h"
+#include "Setting.h"
 
 #include <time.h>
 
@@ -28,6 +29,7 @@ CZiMainFrame::CZiMainFrame()
 	, m_pMsgRecordWindow(0)
 	, m_pCreateGroupWindow(0)
 	, m_pModifyGroupWindow(0)
+    , m_pSettingWindow(0)
 {}
 
 CZiMainFrame::~CZiMainFrame()
@@ -53,6 +55,9 @@ int     CZiMainFrame::Uninit()
 		delete m_pMainMsger;
 		m_pMainMsger = 0;
 	}
+    if (m_nTimer) {
+        ::KillTimer(m_hWnd, m_nTimer);
+    }
 	if (m_pTrayWindow) {
 		m_pTrayWindow->DeleteTray();
 		delete m_pTrayWindow;
@@ -641,12 +646,14 @@ int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 }
 
 int CZiMainFrame::OnModifyGroupName(CNodeList *pNode) {	
+	if (pNode->GetNodeData().chType != Type_ImcGroup ) return -1;
+	
 	if (m_pModifyGroupWindow) {
 		::SetForegroundWindow(m_pModifyGroupWindow->GetHWND());
 		return 0;
 	}
 	CT2A pszRecverName(pNode->GetNodeData().tstrNickName.c_str());
-	m_pModifyGroupWindow = new CCreateGroupWindow(this, 1, pszRecverName);
+	m_pModifyGroupWindow = new CCreateGroupWindow(this, 1, pszRecverName, pNode->GetNodeData().nId);
 	m_pModifyGroupWindow->Create(NULL, _T("修改群名称"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	m_pModifyGroupWindow->CenterWindow();
 	m_pModifyGroupWindow->ShowWindow(true);	
@@ -784,10 +791,16 @@ int     CZiMainFrame::OnClickMatchButton(TNotifyUI & msg)
 
 int     CZiMainFrame::OnClickSettingButton(TNotifyUI & msg)
 {
-	// ... ???
-	//CNotifyWindow::MessageBox(
-	//	m_hWnd, _T("测试"), _T("aaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
-
+    if (m_pSettingWindow) {
+        ::SetForegroundWindow(m_pSettingWindow->GetHWND());
+        return 0;
+    }
+    m_pSettingWindow = new CSettingWindow(this);
+    if(!m_pSettingWindow) return -1;
+    m_pSettingWindow->Create(NULL, _T("SeetingWndx"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+    m_pSettingWindow->CenterWindow();
+    m_pSettingWindow->ShowWindow(true);
+   
 	return 0;
 }
 
@@ -1760,6 +1773,10 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 		Assert(lParam);
 		OnClickAddGroupResponse(wParam, lParam);
 		break;
+	case Msg_ScModifyGroup:
+		Assert(lParam);
+		handlerModifyGroup((GroupInfoData_t *)lParam);
+		break;
 	}
 
 	if(bFree) m_pMainMsger->FreeDataEx(nMsg, (void*)lParam);
@@ -1784,6 +1801,44 @@ void CZiMainFrame::handleGreateGroup(GroupInfoData_t *pGroupInfoData) {
 	}
 	char szText[1024] = {0};
 	sprintf_s(szText, sizeof(szText)/sizeof(char), "创建 %s %s", pGroupInfoData->groupinfo.name.c_str(),
+		(pGroupInfoData->succ == 0 ? "成功" : "失败"));
+	CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
+}
+
+void CZiMainFrame::handlerModifyGroup(GroupInfoData_t *pGroupInfoData) {
+	if (pGroupInfoData->succ == 0) {
+		//TODO 修改群名称
+		CNodeList *pNode = GetNodeInfo(pGroupInfoData->groupinfo.group_id);
+		Assert(pNode);
+		tstring      strHtmlText;
+		NodeData_t & itemNode = pNode->GetNodeData();
+		itemNode.tstrNickName = CA2T(pGroupInfoData->groupinfo.name.c_str());
+		// Team or Group' logo
+		if(itemNode.bIsHasChild)
+		{
+			if(itemNode.bIsChildVisible)
+				strHtmlText += _T("<i list_icon_b.png>");
+			else
+				strHtmlText += _T("<i list_icon_a.png>");
+			TCHAR szBuf[MAX_PATH] = {0};
+			_stprintf_s(szBuf, MAX_PATH - 1, _T("<x %d>"), 10);
+			strHtmlText += szBuf;
+		}
+		// nick name
+		strHtmlText += itemNode.tstrNickName;
+		CLabelUI* tstrNickName = static_cast<CLabelUI*>(
+			m_pmUi.FindSubControlByName(itemNode.pListElement, _T("nickname")));
+		if (tstrNickName != NULL)
+		{
+			if (itemNode.bIsFolder)
+				tstrNickName->SetFixedWidth(0);
+
+			tstrNickName->SetShowHtml(true);
+			tstrNickName->SetText(strHtmlText.c_str());
+		}
+	}
+	char szText[1024] = {0};
+	sprintf_s(szText, sizeof(szText)/sizeof(char), "修改群名称 %s %s", pGroupInfoData->groupinfo.name.c_str(),
 		(pGroupInfoData->succ == 0 ? "成功" : "失败"));
 	CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
 }

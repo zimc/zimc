@@ -11,6 +11,10 @@
 #include "ZimcHelper.h"
 #include "ReportWindow.h"
 #include "MainWindow.h"
+//added by tian
+#include "FileDialogEx.h"
+#include "IImageOle.h"
+#include "RichEditUtil.h"
 
 using namespace std;
 const TCHAR* const g_tstrChatCloseButtonName     = _T("CloseBtn");
@@ -29,6 +33,8 @@ const TCHAR* const g_tstrChatFontSizeComboName   = _T("FontSize");
 const TCHAR* const g_tstrChatBoldButtonName      = _T("boldbtn");
 const TCHAR* const g_tstrChatItalicButtonName    = _T("italicbtn");
 const TCHAR* const g_tstrUnderlineButtonName     = _T("underlinebtn");
+//added by tian
+const TCHAR* const g_tstrFontColor				= _T("Colorbtn");
 
 const TCHAR* const g_tstrChatFontSetButtonName   = _T("FontSetBtn");
 const TCHAR* const g_tstrChatViewRichEditName    = _T("ViewRichEdit");
@@ -175,6 +181,11 @@ void    CChatDialog::Notify(TNotifyUI& msg)
 		DuiClickButtonMap(g_tstrChatSendButtonlName,   OnSendMsg);
 		DuiClickButtonMap(_T("RecordBtn"),             OnMsgRecord);
 		DuiClickButtonMap(_T("CrimeReportBtn"),        OnReportEvil);
+		//added by tian
+		DuiClickButtonMap(g_tstrChatBoldButtonName,   OnFontBold);
+		DuiClickButtonMap(g_tstrChatItalicButtonName,   OnFoutItalic);
+		DuiClickButtonMap(g_tstrUnderlineButtonName,   OnFontUnderLine);
+		DuiClickButtonMap(g_tstrFontColor,   OnFontColor);
 	}
 }
 
@@ -322,6 +333,72 @@ int     CChatDialog::OnFontSetBtn(TNotifyUI & msg)
 	CContainerUI* pFontbar = static_cast<CContainerUI*>(m_pmUi.FindControl(_T("fontbar")));
 	if(pFontbar) pFontbar->SetVisible(!pFontbar->IsVisible());
 	return 0;
+}
+//added by tian
+void	CChatDialog::OnFontBold			(TNotifyUI & msg)
+{
+	COptionUI* m_pBoldBtn = static_cast<COptionUI*>(m_pmUi.FindControl(_T("boldbtn")));
+	m_pChatFont->bBold = !m_pChatFont->bBold;
+	
+}
+void	CChatDialog::OnFoutItalic		(TNotifyUI & msg)
+{
+	CContainerUI* pFontbar = static_cast<CContainerUI*>(m_pmUi.FindControl(_T("italicbtn")));
+	m_pChatFont->bItalic = !m_pChatFont->bItalic;
+}
+void	CChatDialog::OnFontUnderLine		(TNotifyUI & msg)
+{
+	CContainerUI* pFontbar = static_cast<CContainerUI*>(m_pmUi.FindControl(_T("underlinebtn")));
+	m_pChatFont->bUnderline = !m_pChatFont->bUnderline;
+}
+
+void	CChatDialog::OnFontType			(TNotifyUI & msg)
+{
+
+}
+void	CChatDialog::OnFontSize			(TNotifyUI & msg)\
+{
+	CContainerUI* pFontbar = static_cast<CContainerUI*>(m_pmUi.FindControl(_T("underlinebtn")));
+	m_pChatFont->bUnderline = !m_pChatFont->bUnderline;
+}
+
+void	CChatDialog::OnFontColor		(TNotifyUI & msg)\
+{
+	static COLORREF rgbCustomColors[16] =
+	{
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+		RGB(255, 255, 255), RGB(255, 255, 255), 
+	};
+
+	CHOOSECOLOR cc = {0};
+	cc.lStructSize = sizeof(cc);
+	cc.lpCustColors = rgbCustomColors;
+	cc.hwndOwner = m_hWnd;
+	cc.Flags = CC_RGBINIT;
+
+	BOOL bRet = ::ChooseColor(&cc);
+	if (bRet)
+	{
+		COLORREF clrText = cc.rgbResult;
+		if (m_pChatFont->dwTextColor != clrText)
+		{
+			m_pChatFont->dwTextColor = clrText;
+			m_pSendEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("InputRichEdit")));
+			//m_pSendEdit->SetTextColor(m_pChatFont->dwTextColor);//不晓得为什么不好使，只好用下面笨重的方法来做了。
+			ITextServices * pTextServices = m_pSendEdit->GetTextServices();
+			RichEdit_SetDefFont(pTextServices, m_pChatFont->tstrFontName.c_str(),
+			m_pChatFont->dwFontSize, m_pChatFont->dwTextColor, m_pChatFont->bBold,
+			m_pChatFont->bBold, m_pChatFont->bUnderline, FALSE);
+			pTextServices->Release();
+			//g_buddyFontInfo.m_clrText = m_fontInfo.m_clrText;
+		}
+	}
 }
 
 int     CChatDialog::OnReportEvil(TNotifyUI & msg)

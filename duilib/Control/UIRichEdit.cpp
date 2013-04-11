@@ -75,6 +75,46 @@ public:
 
     void SetCharFormat(CHARFORMAT2W &c);
     void SetParaFormat(PARAFORMAT2 &p);
+//added by tian
+	ITextHost * GetTextHost()
+	{
+		AddRef();
+		return this;
+	}
+
+	ITextServices * GetTextServices2()
+	{
+		if (NULL == pserv)
+			return NULL;
+		pserv->AddRef();
+		return pserv;
+	}
+
+	BOOL SetOleCallback(IRichEditOleCallback* pCallback)
+	{
+		if (NULL == pserv)
+			return FALSE;
+		HRESULT lRes = 0;
+		pserv->TxSendMessage(EM_SETOLECALLBACK, 0, (LPARAM)pCallback, &lRes);
+		return (BOOL)lRes;
+	}
+
+	BOOL CanPaste(UINT nFormat = 0)
+	{
+		if (NULL == pserv)
+			return FALSE;
+		HRESULT lRes = 0;
+		pserv->TxSendMessage(EM_CANPASTE, nFormat, 0L, &lRes);
+		return (BOOL)lRes;
+	}
+
+	void PasteSpecial(UINT uClipFormat, DWORD dwAspect = 0, HMETAFILE hMF = 0)
+	{
+		if (NULL == pserv)
+			return;
+		REPASTESPECIAL reps = { dwAspect, (DWORD_PTR)hMF };
+		pserv->TxSendMessage(EM_PASTESPECIAL, uClipFormat, (LPARAM)&reps, NULL);
+	}
 
     // -----------------------------
     //	IUnknown interface
@@ -710,6 +750,8 @@ HRESULT CTxtWinHost::TxNotify(DWORD iNotify, void *pv)
         rc.bottom = rc.top + preqsz->rc.bottom;
         rc.right  = rc.left + preqsz->rc.right;
         SetClientRect(&rc);
+		//added by tian
+        return S_OK;
     }
     m_re->OnTxNotify(iNotify, pv);
     return S_OK;
@@ -760,6 +802,7 @@ void CTxtWinHost::SetFont(HFONT hFont)
     ::GetObject(hFont, sizeof(LOGFONT), &lf);
     LONG yPixPerInch = ::GetDeviceCaps(m_re->GetManager()->GetPaintDC(), LOGPIXELSY);
     cf.yHeight = -lf.lfHeight * LY_PER_INCH / yPixPerInch;
+	cf.dwEffects = 0;
     if(lf.lfWeight >= FW_BOLD)
         cf.dwEffects |= CFE_BOLD;
     if(lf.lfItalic)
@@ -1010,6 +1053,7 @@ BOOL CTxtWinHost::GetTimerState()
 
 void CTxtWinHost::SetCharFormat(CHARFORMAT2W &c)
 {
+	memset(&cf, 0, sizeof(cf));
     cf = c;
 }
 
@@ -2199,5 +2243,39 @@ LRESULT CRichEditUI::MessageHandler(UINT uMsg, WPARAM wParam, LPARAM lParam, boo
 }
 
 
+ITextHost * CRichEditUI::GetTextHost()
+{
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextHost();
+}
+
+ITextServices * CRichEditUI::GetTextServices()
+{
+	if (NULL == m_pTwh)
+		return NULL;
+	return m_pTwh->GetTextServices2();
+}
+
+BOOL CRichEditUI::SetOleCallback(IRichEditOleCallback* pCallback)
+{
+	if (NULL == m_pTwh)
+		return FALSE;
+	return m_pTwh->SetOleCallback(pCallback);
+}
+
+BOOL CRichEditUI::CanPaste(UINT nFormat/* = 0*/)
+{
+	if (NULL == m_pTwh)
+		return FALSE;
+	return m_pTwh->CanPaste(nFormat);
+}
+
+void CRichEditUI::PasteSpecial(UINT uClipFormat, DWORD dwAspect/* = 0*/, HMETAFILE hMF/* = 0*/)
+{
+	if (NULL == m_pTwh)
+		return;
+	m_pTwh->PasteSpecial(uClipFormat, dwAspect, hMF);
+}
 
 } // namespace DuiLib

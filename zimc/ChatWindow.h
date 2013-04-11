@@ -56,6 +56,15 @@ protected:
     int     OnReportEvil       (TNotifyUI & msg);
     int     OnMsgRecord        ();
 
+	//added by tian
+	void	OnFontBold			(TNotifyUI & msg);
+	void	OnFoutItalic		(TNotifyUI & msg);
+	void	OnFontUnderLine		(TNotifyUI & msg);
+	void	OnFontType			(TNotifyUI & msg);
+	void	OnFontSize			(TNotifyUI & msg);
+	void	OnFontColor			(TNotifyUI & msg);
+
+
 	int     UpdateRightChatWindow();
 	int     UpdateTextChatWindow(CContainerUI * pChatUi);
 	int     UpdateAvChatWindow(CContainerUI * pChatUi);
@@ -84,6 +93,8 @@ private:
 
 	BOOL             m_nChatFlag;
 	CZiMainFrame   * m_pMainWindow;
+	//added by tian
+	CRichEditUI* m_pSendEdit, * m_pRecvEdit;
 };
 
 

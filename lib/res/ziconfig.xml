@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window name="ChatConfigWnd" size="396,312" sizebox="4,4,6,6" caption="0,0,0,50" roundcorner="4,4">
+    <Font name="宋体" size="12" bold="false" italic="false" default="true" />
+    <Font name="宋体" size="14" bold="false" italic="false" />
+    <VerticalLayout bkimage="file='chat_config_bg.png'">
+        <VerticalLayout name="VerticalLayoutUI2" pos="0,0,0,72" height="72">
+            <HorizontalLayout name="title">
+                <Label name="TitleLabel1" text="系统设置" pos="20,10,359,40" width="339" height="30" padding="20,10,0,0" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" font="1" />
+                <Button name="CloseBtn" float="true" pos="366,10,381,25" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
+            </HorizontalLayout>
+        </VerticalLayout>
+		<HorizontalLayout name="header1" height="36">
+				<Label name="LabelUI2" text="任何人加为好友" padding="138,0,0,0" width="100" textcolor="#FF000000"/>
+				<CheckBox name="addfriend" grounp="addfriend"  float="true" pos="120,12,10,10" width="14" height="14" normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />  
+		</HorizontalLayout>
+		<HorizontalLayout name="header2" height="120">   
+				<Label name="LabelUI2" text="验证后加为好友" height="36"  padding="138,0,0,0" width="100" textcolor="#FF000000"/>
+				<CheckBox name="addfriend" group="addfriend" float="true" pos="120,12,10,10" width="14" height="14" 
+			normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />
+		</HorizontalLayout>
+		<HorizontalLayout name="HorizontalLayoutUI1" height="35">
+            <Control name="ControlUI1" pos="0,0,80,0" width="80" />
+            <Button name="BtnOk" text="确 定" pos="0,0,74,26" width="74" height="26" padding="40,0,0,0" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+            <Button name="BtnCancel" text="取 消" pos="0,0,74,26" width="74" height="26" padding="30,0,0,0" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
+		 </HorizontalLayout>
+    </VerticalLayout>
+</Window>
