@@ -421,10 +421,10 @@ int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 	return 0;
 }
 
-int     CChatDialog::OnMsgRecord()
+int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
 {
 	// ... ???
-	m_friendInfo
+	//m_friendInfo
 	m_pMainWindow->MsgRecord();
 	return 0;
 }

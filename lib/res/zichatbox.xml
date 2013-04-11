@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Window size="464,486" mininfo="464,486" maxinfo="559,486" caption="0,0,0,40" sizebox="4,4,4,4" roundcorner="4,4,4,4">
 	<Font name="宋体" size="13" bold="true" />
 	<Font name="宋体" size="12" bold="false" default="true" />
@@ -61,32 +61,53 @@
 					<VerticalLayout   name="RecordText_3"  inset="5,5,0,0" bkimage="file='chat_mid_bk.png' source='0,10,2,26'" >
 						<RichEdit name="ViewRichEdit"  multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
 					</VerticalLayout>
-					<HorizontalLayout name="Setting_4"     height="18" width="318" bkimage="chat_set_bg_0.png">
-						<Control width="12"/>
-						<Option name="FontSetBtn"   width="26" height="18" maxheight="18" maxwidth="26" 
-							hotimage="file='chat_icon_btn_hot.png'  corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-						<Control width="12"/>
-						<Option name="FontSetBtn"   width="26" height="18" maxheight="18" maxwidth="26" 
-							hotimage="file='chat_icon_btn_hot.png'  corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-						<Control width="12"/>
-						<Option name="FontSetBtn"   width="26" height="18" maxheight="18" maxwidth="26" 
-							hotimage="file='chat_icon_btn_hot.png'  corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-						<Control width="12"/>
-						<Option name="italicbtn"    width="24" height="18" maxheight="18" maxwidth="24" 
-							hotimage="file='chat_icon_btn_hot.png'  corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-						<Control width="12"/>
-						<Option name="underlinebtn" width="24" height="18" maxheight="18" maxwidth="24" 
-							hotimage="file='chat_icon_btn_hot.png' corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-						<Control width="11"/>
-						<Option name="boldbtn"      width="26" height="18" maxheight="18" maxwidth="26" 
-							hotimage="file='chat_icon_btn_hot.png' corner='2,3,2,2'" 
-							selectedimage="file='chat_icon_btn_push.png' corner='2,5,2,2'"  />
-					</HorizontalLayout>
+					<HorizontalLayout name="FontBar" bkimage="file='font_bk.bmp' corner='0,1,1,0'" height="30" inset="4,4,4,4" visible="false">
+					<Combo name="FontType" droptype="droplist" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
+            <ListLabelElement text="方正舒体" height="23"/>
+            <ListLabelElement text="方正姚体" height="23" />
+            <ListLabelElement text="仿宋_GB2312" height="23" />
+            <ListLabelElement text="黑体" height="23" />
+            <ListLabelElement text="华文彩云" height="23" />
+            <ListLabelElement text="华文仿宋" height="23" />
+            <ListLabelElement text="华文琥珀" height="23" />
+            <ListLabelElement text="华文楷体" height="23" />
+            <ListLabelElement text="华文隶书" height="23" />
+            <ListLabelElement text="华文宋体" height="23" />
+            <ListLabelElement text="华文细黑" height="23" />
+            <ListLabelElement text="华文新魏" height="23" />
+            <ListLabelElement text="华文行楷" height="23" />
+            <ListLabelElement text="华文中宋" height="23" />
+            <ListLabelElement text="楷体_GB2312" height="23" />
+            <ListLabelElement text="隶书" height="23" />
+            <ListLabelElement text="宋体" selected="true" height="23" />
+            <ListLabelElement text="宋体方正超大" height="23" />
+            <ListLabelElement text="微软雅黑" height="23" />
+            <ListLabelElement text="新宋体" height="23" />
+            <ListLabelElement text="幼圆" height="23" />
+          </Combo>
+          <Combo name="FontSize" droptype="droplist" width="50" height="22" textpadding="4,1,1,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
+            <ListLabelElement text="8" height="23" />
+						<ListLabelElement text="9" selected="true" height="23" />
+						<ListLabelElement text="10" height="23" />
+						<ListLabelElement text="11" height="23" />
+						<ListLabelElement text="12" height="23" />
+						<ListLabelElement text="13" height="23" />
+            <ListLabelElement text="14" height="23" />
+            <ListLabelElement text="15" height="23" />
+            <ListLabelElement text="16" height="23" />
+            <ListLabelElement text="17" height="23" />
+            <ListLabelElement text="18" height="23" />
+            <ListLabelElement text="19" height="23" />
+            <ListLabelElement text="20" height="23" />
+            <ListLabelElement text="21" height="23" />
+            <ListLabelElement text="22" height="23" />
+					</Combo>
+					<Control width="5"/>
+					<Option showhtml="true" name="boldbtn" width="26" height="22" text="{i Bold.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
+          <Option showhtml="true" name="italicbtn" width="26" height="22" text="{i Italic.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
+          <Option showhtml="true" name="underlinebtn" width="26" height="22" text="{i underline.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
+          <Button name="Colorbtn" width="26" height="22" bkimage="file='color.png' dest='5,3,21,19'" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" pushedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
+				</HorizontalLayout>
 					<VerticalLayout   name="OutputText_5"  height="80" inset="5,5,0,0" >
 						<RichEdit name="InputRichEdit" multiline="true" vscrollbar="true" autovscroll="true" 
 							enabled="true" rich="false" readonly="false" wantreturn="true" wantctrlreturn="false" />
@@ -126,7 +147,7 @@
 											<Label name="MyselfSex"         height="11" text="性别: "     textcolor="0xFF000001" font="2"/>
 											<Label name="MyselfHeight"      height="11" text="身高: "     textcolor="0xFF000001" font="2"/>
 											<Label name="MyselfNativePlace" height="11" text="籍贯: "     textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfBrithday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
+											<Label name="MyselfBirthday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
 											<Label name="MyselfPosition"    height="11" text="应聘职位: " textcolor="0xFF000001" font="2"/>
 										</VerticalLayout>
 									</HorizontalLayout>
@@ -156,7 +177,7 @@
 											<Label name="FriendSex"         height="11" text="性别: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendHeight"      height="11" text="身高: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendNativePlace" height="11" text="籍贯: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendBrithday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
+											<Label name="FriendBirthday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
 											<Label name="FriendPosition"    height="11" text="应聘职位: " textcolor="0xFF000001" font="2"/>
 										</VerticalLayout>
 									</HorizontalLayout>

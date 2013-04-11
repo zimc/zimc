@@ -54,7 +54,7 @@ protected:
 	int     OnFontSetBtn       (TNotifyUI & msg);
     int     OnSendMsg          (TNotifyUI & msg);
     int     OnReportEvil       (TNotifyUI & msg);
-    int     OnMsgRecord        ();
+    int     OnMsgRecord        (TNotifyUI & msg);
 
 	//added by tian
 	void	OnFontBold			(TNotifyUI & msg);
