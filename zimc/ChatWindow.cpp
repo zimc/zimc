@@ -461,6 +461,12 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	sMsgData = *pTextData ;
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	if( pRichEdit == NULL ) return 1;
+    
+    //设置字体 TODO 
+    ChatFont_t cht;
+    memset(&cht, 0, sizeof(cht));
+    cht = *m_pChatFont;
+    
 
 	::OutputDebugStringA("-------------------------------------1\n");
 	long lSelBegin = 0, lSelEnd = 0;
@@ -516,7 +522,26 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	pRichEdit->ReplaceSel(tszText, false);
 	pRichEdit->SetSel(-1, -1);
 	pRichEdit->ReplaceSel(_T("\n"), false);
-	cf.crTextColor    = RGB(0, 0, 0);
+	
+    //设置聊天内容字体样式
+    //LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic
+    //TODO 大小 未解决 ??? 
+    cf.dwMask = CFM_COLOR| CFM_FACE; //| CFM_SIZE;
+    cf.yHeight = cht.dwFontSize;
+    cf.crTextColor = cht.dwTextColor;
+    _tcscpy(cf.szFaceName, cht.tstrFontName.c_str());
+    if (cht.bBold) {
+        cf.dwMask |= CFM_BOLD;
+        cf.dwEffects |= CFE_BOLD;
+    }
+    if (cht.bUnderline) {
+        cf.dwMask |= CFM_UNDERLINE;
+        cf.dwEffects |= CFE_UNDERLINE;
+    }
+    if (cht.bItalic) {
+        cf.dwMask |= CFM_ITALIC;
+        cf.dwEffects |= CFE_ITALIC;
+    }
 	lSelEnd = pRichEdit->GetTextLength();
 	pRichEdit->SetSel(lSelBegin, lSelEnd);
 	pRichEdit->SetSelectionCharFormat(cf);
