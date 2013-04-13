@@ -443,6 +443,8 @@ int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 	// 缺少发送失败的消息回显 ???
 	ChatCcTextData_t chatData;
 	std::string      strData;
+	strData.resize(sizeof(ChatFont_t));
+	memcpy(&strData[0], (void*)m_pChatFont, sizeof(ChatFont_t));
 
 	ZI_T2A(sText.GetData(), strData);
 //#define _TestMainFrame
@@ -465,9 +467,10 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
     //设置字体 TODO 
     ChatFont_t cht;
     memset(&cht, 0, sizeof(cht));
-    cht = *m_pChatFont;
+    //cht = *m_pChatFont;
+	memcpy(&cht, pTextData->szData, sizeof(ChatFont_t));
+	int textOffset = sizeof(ChatFont_t);
     
-
 	::OutputDebugStringA("-------------------------------------1\n");
 	long lSelBegin = 0, lSelEnd = 0;
 	CHARFORMAT2 cf;
@@ -475,11 +478,12 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 
 	CA2T    tsSenderName(pTextData->szSenderName ? pTextData->szSenderName : pTextData->szSenderNamex);
 	CA2T    tsTime(pTextData->szTime);
-	CA2T    tsText(pTextData->szData);
+	CA2T    tsText(pTextData->szData + textOffset);
 	tstring tstrTime = _T(":  "); tstrTime += (pTextData->tsTime[0] ? pTextData->tsTime : tsTime); tstrTime += _T("\n");
 	LPCTSTR tszSenderName = pTextData->tsSenderName ? pTextData->tsSenderName : tsSenderName;
 	LPCTSTR tszTime       = tstrTime.c_str();
 	LPCTSTR tszText       = tsText;
+
 	//save msg
 	SaveMsgRecord(sMsgData) ;
 
@@ -526,10 +530,11 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
     //设置聊天内容字体样式
     //LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic
     //TODO 大小 未解决 ??? 
-    cf.dwMask = CFM_COLOR| CFM_FACE; //| CFM_SIZE;
+    cf.dwMask = CFM_COLOR| CFM_FACE | CFM_SIZE;
     cf.yHeight = cht.dwFontSize;
     cf.crTextColor = cht.dwTextColor;
-    _tcscpy(cf.szFaceName, cht.tstrFontName.c_str());
+	cf.yHeight = cht.dwFontSize*cht.dwFontSize;
+    _tcscpy_s(cf.szFaceName, cht.tstrFontName.c_str());
     if (cht.bBold) {
         cf.dwMask |= CFM_BOLD;
         cf.dwEffects |= CFE_BOLD;

@@ -59,6 +59,16 @@ public:
 		}
 	}
 
+	static void WideToMulti2(const wchar_t* wide, std::string &multi) {
+		int len = ::WideCharToMultiByte(CP_ACP, 0, wide, (int)::wcslen(wide), NULL, 0, NULL, NULL);
+		int multi_start = multi.length();
+		if(len > 0)		// std::string
+		{
+			multi.resize(len + multi_start);
+			::WideCharToMultiByte(CP_ACP, 0, wide, -1, &multi[multi_start], len, NULL, NULL);
+		}
+	}
+
 	static void MultiToWide(const char* multi, std::wstring &wide)
 	{
 		int len = ::MultiByteToWideChar(CP_ACP, 0, multi, (int)::strlen(multi), NULL, 0);
@@ -70,7 +80,7 @@ public:
 	}
 
 	#ifdef _UNICODE
-		#define ZI_T2A(_tstr, _multi)	CZimcHelper::WideToMulti(_tstr, _multi)
+		#define ZI_T2A(_tstr, _multi)	CZimcHelper::WideToMulti2(_tstr, _multi)
 	#else
 		#define ZI_T2A(_tstr, _multi)  (_multi = _tstr)
 	#endif
