@@ -487,6 +487,9 @@ int CMainMsger::ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, v
 
 	int nMsgType = Type_ImcFriend;
 	pVerifyResult->bIsAgree = pNetMsg->succ() == 0;
+	::strcpy_s(pVerifyResult->szSenderName2, sizeof(pVerifyResult->szSenderName2), pNetMsg->uid().c_str());
+	::strcpy_s(pVerifyResult->szRecverName2, sizeof(pVerifyResult->szRecverName2), pNetMsg->tuid().c_str());
+	
 	if(IsValidOfJsonValue(jsRoot,  "id") && 
 		IsValidOfJsonValue(jsRoot, "tid"))
 	{

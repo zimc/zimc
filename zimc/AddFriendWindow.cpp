@@ -79,6 +79,21 @@ LRESULT CAddFriendWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL
 	sprintf_s(szTmp, sizeof(szTmp) - 1, "地址: %s", CT2A(m_pUserInfo->tstrAddress.c_str()));
 	pAddressUi->SetText(CA2T(szTmp));
 
+	//
+	if (m_pUserInfo->Type() != Type_ImcFriend) {
+		CLabelUI * pLabelTitle      = DuiControl(CLabelUI, _T("TitleLabel1"));
+		if (pLabelTitle) {
+			pLabelTitle->SetText(_T("添加群"));
+		}
+		CButtonUI *pBut = DuiControl(CButtonUI, _T("AddFriendBtn"));
+		if (pBut) {
+			pBut->SetText(_T("加入群"));
+		}
+		pSexUi->SetVisible(false);
+		pAgeUi->SetVisible(false);
+		pAddressUi->SetVisible(false);
+	}
+
 	return S_OK;
 }
 

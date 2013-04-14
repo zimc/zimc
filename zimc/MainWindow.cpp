@@ -305,6 +305,10 @@ int     CZiMainFrame::SetMainInfo(LoginScData_t * pLoginData)
     loginQuery.szAccount = pAData1;
     SendImMessageX(Msg_LoadMessage, (LPARAM)&loginQuery, sizeof(loginQuery));
 
+
+	//
+	m_pTrayWindow->DoTray(NIM_MODIFY, 0, CT2A(m_itemSelfInfo.tstrNickName.c_str()));
+
 	return nRet;
 }
 
@@ -474,7 +478,8 @@ int     CZiMainFrame::CreateChatDailog(CNodeList * pNodeList, CChatDialog ** ppC
 	{
 		// 此处需要将 chat dialog 加入到 main frame 的 chat 表中. ??
 		// 注意不需要进行 chat dialog 的回收. 
-		pChatDialog->Create(NULL, _T("ChatDialog"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+		
+		pChatDialog->Create(NULL, pNodeList->GetNodeData().tstrNickName.c_str(), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 		pChatDialog->CenterWindow();
 		::ShowWindow(*pChatDialog, SW_SHOW);
 
@@ -1421,10 +1426,12 @@ void CZiMainFrame::OnKeepAlive() {
     }
 }
 
-void    CZiMainFrame::DelayDispatchNetCmd(int nMsg, void * pNetData)
+void    CZiMainFrame::DelayDispatchNetCmd(int nMsg, int friend_id, void * pNetData)
 {
 	CGenericLockHandler h(m_mainLock);
-	m_listNetData.push_back(std::make_pair(nMsg, pNetData));
+	pair <int,int> mapkey = make_pair<int,int>(nMsg, friend_id);
+	m_listNetData[mapkey].push_back(pNetData);
+	//m_listNetData.push_back(make_pair<pair <int,int>, void*>(mapkey, pNetData));
 
     /*
 	if(m_nTimer != 0) return;
@@ -1444,27 +1451,46 @@ BOOL    CZiMainFrame::HandleNetCmd()
 	bool         bDo = FALSE;
 	ImcNetData_t netData;
 
+	/*
+	pair <int,int> mapkey = make_pair<int,int>(nMsg, friend_id);
+	m_listNetData.push_back(make_pair<pair <int,int>, void*>(mapkey, pNetData));
+	*/
+
 	do
 	{
 		CGenericLockHandler h(m_mainLock);
+		if (m_listNetData.size() > 0) {
+			ImcNetDataMap_t::iterator iter = m_listNetData.begin();
+			for (size_t i = 0; i < iter->second.size(); i++) {
+				HandleNetMessage(iter->first.first, iter->second[i]);
+			}
+			iter->second.clear();
+			bDo = true;
+			m_listNetData.erase(iter);
+		}
 
+		/*
 		if(!m_listNetData.empty())
 		{
 			bDo     = TRUE;
 			netData = m_listNetData.front();
 			m_listNetData.pop_front();
 		}
-
+		*/
 		if(m_listNetData.empty() && m_nTimer != 0)
 		{
 			//::KillTimer(m_hWnd, m_nTimer);
 			//m_nTimer = 0;
             m_pTrayWindow->FlashTray(TRUE, FALSE);
 		}
+
 	}while(0);
 
+	/*
 	if(bDo) HandleNetMessage(netData.first, netData.second);
 	else    m_pTrayWindow->FlashTray(TRUE, FALSE);
+	*/
+	if (!bDo) { m_pTrayWindow->FlashTray(TRUE,FALSE);}
 	return bDo;
 }
 
@@ -1503,8 +1529,8 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			VerifyCcResponse_t * pVerifyResp  = (VerifyCcResponse_t*)pNetData;
 			TCHAR                tsText[1024] = {0};
 			_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), 
-				_T("'%d' %s加您为好友"), 
-				pVerifyResp->nSenderId, 
+				_T("'%s' %s加您为好友"), 
+				CA2T(pVerifyResp->szSenderName2), 
 				pVerifyResp->bIsAgree ? _T("同意") : _T("不同意"));
 
 			CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), tsText);
@@ -1683,9 +1709,14 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 		break;
 	case Msg_ScQueryVerify:
 	case Msg_ScResponseVerify:
-	case Msg_ScAddGroupVerify:
+	case Msg_ScAddGroupVerify: 
+		{
+
+		
 		Assert(lParam != 0);
-		DelayDispatchNetCmd(nMsg, (void*)lParam);
+		AddGroupInfo_t *pAddgroupinfo = (AddGroupInfo_t *)lParam;
+		DelayDispatchNetCmd(nMsg, pAddgroupinfo->nSenderId, (void*)lParam);
+		}
 		break;
 
 	case Msg_ScTextChat:
@@ -1708,17 +1739,18 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 			}
 			else
 			{
-				DelayDispatchNetCmd(nMsg, (void*)lParam);
+				DelayDispatchNetCmd(nMsg, pChatText->nSenderId, (void*)lParam);
 			}
 		}
 		break;
     case Msg_ScDelFriend:
         {
             Assert(lParam != 0);
+			
 			DelFriendItem *pDelFriend = (DelFriendItem *)lParam;
+			int nDelId = IdNetToLocal(pDelFriend->type, pDelFriend->nDelId);
+			int nSendId = IdNetToLocal(Type_ImcFriend, pDelFriend->nSendId);
 			if (pDelFriend->succ == 0) {				
-				int nDelId = IdNetToLocal(pDelFriend->type, pDelFriend->nDelId);
-				int nSendId = IdNetToLocal(Type_ImcFriend, pDelFriend->nSendId);
 				//TODO
 				if (pDelFriend->type == Type_ImcTeam) {
 				}
@@ -1749,7 +1781,12 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 				else {
 				}	
 			}
-			DelayDispatchNetCmd(nMsg, (void*)lParam);
+			if (nDelId == m_itemSelfInfo.nId) {
+				DelayDispatchNetCmd(nMsg, nSendId, (void*)lParam);
+			}
+			else {
+				DelayDispatchNetCmd(nMsg, nDelId, (void*)lParam);
+			}
         }
         break;
 	case  Msg_ScEvilReport:

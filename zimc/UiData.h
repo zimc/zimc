@@ -342,6 +342,9 @@ typedef struct VerifyCcResponse_t
 	BOOL             bIsAgree;
 	char           * szReason;
 
+	char             szRecverName2[128];
+	char             szSenderName2[128];
+
 	Obj_Init(VerifyCcResponse_t);
 }VerifyCcResponse_t;
 

@@ -52,8 +52,8 @@ public:
 	}
 
 
-private:
-	int DoTray(DWORD dwTrayMsg, DWORD dwIconId = 0)
+public:
+	int DoTray(DWORD dwTrayMsg, DWORD dwIconId = 0, const char *trayName = NULL)
 	{
 		Assert(m_hWnd);
 
@@ -68,8 +68,13 @@ private:
 		trayData.uFlags  = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 		trayData.hIcon   = hIcon;
 		trayData.uCallbackMessage = Msg_InTray;
-
-		::_tcscpy(trayData.szTip, _T("zimc"));
+	
+		if (trayName == NULL) {
+			::_tcscpy(trayData.szTip, _T("chat"));
+		}
+		else {
+			::_tcscpy(trayData.szTip, CA2T(trayName));
+		}
 		BOOL bRet = ::Shell_NotifyIcon(dwTrayMsg, &trayData);
 
 		return 0;
@@ -79,6 +84,7 @@ private:
 private:
 	HWND  m_hWnd;
 	DWORD m_dwIconId;
+	string m_strName;
 };
 
 

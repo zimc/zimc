@@ -17,6 +17,8 @@ enum enumMainFrameState
 	State_MainExit, 
 };
 
+#include <queue>
+using namespace std;
 
 class CTrayWindow;
 class CMainMsger;
@@ -119,7 +121,8 @@ private:
 
 	void    FlashTray(BOOL bFlashOrNot);
 	BOOL    HandleNetCmd();
-	void    DelayDispatchNetCmd(int nMsg, void * pNetData);
+	//void    DelayDispatchNetCmd(int nMsg, void * pNetData);
+	void    DelayDispatchNetCmd(int nMsg, int friend_id, void * pNetData);
 	int     HandleNetMessage(int nMsg, void * pNetData);
 
 
@@ -175,7 +178,10 @@ private:
 	// 待处理表
 	typedef std::pair<int, void *>    ImcNetData_t;
 	typedef std::list<ImcNetData_t>   ImcNetDataList_t;
-	ImcNetDataList_t      m_listNetData;
+	//ImcNetDataList_t      m_listNetData;
+	//<pair <msg,nid>, void *>
+	typedef map <pair <int,int>, vector <void *>> ImcNetDataMap_t;
+	ImcNetDataMap_t m_listNetData;
 
 	// 子窗口. 
 	typedef std::map<int,  CDuiWindowBase*> ImcSubWindowTable_t;
