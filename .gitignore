@@ -11,6 +11,8 @@ tmp/
 *.swp
 *~.nib
 *.txt
+*.exp
+*.lib
 local.properties
 .classpath
 .settings/
