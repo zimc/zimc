@@ -91,15 +91,18 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_cmd (5);
 			pNetData->set_uid (pChatData->szSenderName);
 			pNetData->set_tuid(pChatData->szRecverName);
-			pNetData->set_type(pChatData->nRecvType);
+			//pNetData->set_type(pChatData->nRecvType);
+			pNetData->set_type(TypeLocalToNet(pChatData->nRecvType));
 			pNetData->set_buf (pChatData->szData, pChatData->nDataLen);
 
-            pNetData->set_user_id(pChatData->nSenderId);
-            pNetData->set_tuser_id(pChatData->nRecverId);
+            //pNetData->set_user_id(pChatData->nSenderId);
+			pNetData->set_user_id(MagicId_F(Msg_CsTextChat, pChatData->nSenderId));
+            //pNetData->set_tuser_id(pChatData->nRecverId);
+			pNetData->set_tuser_id(MagicId_t(Msg_CsTextChat, pChatData->nRecvType, pChatData->nRecverId));
 
 			Json::Value jsTmp;
-			jsTmp["id"]   = int(pChatData->nSenderId);
-			jsTmp["tid"]  = int(pChatData->nRecverId);
+			jsTmp["id"]   = int(pNetData->user_id());
+			jsTmp["tid"]  = int(pNetData->tuser_id());
 			jsTmp["time"] = pChatData->szTime;
 			pNetData->set_msg(jsTmp.toStyledString());
 

@@ -3,13 +3,13 @@
 
 
 #include "DuiWindowBase.h"
-#include "MainWindow.h"
+#include "ChatWindow.h"
 
 class CMsgRecordWindow
 	: public CDuiWindowBase
 {
 public:
-	CMsgRecordWindow(CZiMainFrame * pMainWnd);
+	CMsgRecordWindow(CChatDialog * pChatDialog);
 	~CMsgRecordWindow();
 
 
@@ -34,7 +34,7 @@ public:
 
 
 private:
-	CZiMainFrame * m_pMainWindow;
+	CChatDialog * m_pChatDialog;
 	int MsgCount, page, PageCount ;
 };
 

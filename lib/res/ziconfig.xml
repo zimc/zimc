@@ -11,12 +11,11 @@
         </VerticalLayout>
 		<HorizontalLayout name="header1" height="36">
 				<Label name="LabelUI2" text="任何人加为好友" padding="138,0,0,0" width="100" textcolor="#FF000000"/>
-				<CheckBox name="addfriend" grounp="addfriend"  float="true" pos="120,12,10,10" width="14" height="14" normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />  
+				<CheckBox name="addfriend1" group="addfriend"  float="true" pos="120,12,10,10" width="14" height="14" normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />  
 		</HorizontalLayout>
 		<HorizontalLayout name="header2" height="120">   
 				<Label name="LabelUI2" text="验证后加为好友" height="36"  padding="138,0,0,0" width="100" textcolor="#FF000000"/>
-				<CheckBox name="addfriend" group="addfriend" float="true" pos="120,12,10,10" width="14" height="14" 
-			normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />
+				<CheckBox name="addfriend2" group="addfriend" float="true" pos="120,12,10,10" width="14" height="14" normalimage="not_check.png" selectedimage="check.png" disabledimage="not_check.png" />
 		</HorizontalLayout>
 		<HorizontalLayout name="HorizontalLayoutUI1" height="35">
             <Control name="ControlUI1" pos="0,0,80,0" width="80" />

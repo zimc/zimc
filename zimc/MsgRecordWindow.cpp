@@ -5,8 +5,8 @@
 #include<vector>
 
 
-CMsgRecordWindow::CMsgRecordWindow(CZiMainFrame* pMainWindow)
-	: m_pMainWindow(pMainWindow)
+CMsgRecordWindow::CMsgRecordWindow(CChatDialog * pChatDialog)
+	: m_pChatDialog(pChatDialog)
 	  ,MsgCount(0)
 	  ,page(1)
 	  ,PageCount(0)
@@ -39,8 +39,7 @@ void    CMsgRecordWindow::Notify(TNotifyUI & msg)
 
 void    CMsgRecordWindow::OnFinalMessage(HWND hWnd)
 {
-	//m_pChatWindow->m_pMsgRecordWindow = 0 ;
-	m_pMainWindow->m_pMsgRecordWindow = 0 ;
+	m_pChatDialog->m_pMsgRecordWindow = 0 ;
 	CDuiWindowBase::OnFinalMessage(hWnd);
 	delete this;
 }
@@ -80,7 +79,7 @@ int CMsgRecordWindow::OnNext(char *filename,int page)
 
 //把文件存入数组
 char * CMsgRecordWindow::ReadMsgRecord(char *filename/*,vector<string> &vRecord,int nNumPerPage*/){
-    char buffer[600] ;
+    //char buffer[600] ;
     /*
     vector <string> arrMsgRecord ;
     fstream out ;

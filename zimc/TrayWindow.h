@@ -68,12 +68,15 @@ public:
 		trayData.uFlags  = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 		trayData.hIcon   = hIcon;
 		trayData.uCallbackMessage = Msg_InTray;
-	
-		if (trayName == NULL) {
+		
+		if (trayName != NULL) {
+			m_strName = trayName;
+		}
+		if (m_strName.size() == 0) {
 			::_tcscpy(trayData.szTip, _T("chat"));
 		}
 		else {
-			::_tcscpy(trayData.szTip, CA2T(trayName));
+			::_tcscpy(trayData.szTip, CA2T(m_strName.c_str()));
 		}
 		BOOL bRet = ::Shell_NotifyIcon(dwTrayMsg, &trayData);
 

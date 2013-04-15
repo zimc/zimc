@@ -424,6 +424,7 @@ int ParserFriend(void * jsFriend,  NetItemInfo_t * pNetFriend, int nType)
 			//pNetFriend->strStudies    = jsFriendx[""]
 			pNetFriend->strExperience  = jsFriendx["experience"].asString();
 			pNetFriend->strEvaluation = jsFriendx["selfdescription"].asString();
+			pNetFriend->nAddFriendType = jsFriendx["invited"].asInt();
 		}
 		break;
 

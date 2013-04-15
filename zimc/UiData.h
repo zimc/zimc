@@ -23,6 +23,7 @@
 	_string_type                Item_Name(_pre, Logo);         /* logo.                 */ \
     _string_type                Item_Name(_pre, Picture);      /* 好友图片, 群背景图片. */ \
 	_string_type                Item_Name(_pre, Description);  \
+	int                         nAddFriendType;                /* 设置被添加好友类型 0:允许任何人添加,1:验证添加,2:不允许添加*/\
 }
 
 #define Friend_Item_Info_Define(_string_type, _pre, _id_type)  struct                      \
@@ -184,6 +185,7 @@ typedef struct MagicId_t
 
 	MagicId_t(int msg, int type, int id);
 	MagicId_t()                 { nId = 0;    }
+	MagicId_t(int nid)          { nId = nid; }
 	operator int()              { return nId; }
 	operator const int() const  { return nId; }
 }MagicId_t;

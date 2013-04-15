@@ -11,6 +11,7 @@
 #include "ZimcHelper.h"
 #include "ReportWindow.h"
 #include "MainWindow.h"
+#include "MsgRecordWindow.h"
 //added by tian
 #include "FileDialogEx.h"
 #include "IImageOle.h"
@@ -56,6 +57,7 @@ CChatDialog::CChatDialog(
 	, m_pChatFont(pChatFont)
 	, m_nChatFlag(Flag_TextChat)
 	, m_pMainWindow(pMainWindow)
+	, m_pMsgRecordWindow(0)
 {}
 
 CChatDialog::~CChatDialog()
@@ -405,19 +407,7 @@ int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 {
 	//TODO 
 	m_pMainWindow->reportEvil();
-	/*
-	if(m_pReportWindow) 
-	{
-		::SetForegroundWindow(m_pReportWindow->GetHWND());
-		return 0;
-	}
-
-	m_pReportWindow = new CReportWindow(this);
-	if(!m_pReportWindow) return -1;
-	m_pReportWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
-	m_pReportWindow->CenterWindow();
-	m_pReportWindow->ShowWindow(true);
-	*/
+	
 	return 0;
 }
 
@@ -425,7 +415,20 @@ int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
 {
 	// ... ???
 	//m_friendInfo
-	m_pMainWindow->MsgRecord();
+	//m_pMainWindow->MsgRecord();
+	//每个聊天窗口应对应一个聊天记录
+	//TODO 如果已经打开则关闭，如果关闭则打开。
+	if(m_pMsgRecordWindow) 
+	{
+		//::SetForegroundWindow(m_pMsgRecordWindow->GetHWND());
+		return 0;
+	}
+	m_pMsgRecordWindow = new CMsgRecordWindow(this);
+	if(!m_pMsgRecordWindow) return 0;
+	m_pMsgRecordWindow->Create(NULL, _T("MsgRecordWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	//控制显示位置
+	//m_pMsgRecordWindow->CenterWindow();
+	m_pMsgRecordWindow->ShowWindow(true) ;
 	return 0;
 }
 
@@ -459,10 +462,11 @@ int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 
 int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 {
-	ChatCcTextData_t sMsgData ;	
-	sMsgData = *pTextData ;
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
-	if( pRichEdit == NULL ) return 1;
+	Assert(pRichEdit);
+	
+	//save msg
+	SaveMsgRecord(*pTextData) ;
     
     //设置字体 TODO 
     ChatFont_t cht;
@@ -483,9 +487,6 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	LPCTSTR tszSenderName = pTextData->tsSenderName ? pTextData->tsSenderName : tsSenderName;
 	LPCTSTR tszTime       = tstrTime.c_str();
 	LPCTSTR tszText       = tsText;
-
-	//save msg
-	SaveMsgRecord(sMsgData) ;
 
 	// ------------------------------------------------------
 	// name + time
@@ -789,10 +790,12 @@ int     CChatDialog::NetSendMsg(ChatCcTextData_t & textData, const char * pchDat
 
 	textData.nDataLen     = nDataLen;
 	textData.szData       = (char*)pchData;
-	textData.nRecvType    = TypeLocalToNet(m_nChatType);
+	textData.nRecvType    = m_nChatType;
 
-	textData.nSenderId    = MagicId_F(Msg_CsTextChat, m_myselfInfo.nId);
-	textData.nRecverId    = MagicId_t(Msg_CsTextChat, m_nChatType, m_friendInfo.nId);
+	//textData.nSenderId    = MagicId_F(Msg_CsTextChat, m_myselfInfo.nId);
+	textData.nSenderId    = MagicId_t(m_myselfInfo.nId);
+	//textData.nRecverId    = MagicId_t(Msg_CsTextChat, m_nChatType, m_friendInfo.nId);
+	textData.nRecverId    = MagicId_t(m_friendInfo.nId);
 	textData.szSenderName = szSenderName;
 	textData.szRecverName = szRecverName;
 	textData.szTime       = szTime;
@@ -811,7 +814,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 	string msgBody,s_filename ;
     string strSenderName,strSenderTime;
     char cfilename[200] ;
-	if( TypeNetToLocal(Msg.nRecvType) == Type_ImcFriend )
+	if( Msg.nRecvType == Type_ImcFriend )
 	{
 		//发消息者是本人，以收消息ID命名
 		if( IdNetToLocal(Type_ImcFriend,Msg.nRecverId.nId) == m_myselfInfo.nId )
@@ -842,24 +845,8 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
         strSenderTime = Msg.szTime ;
     }
 	s_filename = "data/"+s_filename +".txt" ;
-    /*
-    char test[1024]={0} ;
-    strcat(test,"data/") ;
-    strcat(test, filename) ;
-    strcat(test,".txt") ;
-    */
-    //string file ;
-    //stringstream idstr;
-    //idstr<<id;
-
-
-    //s_filename = "data/" + s_filename + ".txt";
-    //cfilename=s_filename.c_str() ;
-    //strcat("data/",cfilename) ;
-    //strcat(cfilename,".txt") ;
-    //cfilename = static_cast<>(s_filename) ;
     fs.open(s_filename.c_str(),fstream::in|fstream::app) ;
-	msgBody = string(Msg.szData) ; 
+	msgBody = string(Msg.szData, Msg.nDataLen); 
 	int pos;
 	pos = msgBody.find('\n');
 	while (pos != -1)

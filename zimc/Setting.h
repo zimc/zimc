@@ -27,10 +27,12 @@ public:
     // extend
     int    OnExit(TNotifyUI & msg);
     int    OnSetting(TNotifyUI & msg);
+	int    OnSetAddFriend(TNotifyUI & msg);
 
 
 private:
     CZiMainFrame * m_pMainWindow;
+	int            m_nSetType;
 };
 
 

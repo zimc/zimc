@@ -9,7 +9,6 @@
 #include "NotifyWindow.h"
 #include "MainMsger.h"
 #include "ReportWindow.h"
-#include "MsgRecordWindow.h"
 #include "CreateGroupWindow.h"
 #include "Setting.h"
 
@@ -26,7 +25,6 @@ CZiMainFrame::CZiMainFrame()
 	, m_pMainMsger(0)
     , m_nlastKeepAlive_time_(0)
 	, m_pReportWindow(0)
-	, m_pMsgRecordWindow(0)
 	, m_pCreateGroupWindow(0)
 	, m_pModifyGroupWindow(0)
     , m_pSettingWindow(0)
@@ -1950,19 +1948,3 @@ void    CZiMainFrame::reportEvil()
 	return ;
 }
 
-//msgrecord window
-void    CZiMainFrame::MsgRecord()
-{
-	//TODO 
-	if(m_pMsgRecordWindow) 
-	{
-		::SetForegroundWindow(m_pMsgRecordWindow->GetHWND());
-		return ;
-	}
-	m_pMsgRecordWindow = new CMsgRecordWindow(this);
-	if(!m_pMsgRecordWindow) return ;
-	m_pMsgRecordWindow->Create(NULL, _T("MsgRecordWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
-	m_pMsgRecordWindow->CenterWindow();
-	m_pMsgRecordWindow->ShowWindow(true) ;	
-	return ;
-}

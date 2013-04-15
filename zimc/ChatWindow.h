@@ -5,8 +5,6 @@
 #include "NodeList.h"
 #include "DuiWindowBase.h"
 
-
-
 class CZiMainFrame;
 
 class CChatDialog
@@ -88,8 +86,8 @@ private:
 	ItemNodeInfo_t   m_myselfInfo;
 	ItemNodeInfo_t   m_friendInfo;
 
-	//friend class CReportWindow;
-	//CReportWindow *  m_pReportWindow;
+	friend class CMsgRecordWindow;
+	CMsgRecordWindow * m_pMsgRecordWindow;
 
 	BOOL             m_nChatFlag;
 	CZiMainFrame   * m_pMainWindow;
