@@ -1,9 +1,12 @@
 #ifndef __MsgRecordWindow_H__
 #define __MsgRecordWindow_H__
 
+#include <vector>
+using namespace std;
 
 #include "DuiWindowBase.h"
 #include "ChatWindow.h"
+
 
 class CMsgRecordWindow
 	: public CDuiWindowBase
@@ -32,10 +35,13 @@ public:
 	int    OnUp(char *filename,int page);
     int    OnNext(char *filename,int page);
 
+	void   loadMsgRecord();
+
 
 private:
 	CChatDialog * m_pChatDialog;
 	int MsgCount, page, PageCount ;
+	vector <string>    m_vecMsgRecord;
 };
 
 

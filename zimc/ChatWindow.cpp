@@ -5,6 +5,8 @@
 #include <atlstr.h>
 #include<fstream>
 #include<string>
+#include <direct.h>
+#include <WinUser.h>
 
 #include "ChatWindow.h"
 #include "ConcreteItemListUI.h"
@@ -76,6 +78,10 @@ LRESULT CChatDialog::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & bH
 ItemNodeInfo_t * CChatDialog::GetSelfInfo()
 {
 	return &m_myselfInfo;
+}
+
+ItemNodeInfo_t *CChatDialog::GetFriendInfo() {
+	return &m_friendInfo;
 }
 
 LPCTSTR CChatDialog::GetWindowClassName() const
@@ -411,28 +417,6 @@ int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 	return 0;
 }
 
-int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
-{
-	// ... ???
-	//m_friendInfo
-	//m_pMainWindow->MsgRecord();
-	//每个聊天窗口应对应一个聊天记录
-	//TODO 如果已经打开则关闭，如果关闭则打开。
-	if(m_pMsgRecordWindow) 
-	{
-		//::SetForegroundWindow(m_pMsgRecordWindow->GetHWND());
-		return 0;
-	}
-	m_pMsgRecordWindow = new CMsgRecordWindow(this);
-	if(!m_pMsgRecordWindow) return 0;
-	m_pMsgRecordWindow->Create(NULL, _T("MsgRecordWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
-	//控制显示位置
-	//m_pMsgRecordWindow->CenterWindow();
-	m_pMsgRecordWindow->ShowWindow(true) ;
-	return 0;
-}
-
-
 int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 {
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
@@ -466,7 +450,8 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	Assert(pRichEdit);
 	
 	//save msg
-	SaveMsgRecord(*pTextData) ;
+	//SaveMsgRecord(*pTextData);
+	recordMsg(pTextData);
     
     //设置字体 TODO 
     ChatFont_t cht;
@@ -561,6 +546,78 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	pRichEdit->EndDown();
 
 	::OutputDebugStringA("-------------------------------------8\n");
+	return 0;
+}
+
+void   CChatDialog::recordMsg(ChatCcTextData_t *pChatData) {
+	//string &strSender, string &strTime, int nSenderId, int nRecverId, const char *szData, int nDataLen
+	char filename[256] = {0};
+	char filepath[256] = {0};
+	char *prefix = ".data";
+	char *suffix = ".txt";
+	_mkdir(prefix);
+	sprintf(filepath, "%s\\%d", prefix, m_myselfInfo.nId);
+	_mkdir(filepath);
+	sprintf(filename, "%s\\%s%d.txt", filepath, 
+		(m_friendInfo.chType == Type_ImcGroup ? "group" : "friend"), 
+		m_friendInfo.nId);
+	/*
+	int nReceiveLocalId = IdNetToLocal(Type_ImcFriend,pChatData->nRecverId.nId);
+	int nSenderLocalId = IdNetToLocal(Type_ImcFriend,pChatData->nSenderId.nId);
+	
+	if (pChatData->nRecvType == Type_ImcFriend) {
+		if (nReceiveLocalId == m_myselfInfo.nId) {
+			sprintf(filename, "%s\\friend%d%s", filepath, nSenderLocalId, suffix);
+		}
+		else {
+			sprintf(filename, "%s\\friend%d%s", filepath, nReceiveLocalId, suffix);
+		}
+	}
+	else {
+		sprintf(filename, "%s\\group%d%s", filepath, nReceiveLocalId, suffix);
+	}
+	*/
+	FILE *fp = fopen(filename, "ab+");
+	if (fp) {
+		//TODO 错误处理
+		char *start_token = "textbegin@";
+		char *end_token = "@textend\r\n";
+		//start token
+		fwrite(start_token, strlen(start_token)*sizeof(char), 1, fp);
+		int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);
+		fwrite(&s, s, 1, fp);
+		//szTime
+		s = strlen(pChatData->szTime)*sizeof(char);
+		fwrite(&s, sizeof(s), 1, fp);
+		fwrite(pChatData->szTime, s, 1, fp);
+		//szSender
+		s = strlen(pChatData->szSenderName)*sizeof(char);
+		fwrite(&s, sizeof(s), 1, fp);
+		fwrite(pChatData->szSenderName, s, 1, fp);
+		//szData
+		fwrite(&(pChatData->nDataLen), sizeof(pChatData->nDataLen), 1, fp);
+		fwrite(pChatData->szData, (pChatData->nDataLen)*sizeof(char), 1, fp);
+		//end token
+		fwrite(end_token, strlen(end_token)*sizeof(char), 1, fp);
+		fclose(fp);
+	}
+}
+
+int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
+{
+	if(m_pMsgRecordWindow) 
+	{
+		m_pMsgRecordWindow->PostMessage(WM_CLOSE, (WPARAM)0, 0L);
+		return 0;
+	}
+	m_pMsgRecordWindow = new CMsgRecordWindow(this);
+
+	if(!m_pMsgRecordWindow) return 0;
+	m_pMsgRecordWindow->Create(m_hWnd, _T("聊天记录"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
+	//控制显示位置
+	//m_pMsgRecordWindow->CenterWindow();
+	m_pMsgRecordWindow->loadMsgRecord();
+	m_pMsgRecordWindow->ShowWindow(true) ;
 	return 0;
 }
 
@@ -852,7 +909,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 	while (pos != -1)
 	{
 		 msgBody.replace(pos,1,"\r\r") ; //用新的串替换掉指定的串
-		 pos = msgBody.find('\n');
+		 pos = msgBody.find(pos, '\n');
 	}
     fs<<strSenderName.c_str()<<'\t'<<strSenderTime<<'\t'<<msgBody<<'\n';
 	fs.close() ;

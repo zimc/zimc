@@ -528,6 +528,7 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 
 	int nMsgType = Type_ImcFriend;
 	::strcpy_s(pChatText->szSenderNamex, sizeof(pChatText->szSenderNamex), pNetMsg->uid().c_str());
+	pChatText->szSenderName = pChatText->szSenderNamex;
 	if(IsValidOfJsonValue(jsRoot, "id") && 
 		IsValidOfJsonValue(jsRoot, "tid"))
 	{
@@ -550,6 +551,7 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 		char * szBuf = (char *)::calloc(nTextLen + 1, 1);
 		if(szBuf) ::memcpy(szBuf, pNetMsg->buf(), nTextLen);
 		pChatText->szData = szBuf;
+		pChatText->nDataLen = nTextLen;
 	}
 
 	pChatText->nRecvType = TypeNetToLocal(pNetMsg->type());

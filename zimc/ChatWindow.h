@@ -22,8 +22,10 @@ public:
 
 	CZiMainFrame   * MainWindow()  { return m_pMainWindow; }
 	ItemNodeInfo_t * GetSelfInfo();
+	ItemNodeInfo_t * GetFriendInfo();
 
 	int     OnTextMsgShow(ChatCcTextData_t * pTextData);
+	void    recordMsg(ChatCcTextData_t *pChatData);
 	void    ActiveWindow();
 
 

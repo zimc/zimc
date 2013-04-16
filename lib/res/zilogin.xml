@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<Window name="login" size="268,364" bktrans="true">
+<Window name="login" size="266,357" bktrans="true">
 	<Font name="宋体" size="13" bold="false" italic="false"/>
 	<Font name="宋体" size="16" bold="false" italic="false"/>
 <HorizontalLayout>
-	<Container name="LoginBg1" bordersize="0" width="268" height="364" bkimage="file='login_bg_1.png' hole='false'">
+	<Container name="LoginBg1" bordersize="0" width="266" height="357" bkimage="file='login_bg_1.png' hole='false'">
 		<Button name="CloseBtn" float="true" pos="240,13,0,0" width="15" height="15" 
 			normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
 		<!------
@@ -37,10 +37,10 @@
 			text="test001" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" textpadding="1,1,1,1" font="0" align="center"
 			tooltip="请在这里输入您的密码" />
 -->
-		<Button name="WinPushBtn" float="true" pos="127,288,0,0" width="15" height="13" align="center" 
+		<Button name="WinPushBtn" float="true" pos="126,288,0,0" width="15" height="13" align="center" 
 			normalimage="login_btn_down_1.png" hotimage="login_btn_down_23.png" pushedimage="login_btn_down_23.png" />
 	</Container>
-    <Container name="LoginBg2" bordersize="0" width="268" height="364" bkimage="login_bg_2.png">
+    <Container name="LoginBg2" bordersize="0" width="266" height="357" bkimage="login_bg_2.png">
     	<Button name="CloseBtn" float="true" pos="240,13,0,0" width="15" height="15"  
 			normalimage="login_btn_close_1.png" hotimage="login_btn_close23.png" pushedimage="login_btn_close_23_png" />
 
@@ -67,7 +67,7 @@
 		<Button name="RegisterBtn" bordersize="0" float="true" pos="178,320,0,0" width="57" height="17" 
 			text="注册帐号" textcolor="#FF000001" disabledtextcolor="#FFA7A6AA" />
 
-		<Button name="WinUpBtn" float="true" pos="127,345,0,0" width="15" height="10" align="center" 
+		<Button name="WinUpBtn" float="true" pos="126,342,0,0" width="15" height="10" align="center" 
 			normalimage="login_btn_up_1.png" hotimage="login_btn_up_23.png" pushedimage="login_btn_up_23.png" />
 
 	</Container>

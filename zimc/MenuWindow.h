@@ -218,6 +218,12 @@ public:
             CControlUI* pControl = m_pm.FindControl(_T("DeleteMenu"));
             if( pControl ) pControl->SetEnabled(false);
         }
+		if (m_pOwner->GetName() == _T("FriendsList")) {
+			CControlUI *pModify = m_pm.FindControl(_T("ModifyMenu"));
+			if (pModify) pModify->SetEnabled(false);
+			CControlUI *pCreate = m_pm.FindControl(_T("CreateGroup"));
+			if (pCreate) pCreate->SetEnabled(false);
+		}
 
         AdjustPostion();
         return 0;

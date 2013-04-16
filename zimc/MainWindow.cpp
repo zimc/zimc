@@ -704,7 +704,7 @@ int     CZiMainFrame::OnClickRightMenu(TNotifyUI & msg)
     //·¢ËÍÍøÂçÃüÁî
 	switch(msg.wParam)
 	{
-	case Event_OpenItem:   { /* ... ??? */  break; }
+	case Event_OpenItem:   { CreateChatDailog(pNode);  break; }
 	case Event_ModifyItem: { OnModifyGroupName(pNode); break; }
 	case Event_DeleteItem: 
         { 
