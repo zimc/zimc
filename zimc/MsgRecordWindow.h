@@ -36,6 +36,7 @@ public:
     int    OnNext(char *filename,int page);
 
 	void   loadMsgRecord();
+	void   showMsgRecord();
 
 
 private:

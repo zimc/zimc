@@ -259,7 +259,7 @@ void    CChatDialog::OnFontStyleChanged2(TNotifyUI & msg)
 		CComboUI* font_type = static_cast<CComboUI*>(msg.pSender);
 		if (font_type != NULL)
 		{
-			m_pChatFont->tstrFontName = font_type->GetText();
+			_tcscpy_s(m_pChatFont->tszFontName, font_type->GetText());
 			FontStyleChanged();
 		}
 	}
@@ -400,7 +400,7 @@ void	CChatDialog::OnFontColor		(TNotifyUI & msg)\
 			m_pSendEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("InputRichEdit")));
 			//m_pSendEdit->SetTextColor(m_pChatFont->dwTextColor);//不晓得为什么不好使，只好用下面笨重的方法来做了。
 			ITextServices * pTextServices = m_pSendEdit->GetTextServices();
-			RichEdit_SetDefFont(pTextServices, m_pChatFont->tstrFontName.c_str(),
+			RichEdit_SetDefFont(pTextServices, m_pChatFont->tszFontName,
 			m_pChatFont->dwFontSize, m_pChatFont->dwTextColor, m_pChatFont->bBold,
 			m_pChatFont->bBold, m_pChatFont->bUnderline, FALSE);
 			pTextServices->Release();
@@ -437,6 +437,8 @@ int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 //#define _TestMainFrame
 #ifndef _TestMainFrame
 	int nRet = NetSendMsg(chatData, strData.c_str(), strData.length());
+	CT2A szTime(chatData.tsTime);
+	chatData.szTime = szTime;
 	OnTextMsgShow(&chatData);
 #else
 	OnTextMsgShow_Test(CA2T(strData.c_str()));
@@ -520,7 +522,7 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
     cf.yHeight = cht.dwFontSize;
     cf.crTextColor = cht.dwTextColor;
 	cf.yHeight = cht.dwFontSize*cht.dwFontSize;
-    _tcscpy_s(cf.szFaceName, cht.tstrFontName.c_str());
+	_tcscpy_s(cf.szFaceName, cht.tszFontName);
     if (cht.bBold) {
         cf.dwMask |= CFM_BOLD;
         cf.dwEffects |= CFE_BOLD;
@@ -561,31 +563,17 @@ void   CChatDialog::recordMsg(ChatCcTextData_t *pChatData) {
 	sprintf(filename, "%s\\%s%d.txt", filepath, 
 		(m_friendInfo.chType == Type_ImcGroup ? "group" : "friend"), 
 		m_friendInfo.nId);
-	/*
-	int nReceiveLocalId = IdNetToLocal(Type_ImcFriend,pChatData->nRecverId.nId);
-	int nSenderLocalId = IdNetToLocal(Type_ImcFriend,pChatData->nSenderId.nId);
-	
-	if (pChatData->nRecvType == Type_ImcFriend) {
-		if (nReceiveLocalId == m_myselfInfo.nId) {
-			sprintf(filename, "%s\\friend%d%s", filepath, nSenderLocalId, suffix);
-		}
-		else {
-			sprintf(filename, "%s\\friend%d%s", filepath, nReceiveLocalId, suffix);
-		}
-	}
-	else {
-		sprintf(filename, "%s\\group%d%s", filepath, nReceiveLocalId, suffix);
-	}
-	*/
 	FILE *fp = fopen(filename, "ab+");
 	if (fp) {
 		//TODO 错误处理
 		char *start_token = "textbegin@";
 		char *end_token = "@textend\r\n";
+		
+
 		//start token
 		fwrite(start_token, strlen(start_token)*sizeof(char), 1, fp);
 		int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);
-		fwrite(&s, s, 1, fp);
+		fwrite(&s, sizeof(s), 1, fp);
 		//szTime
 		s = strlen(pChatData->szTime)*sizeof(char);
 		fwrite(&s, sizeof(s), 1, fp);
@@ -805,7 +793,7 @@ void    CChatDialog::FontStyleChanged()
 	if(pRichEdit)
 	{
 		pRichEdit->SetFont(
-			m_pChatFont->tstrFontName.c_str(), m_pChatFont->dwFontSize, m_pChatFont->bBold, m_pChatFont->bUnderline, m_pChatFont->bItalic);
+			m_pChatFont->tszFontName, m_pChatFont->dwFontSize, m_pChatFont->bBold, m_pChatFont->bUnderline, m_pChatFont->bItalic);
 		pRichEdit->SetTextColor(m_pChatFont->dwTextColor);
 	}
 }
@@ -844,6 +832,7 @@ int     CChatDialog::NetSendMsg(ChatCcTextData_t & textData, const char * pchDat
 	CT2A szSenderName(m_myselfInfo.tstrNickName.c_str());
 	CT2A szRecverName(m_friendInfo.tstrNickName.c_str());
 	CT2A szTime(textData.tsTime);
+	strcpy(textData.szSenderNamex, szSenderName);
 
 	textData.nDataLen     = nDataLen;
 	textData.szData       = (char*)pchData;
@@ -853,7 +842,7 @@ int     CChatDialog::NetSendMsg(ChatCcTextData_t & textData, const char * pchDat
 	textData.nSenderId    = MagicId_t(m_myselfInfo.nId);
 	//textData.nRecverId    = MagicId_t(Msg_CsTextChat, m_nChatType, m_friendInfo.nId);
 	textData.nRecverId    = MagicId_t(m_friendInfo.nId);
-	textData.szSenderName = szSenderName;
+	textData.szSenderName = textData.szSenderNamex;
 	textData.szRecverName = szRecverName;
 	textData.szTime       = szTime;
 

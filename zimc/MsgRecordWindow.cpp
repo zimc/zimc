@@ -106,7 +106,6 @@ void CMsgRecordWindow::loadMsgRecord() {
 		int succ = 0;
 		do {
 			size_t index = m_vecMsgRecord.size();
-			m_vecMsgRecord.push_back(string());
 			char *start_token = "textbegin@";
 			char *end_token = "@textend\r\n";
 			char token[64] = {0};
@@ -123,23 +122,148 @@ void CMsgRecordWindow::loadMsgRecord() {
 				succ = 3;
 				break;
 			}
-			m_vecMsgRecord[index].resize(len+1);
+			
 			char *pBuf = new char[len+1];
 			for(int i = 0; i < len; i++) {
-				if (fread(pBuf+i, 1, 1, fp) != 1) {
+				if (fread(pBuf+i, sizeof(char), 1, fp) != 1) {
 					succ = 4;
 					break;
 				}
 			}
+			if (succ != 0) {
+				delete []pBuf;
+				break;
+			}
 			if (fread(token, strlen(end_token)*sizeof(char), 1, fp) != 1) {
+				delete []pBuf;
 				succ = 5;
 				break;
 			}
 			if (strcmp(end_token, token) != 0) {
+				delete []pBuf;
 				succ = 6;
 				break;
 			}
-		} while(0);
+			m_vecMsgRecord.push_back(string());
+			m_vecMsgRecord[index] = string(pBuf, len);
+		} while(1);
 		fclose(fp);
+	}
+	showMsgRecord();
+}
+
+void CMsgRecordWindow::showMsgRecord() {
+	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
+	Assert(pRichEdit);
+	for (size_t i = 0; i < m_vecMsgRecord.size(); i++) {
+		//int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);
+		int len;
+		const char *pBuf = m_vecMsgRecord[i].c_str();
+		string strTime, strSenderName, strData;
+		memcpy(&len,pBuf, sizeof(int));
+		strTime = ": ";
+		strTime.append(pBuf+sizeof(int), len);
+		strTime.append("\n");
+		//strTime = string(pBuf+sizeof(int), len);
+		pBuf += sizeof(int) + len;
+
+		memcpy(&len, pBuf, sizeof(int));
+		strSenderName = string(pBuf + sizeof(int), len);
+		pBuf += sizeof(int) + len;
+
+		memcpy(&len, pBuf, sizeof(int));
+		strData = string(pBuf + sizeof(int), len);
+		ChatFont_t cht;
+		memcpy(&cht, strData.c_str(), sizeof(ChatFont_t));
+		
+		CA2T tsSenderName(strSenderName.c_str());
+		CA2T tsTime(strTime.c_str());
+		CA2T tsText(strData.c_str() + sizeof(ChatFont_t));
+		//tstring tstrTime = _T(": ") + tsTime + _T("\n");
+
+		LPCTSTR tszSenderName = tsSenderName;
+		LPCTSTR tszTime       = tsTime;
+		LPCTSTR tszText       = tsText;
+
+		::OutputDebugStringA("-------------------------------------1\n");
+		long lSelBegin = 0, lSelEnd = 0;
+		CHARFORMAT2 cf;
+		ZeroMemory(&cf, sizeof(CHARFORMAT2));
+
+		// ------------------------------------------------------
+		// name + time
+		cf.cbSize         = sizeof(cf);
+		cf.dwReserved     = 0;
+		cf.dwMask         = CFM_COLOR | CFM_LINK | CFM_UNDERLINE | CFM_UNDERLINETYPE;
+		cf.dwEffects      = CFE_LINK;
+		cf.bUnderlineType = CFU_UNDERLINE;
+		cf.crTextColor    = RGB(220, 0, 0);
+		lSelEnd =  lSelBegin = pRichEdit->GetTextLength();
+		pRichEdit->SetSel(lSelEnd, lSelEnd);
+		pRichEdit->ReplaceSel(tszSenderName, false);
+		lSelEnd =  pRichEdit->GetTextLength();
+		pRichEdit->SetSel(lSelBegin, lSelEnd);
+		pRichEdit->SetSelectionCharFormat(cf);
+
+		lSelEnd =  lSelBegin = pRichEdit->GetTextLength();
+		pRichEdit->SetSel(lSelEnd, lSelEnd);
+		pRichEdit->ReplaceSel(tszTime, false);
+		cf.dwMask         = CFM_COLOR;
+		cf.crTextColor    = RGB(220, 0, 0);
+		cf.dwEffects      = 0;
+		lSelEnd =  pRichEdit->GetTextLength();
+		pRichEdit->SetSel(lSelBegin, lSelEnd);
+		pRichEdit->SetSelectionCharFormat(cf);
+
+		// ------------------------------------------------------
+		// text.
+		PARAFORMAT2 pf;
+		ZeroMemory(&pf, sizeof(PARAFORMAT2));
+		pf.cbSize         = sizeof(pf);
+		pf.dwMask         = PFM_STARTINDENT;
+		pf.dxStartIndent  = 0;
+		pRichEdit->SetParaFormat(pf);
+
+		lSelEnd = lSelBegin = pRichEdit->GetTextLength();
+		pRichEdit->SetSel(-1, -1);
+		pRichEdit->ReplaceSel(tszText, false);
+		pRichEdit->SetSel(-1, -1);
+		pRichEdit->ReplaceSel(_T("\n"), false);
+
+		//设置聊天内容字体样式
+		//LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic
+		//TODO 大小 未解决 ??? 
+		cf.dwMask = CFM_COLOR| CFM_FACE | CFM_SIZE;
+		cf.yHeight = cht.dwFontSize;
+		cf.crTextColor = cht.dwTextColor;
+		cf.yHeight = cht.dwFontSize*cht.dwFontSize;
+		_tcscpy_s(cf.szFaceName, cht.tszFontName);
+		if (cht.bBold) {
+			cf.dwMask |= CFM_BOLD;
+			cf.dwEffects |= CFE_BOLD;
+		}
+		if (cht.bUnderline) {
+			cf.dwMask |= CFM_UNDERLINE;
+			cf.dwEffects |= CFE_UNDERLINE;
+		}
+		if (cht.bItalic) {
+			cf.dwMask |= CFM_ITALIC;
+			cf.dwEffects |= CFE_ITALIC;
+		}
+		lSelEnd = pRichEdit->GetTextLength();
+		pRichEdit->SetSel(lSelBegin, lSelEnd);
+		pRichEdit->SetSelectionCharFormat(cf);
+
+		ZeroMemory(&pf, sizeof(PARAFORMAT2));
+		pf.cbSize         = sizeof(pf);
+		pf.dwMask         = PFM_STARTINDENT;
+		pf.dxStartIndent  = 220;
+		pRichEdit->SetParaFormat(pf);
+
+		pRichEdit->EndDown();
+
+		::OutputDebugStringA("-------------------------------------8\n");
+		
+
 	}
 }

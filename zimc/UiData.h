@@ -561,7 +561,7 @@ typedef struct ChatFont_t
 	bool     bUnderline;
 	DWORD    dwFontSize;
 	DWORD    dwTextColor;
-	tstring  tstrFontName;
+	TCHAR    tszFontName[64];
 
 	ChatFont_t()
 		: bBold(false)
@@ -569,8 +569,9 @@ typedef struct ChatFont_t
 		, bUnderline(false)
 		, dwFontSize(12)
 		, dwTextColor(0xFF000000)
-		, tstrFontName(_T("Î¢ÈíÑÅºÚ"))
-	{}
+	{
+		_tcscpy_s(tszFontName, _T("Î¢ÈíÑÅºÚ"));
+	}
 }ChatFont_t;
 
 
