@@ -43,6 +43,7 @@ local.properties
 *.user
 *.sln.docstates
 *.txt
+.data
 
 # Build results
 [Dd]ebug/

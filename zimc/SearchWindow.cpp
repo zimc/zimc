@@ -4,6 +4,7 @@
 #include "AddFriendWindow.h"
 #include "ConcreteItemListUI.h"
 #include "common/dbstruct.h"
+#include <atlbase.h>
 
 CZiSearchWindow::CZiSearchWindow(CZiMainFrame * pMainWnd)
 	: m_pMainWindow(pMainWnd)
@@ -89,10 +90,10 @@ LRESULT CZiSearchWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL 
 	CDuiWindowBase::OnCreate(uMsg, wParam, lParam, bHandled);
 
 	// 异形窗口. 
-	COLORREF colorMask = RGB(0, 0x0, 0);
+	COLORREF colorMask = RGB(0, 255, 0);
 	::SetWindowLong(m_hWnd, GWL_EXSTYLE, 
 		GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-	::SetLayeredWindowAttributes(m_hWnd, colorMask, 255, LWA_COLORKEY);
+	::SetLayeredWindowAttributes(m_hWnd, colorMask, 0, LWA_COLORKEY);
 
 	// 固定大小
 	::SetWindowLong(m_hWnd, GWL_STYLE, GetWindowLong(m_hWnd, GWL_STYLE) & ~WS_MAXIMIZEBOX);

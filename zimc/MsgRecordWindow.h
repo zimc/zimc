@@ -8,13 +8,14 @@ using namespace std;
 #include "ChatWindow.h"
 
 
+#define  PAGE_COUNT  3
+
 class CMsgRecordWindow
 	: public CDuiWindowBase
 {
 public:
-	CMsgRecordWindow(CChatDialog * pChatDialog);
+	CMsgRecordWindow(CChatDialog * pChatDialog, int suffix_num);
 	~CMsgRecordWindow();
-
 
 public:
 	// pure virtual
@@ -29,19 +30,20 @@ public:
 
 	// extend
 	int    OnExit(TNotifyUI & msg);
-	//È¡ÄÚÈÝ
-	char* ReadMsgRecord(char *filename) ;
+	
 	//·­Ò³
-	int    OnUp(char *filename,int page);
-    int    OnNext(char *filename,int page);
+	int    OnUp(TNotifyUI & msg);
+    int    OnNext(TNotifyUI & msg);
 
-	void   loadMsgRecord();
+	int    loadMsgRecord();
 	void   showMsgRecord();
 
 
 private:
-	CChatDialog * m_pChatDialog;
-	int MsgCount, page, PageCount ;
+	CChatDialog *      m_pChatDialog;
+	int                m_nPage;
+	int                m_nSuffixNum;
+	int                m_nSuffixNum_now;
 	vector <string>    m_vecMsgRecord;
 };
 

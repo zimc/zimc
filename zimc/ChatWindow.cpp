@@ -18,6 +18,7 @@
 #include "FileDialogEx.h"
 #include "IImageOle.h"
 #include "RichEditUtil.h"
+#include "common/utils2.h"
 
 using namespace std;
 const TCHAR* const g_tstrChatCloseButtonName     = _T("CloseBtn");
@@ -556,20 +557,17 @@ void   CChatDialog::recordMsg(ChatCcTextData_t *pChatData) {
 	char filename[256] = {0};
 	char filepath[256] = {0};
 	char *prefix = ".data";
-	char *suffix = ".txt";
 	_mkdir(prefix);
 	sprintf(filepath, "%s\\%d", prefix, m_myselfInfo.nId);
 	_mkdir(filepath);
-	sprintf(filename, "%s\\%s%d.txt", filepath, 
+	sprintf(filename, "%s\\%s%d.%d", filepath, 
 		(m_friendInfo.chType == Type_ImcGroup ? "group" : "friend"), 
-		m_friendInfo.nId);
+		m_friendInfo.nId, getFileSuffixNum(time(NULL)));
 	FILE *fp = fopen(filename, "ab+");
 	if (fp) {
 		//TODO 错误处理
 		char *start_token = "textbegin@";
 		char *end_token = "@textend\r\n";
-		
-
 		//start token
 		fwrite(start_token, strlen(start_token)*sizeof(char), 1, fp);
 		int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);
@@ -598,13 +596,12 @@ int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
 		m_pMsgRecordWindow->PostMessage(WM_CLOSE, (WPARAM)0, 0L);
 		return 0;
 	}
-	m_pMsgRecordWindow = new CMsgRecordWindow(this);
+	m_pMsgRecordWindow = new CMsgRecordWindow(this, getFileSuffixNum(time(NULL)));
 
 	if(!m_pMsgRecordWindow) return 0;
 	m_pMsgRecordWindow->Create(m_hWnd, _T("聊天记录"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	//控制显示位置
 	//m_pMsgRecordWindow->CenterWindow();
-	m_pMsgRecordWindow->loadMsgRecord();
 	m_pMsgRecordWindow->ShowWindow(true) ;
 	return 0;
 }

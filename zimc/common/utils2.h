@@ -66,5 +66,9 @@ struct timeval *hl_ts2timeval(struct timeval *tv, long long timestamp);
 void base64_encode(const char *in, const int in_len, char *out, int out_len);
 std::string base64_decode(std::string const& encoded_string);
 
+
+int getFileSuffixNum(time_t);
+
+
 #endif //__UTILS_2_H__
 

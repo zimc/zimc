@@ -5,12 +5,11 @@
 #include<vector>
 
 
-CMsgRecordWindow::CMsgRecordWindow(CChatDialog * pChatDialog)
+CMsgRecordWindow::CMsgRecordWindow(CChatDialog * pChatDialog, int suffix_num)
 	: m_pChatDialog(pChatDialog)
-	  ,MsgCount(0)
-	  ,page(1)
-	  ,PageCount(0)
-
+	, m_nSuffixNum(suffix_num)
+	, m_nSuffixNum_now(suffix_num)
+	, m_nPage(0)
 {}
 
 CMsgRecordWindow::~CMsgRecordWindow()
@@ -29,11 +28,18 @@ tstring CMsgRecordWindow::GetSkinFile()
 
 void    CMsgRecordWindow::Notify(TNotifyUI & msg)
 {
-	if(msg.sType == _T("click"))
+	if (msg.sType == _T("windowinit")) {
+		while (m_nSuffixNum > 0 && loadMsgRecord() < 0) {
+			m_nSuffixNum --;
+		}
+		m_nPage = m_vecMsgRecord.size() / PAGE_COUNT;
+		showMsgRecord();
+	}
+	else if(msg.sType == _T("click"))
 	{
 		DuiClickButtonMap(_T("CloseBtn"),   OnExit);
-		//DuiClickButtonMap(_T("UpBtn"),  OnUp);
-		//DuiClickButtonMap(_T("NextBtn"),  OnNext);
+		DuiClickButtonMap(_T("UpBtn"),  OnUp);
+		DuiClickButtonMap(_T("NextBtn"),  OnNext);
 	}
 }
 
@@ -50,60 +56,58 @@ int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 	return 0;
 }
 //上一页
-int   CMsgRecordWindow::OnUp(char *filename,int page)
+int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
-	// 需要关闭吗. ?
-	//OnExit(msg);
-    //数组指针
-    //vector <string> arrMsgRecord ;
-    //arrMsgRecord = ReadMsgRecord(filename) ;
-    //
-/*    if( (arrMsgRecord.size()-page*10)>0){
-        if( this->page < this->PageCount ){
-            this->page=this->page-1 ;
-        }
-    }*/
+	if (m_nPage <= 0) {
+		m_nSuffixNum --;
+		while (m_nSuffixNum > 0 && loadMsgRecord() < 0 ) {
+			m_nSuffixNum --;
+		}
+		if (m_nSuffixNum > 0) {
+			m_nPage = m_vecMsgRecord.size() / PAGE_COUNT;
+		}
+		else {
+			m_nSuffixNum ++;
+		}
+	} else {
+		m_nPage --;
+	}
+	showMsgRecord();
 	return 0 ;
 }
 //下一页
-int CMsgRecordWindow::OnNext(char *filename,int page)
-{	
-	//数组指针
-    /*
-     if( this->page < this->PageCount ){
-            this->page=this->page+1 ;
-     }
-     */
+int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
+	int count = (m_vecMsgRecord.size() + PAGE_COUNT - 1) / PAGE_COUNT;
+	if (m_nPage >= count - 1) {
+		m_nSuffixNum ++;
+		while (m_nSuffixNum <= m_nSuffixNum_now && loadMsgRecord() < 0) {
+			m_nSuffixNum ++;
+		}
+		if (m_nSuffixNum > m_nSuffixNum_now) {
+			m_nSuffixNum = m_nSuffixNum_now;
+		}
+		else {
+			m_nPage = 0;
+		}
+	}
+	else {
+		m_nPage ++;
+	}
+	showMsgRecord();
     return 0 ;
 }
 
-//把文件存入数组
-char * CMsgRecordWindow::ReadMsgRecord(char *filename/*,vector<string> &vRecord,int nNumPerPage*/){
-    //char buffer[600] ;
-    /*
-    vector <string> arrMsgRecord ;
-    fstream out ;
-    out.open(filename,ios::in) ;
-    while(!out.eof())    {
-        out.getline(buffer,600,'\n');//getline(char *,int,char) 表示该行字符达到256个或遇到换行就结束
-        arrMsgRecord.push_back(buffer) ;
-    }  
-    this->PageCount = arrMsgRecord.size/10+(arrMsgRecord.size%10 == 0 ? 0 : 1) ;
-    vRecord = arrMsgRecord[(this->PageCount-nNumPerPage)*10] ;
-    this->PageCount = arrMsgRecord.size/10+(arrMsgRecord.size%10 == 0 ? 0 : 1) ;
-    return vRecord ;*/
-    return NULL;
-}
-void CMsgRecordWindow::loadMsgRecord() {
+
+int CMsgRecordWindow::loadMsgRecord() {
 	char filename[256] = {0};
-	sprintf(filename, ".data\\%d\\%s%d.txt", 
+	sprintf(filename, ".data\\%d\\%s%d.%d", 
 		m_pChatDialog->GetSelfInfo()->nId, 
 		(m_pChatDialog->GetFriendInfo()->chType == Type_ImcGroup ? "group" : "friend"),
-		m_pChatDialog->GetFriendInfo()->nId);
+		m_pChatDialog->GetFriendInfo()->nId, m_nSuffixNum);
 	FILE *fp = fopen(filename, "rb");
-	m_vecMsgRecord.clear();
 	if (fp) {
 		int succ = 0;
+		m_vecMsgRecord.clear();
 		do {
 			size_t index = m_vecMsgRecord.size();
 			char *start_token = "textbegin@";
@@ -148,14 +152,19 @@ void CMsgRecordWindow::loadMsgRecord() {
 			m_vecMsgRecord[index] = string(pBuf, len);
 		} while(1);
 		fclose(fp);
+		return m_vecMsgRecord.size();
 	}
-	showMsgRecord();
+	return -1;
 }
 
 void CMsgRecordWindow::showMsgRecord() {
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
 	Assert(pRichEdit);
-	for (size_t i = 0; i < m_vecMsgRecord.size(); i++) {
+	pRichEdit->SetText(_T(""));
+	size_t start_pos = m_nPage * PAGE_COUNT;
+	size_t end_pos = (m_nPage + 1) *PAGE_COUNT;
+	end_pos = min(end_pos, m_vecMsgRecord.size());
+	for (size_t i = start_pos; i < end_pos; i++) {
 		//int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);
 		int len;
 		const char *pBuf = m_vecMsgRecord[i].c_str();
@@ -185,7 +194,6 @@ void CMsgRecordWindow::showMsgRecord() {
 		LPCTSTR tszTime       = tsTime;
 		LPCTSTR tszText       = tsText;
 
-		::OutputDebugStringA("-------------------------------------1\n");
 		long lSelBegin = 0, lSelEnd = 0;
 		CHARFORMAT2 cf;
 		ZeroMemory(&cf, sizeof(CHARFORMAT2));
@@ -261,9 +269,5 @@ void CMsgRecordWindow::showMsgRecord() {
 		pRichEdit->SetParaFormat(pf);
 
 		pRichEdit->EndDown();
-
-		::OutputDebugStringA("-------------------------------------8\n");
-		
-
 	}
 }

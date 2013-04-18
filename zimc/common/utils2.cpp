@@ -168,3 +168,9 @@ std::string base64_decode(std::string const& encoded_string) {
 	}
 	return ret;
 }
+
+
+int getFileSuffixNum(time_t t) {
+	return (int)((t - 1325347200LL)/86400/60); // since 2012-01-01
+}
+
