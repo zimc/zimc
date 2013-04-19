@@ -203,7 +203,7 @@ UINT CComboWnd::GetClassStyle() const
 
 CComboUI::CComboUI() : m_pWindow(NULL), m_iCurSel(-1), m_uButtonState(0)
 {
-    m_szDropBox = CSize(0, 150);
+    m_szDropBox = CSize(0, 100);
     ::ZeroMemory(&m_rcTextPadding, sizeof(m_rcTextPadding));
 
     m_ListInfo.nColumns = 0;

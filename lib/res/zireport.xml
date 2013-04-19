@@ -57,7 +57,7 @@
 
 		<HorizontalLayout height="33">
 			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 
-				font="0" textcolor="0xFF000001" text="请放心, 您的隐私将回得到保护" /> 
+				font="0" textcolor="0xFF000001" text="请放心, 您的隐私将会得到保护" /> 
 			<Button name="SubmitBtn"        width="74" height="26"  padding="8,0,0,0" font="0" textcolor="0xFF000001" 
 				text = "提 交" normalimage="user_btn_click_1.png" hotimage="user_btn_click_23.png" pushedimage="user_btn_click_23.png" />
 			<Button name="CancelBtn"        width="74"  height="26" padding="10,0,0,0" font="0" textcolor="0xFF000001" 
