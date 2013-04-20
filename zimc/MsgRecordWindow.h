@@ -8,7 +8,7 @@ using namespace std;
 #include "ChatWindow.h"
 
 
-#define  PAGE_COUNT  3
+#define  PAGE_COUNT  20
 
 class CMsgRecordWindow
 	: public CDuiWindowBase

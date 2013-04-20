@@ -118,7 +118,7 @@ LRESULT CZiMainFrame::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & b
 	SetIcon(128);
 
     if(m_nTimer == 0) {
-        m_nTimer = ::SetTimer(m_hWnd, 1, 1000, 0);
+        m_nTimer = ::SetTimer(m_hWnd, 1, 600, 0);
     }
 
 	return S_OK;
@@ -480,6 +480,8 @@ int     CZiMainFrame::CreateChatDailog(CNodeList * pNodeList, CChatDialog ** ppC
 		pChatDialog->Create(NULL, pNodeList->GetNodeData().tstrNickName.c_str(), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 		pChatDialog->CenterWindow();
 		::ShowWindow(*pChatDialog, SW_SHOW);
+
+		::SetForegroundWindow(pChatDialog->GetHWND());
 
 		m_mapSubWindows.insert(std::make_pair(pNodeList->GetNodeData().nId, pChatDialog));
 	}
@@ -1448,12 +1450,6 @@ BOOL    CZiMainFrame::HandleNetCmd()
 
 	bool         bDo = FALSE;
 	ImcNetData_t netData;
-
-	/*
-	pair <int,int> mapkey = make_pair<int,int>(nMsg, friend_id);
-	m_listNetData.push_back(make_pair<pair <int,int>, void*>(mapkey, pNetData));
-	*/
-
 	do
 	{
 		CGenericLockHandler h(m_mainLock);
@@ -1466,15 +1462,6 @@ BOOL    CZiMainFrame::HandleNetCmd()
 			bDo = true;
 			m_listNetData.erase(iter);
 		}
-
-		/*
-		if(!m_listNetData.empty())
-		{
-			bDo     = TRUE;
-			netData = m_listNetData.front();
-			m_listNetData.pop_front();
-		}
-		*/
 		if(m_listNetData.empty() && m_nTimer != 0)
 		{
 			//::KillTimer(m_hWnd, m_nTimer);
@@ -1483,11 +1470,6 @@ BOOL    CZiMainFrame::HandleNetCmd()
 		}
 
 	}while(0);
-
-	/*
-	if(bDo) HandleNetMessage(netData.first, netData.second);
-	else    m_pTrayWindow->FlashTray(TRUE, FALSE);
-	*/
 	if (!bDo) { m_pTrayWindow->FlashTray(TRUE,FALSE);}
 	return bDo;
 }
@@ -1525,13 +1507,11 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			// 显示验证回复框, 通知用户. 
 			// 如果失败可以不回复对方. 
 			VerifyCcResponse_t * pVerifyResp  = (VerifyCcResponse_t*)pNetData;
-			TCHAR                tsText[1024] = {0};
-			_stprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), 
-				_T("'%s' %s加您为好友"), 
-				CA2T(pVerifyResp->szSenderName2), 
-				pVerifyResp->bIsAgree ? _T("同意") : _T("不同意"));
-
-			CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), tsText);
+			char szText[1024] = {0};
+			sprintf_s(szText, sizeof(szText), "'%s' %s  加您为好友",
+				pVerifyResp->szSenderName2, 
+				(pVerifyResp->bIsAgree ? "同意" : "不同意"));
+			CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), CA2T(szText));
 
 			if(pVerifyResp->nRecvType == Type_ImcFriend)
 			{
@@ -1542,6 +1522,7 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 				Assert(pTeamInfo);
 				if(pTeamInfo) AddItem(pVerifyResp->pSenderNetRInfo, pTeamInfo);
 			}
+			bFree = TRUE;
 		}
 		break;
 
@@ -1656,12 +1637,6 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 					{
 						break;
 					}
-
-					//if(bHide)
-					//{
-					//	::ShowWindow(m_hWnd, SW_HIDE);
-					//}
-					//else
 					{
 						::ShowWindow(m_hWnd, SW_SHOW);
 						::SetForegroundWindow(m_hWnd);

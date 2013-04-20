@@ -59,15 +59,17 @@ int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
 	if (m_nPage <= 0) {
+		int last = m_nSuffixNum;
 		m_nSuffixNum --;
 		while (m_nSuffixNum > 0 && loadMsgRecord() < 0 ) {
 			m_nSuffixNum --;
 		}
 		if (m_nSuffixNum > 0) {
-			m_nPage = m_vecMsgRecord.size() / PAGE_COUNT;
+			m_nPage = (m_vecMsgRecord.size() + PAGE_COUNT/2)/ PAGE_COUNT;
+			if (m_nPage > 0) m_nPage --;
 		}
 		else {
-			m_nSuffixNum ++;
+			m_nSuffixNum = last;
 		}
 	} else {
 		m_nPage --;
@@ -77,7 +79,8 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 }
 //ÏÂÒ»Ò³
 int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
-	int count = (m_vecMsgRecord.size() + PAGE_COUNT - 1) / PAGE_COUNT;
+	int count = (m_vecMsgRecord.size() + PAGE_COUNT/2) / PAGE_COUNT;
+	count = max(count ,1);
 	if (m_nPage >= count - 1) {
 		m_nSuffixNum ++;
 		while (m_nSuffixNum <= m_nSuffixNum_now && loadMsgRecord() < 0) {
@@ -161,8 +164,13 @@ void CMsgRecordWindow::showMsgRecord() {
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
 	Assert(pRichEdit);
 	pRichEdit->SetText(_T(""));
+	int page_count = (m_vecMsgRecord.size() + PAGE_COUNT/2) / PAGE_COUNT;
+	page_count = max(page_count, 1);
 	size_t start_pos = m_nPage * PAGE_COUNT;
-	size_t end_pos = (m_nPage + 1) *PAGE_COUNT;
+	size_t end_pos = (m_nPage + 1) * PAGE_COUNT;
+	if (m_nPage == page_count - 1) {
+		end_pos = m_vecMsgRecord.size();
+	}
 	end_pos = min(end_pos, m_vecMsgRecord.size());
 	for (size_t i = start_pos; i < end_pos; i++) {
 		//int s = sizeof(int) + strlen(pChatData->szTime)*sizeof(char) + sizeof(int) + strlen(pChatData->szSenderName)*sizeof(char) + sizeof(int)+ pChatData->nDataLen*sizeof(char);

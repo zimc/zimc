@@ -14,6 +14,7 @@
 #include "ReportWindow.h"
 #include "MainWindow.h"
 #include "MsgRecordWindow.h"
+#include "NotifyWindow.h"
 //added by tian
 #include "FileDialogEx.h"
 #include "IImageOle.h"
@@ -44,6 +45,8 @@ const TCHAR* const g_tstrChatFontSetButtonName   = _T("FontSetBtn");
 const TCHAR* const g_tstrChatViewRichEditName    = _T("ViewRichEdit");
 const TCHAR* const g_tstrChatInputRichEditName   = _T("InputRichEdit");
 const TCHAR* const g_tstrChatSendButtonlName     = _T("SendBtn");
+
+#define TEXT_MAX_LENGTH 500
 
 
 CChatDialog::CChatDialog(
@@ -427,6 +430,10 @@ int     CChatDialog::OnSendMsg(TNotifyUI & msg)
 	if( sText.IsEmpty() )  return 1;
 
 	pRichEdit->SetText(_T(""));
+	if (sText.GetLength() >= TEXT_MAX_LENGTH) {
+		CNotifyWindow::MessageBoxX(m_hWnd, _T("提示"), _T("抱歉，您一次发送消息过长，请分成多次发送"));
+		return 0;
+	}
 
 	// 缺少发送失败的消息回显 ???
 	ChatCcTextData_t chatData;

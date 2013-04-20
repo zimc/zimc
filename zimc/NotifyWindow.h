@@ -61,6 +61,7 @@ public:
 		pNotifyWnd->Create(hWnd, tsCaption, UI_WNDSTYLE_FRAME | WS_POPUP, 0, 0, 0, 0, 0);
 		pNotifyWnd->Init(hWnd, tsText, tsButton1, tsButton2, nMsg, pUserData);
 		pNotifyWnd->ShowWindow(TRUE);
+		::SetForegroundWindow(pNotifyWnd->m_hWnd);
 		return 0;
 	}
 

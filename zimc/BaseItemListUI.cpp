@@ -3,7 +3,7 @@
 
 
 const int kFriendListItemNormalHeight = 32;
-const int kFriendListItemSelectedHeight = 50;
+const int kFriendListItemSelectedHeight = 40;
 
 
 CBaseItemListUI::CBaseItemListUI(CPaintManagerUI & pm)
@@ -260,8 +260,9 @@ CNodeList* CBaseItemListUI::AddNode(const ItemNodeInfo_t& item, CNodeList* paren
 		delete node;
 		node = NULL;
 	}
-
-	parent->AddChild(node);
+	else {
+		parent->AddChild(node);
+	}
 	return node;
 }
 

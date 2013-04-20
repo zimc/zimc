@@ -9,11 +9,11 @@
 					<Button name="CloseBtn"     float="true" pos="240,14, 0,0" width="15" height="15" 
 						normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
 				</HorizontalLayout>
-				<HorizontalLayout height="27"   padding="8, 1, 0, 0">
+				<HorizontalLayout height="27"   padding="0, 1, 0, 0">
 					<Option name="ExactMatchTab1" group="true" width="132" selected="true" 
-						text="精 确 查 找" textcolor="#FF000001" selectedimage="file='search_select_23.png'" />
+						text="精 确 查 找" textcolor="#FF000001" selectedimage="file='search_select_22.png'" />
 					<Option name="GroupMatchTab1" group="true" width="132" 
-						text="群 查 找"    textcolor="#FF000001" selectedimage="file='search_select_23.png'" />
+						text="群 查 找"    textcolor="#FF000001" selectedimage="file='search_select_22.png'" />
 				</HorizontalLayout>
 				<Control height="9" />
 				<VerticalLayout>
@@ -31,11 +31,11 @@
 					<Button name="CloseBtn"     float="true" pos="240,14, 0,0" width="15" height="15" 
 						normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
 				</HorizontalLayout>
-				<HorizontalLayout height="27"   padding="8, 1, 0, 0">
+				<HorizontalLayout height="27"   padding="0, 1, 0, 0">
 					<Option name="ExactMatchTab2" group="true" width="132" selected="true" 
-						text="精 确 查 找" textcolor="#FF000001" selectedimage="file='search_select_23.png'" />
+						text="精 确 查 找" textcolor="#FF000001" selectedimage="file='search_select_22.png'" />
 					<Option name="GroupMatchTab2" group="true" width="132" 
-						text="群 查 找"    textcolor="#FF000001" selectedimage="file='search_select_23.png'" />
+						text="群 查 找"    textcolor="#FF000001" selectedimage="file='search_select_22.png'" />
 				</HorizontalLayout>
 				<Control height="5" />
 				<VerticalLayout>
@@ -43,7 +43,7 @@
 						<Edit   name="AccountEdit2" padding="8, 3, 0, 0" width="230" bordersize="0" 
 							text="输入帐号" textcolor="#FF000001" font="0" align="center" textpadding="1,1,1,1" />
 					</HorizontalLayout>
-					<TabLayout        width="280" padding="3,5,0,0" inset="3,0,3,3" name="Tabs" >
+					<TabLayout        width="282" padding="3,5,0,0" inset="3,0,3,3" name="Tabs" >
 						<NewUserList name="UserInfoList" header="hidden" itemshowhtml="true" vscrollbar="true"/>
 						<!-----
 						<List name="UserInfoList" inset="0,0,0,0" vscrollbar="true" hscrollbar="false" 
@@ -52,7 +52,7 @@
 						------>
 					</TabLayout>
 					<HorizontalLayout height="22">
-						<Button name="ContractBtn"  padding="126,8,0,0" width="15" height="13" 
+						<Button name="ContractBtn"  padding="122,6,8,0" width="15" height="13" 
 							normalimage="login_btn_up_1.png" hotimage="login_btn_up_23.png" pushedimage="login_btn_up_23.png" />
 					</HorizontalLayout>
 				</VerticalLayout>
