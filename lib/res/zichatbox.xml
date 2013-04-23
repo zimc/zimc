@@ -4,16 +4,26 @@
 	<Font name="宋体" size="12" bold="false" default="true" />
 	<Font name="宋体" size="12"  bold="false" />
 	<Font name="宋体" size="12"  bold="false" />
-	<Default name="VScrollBar" value="width=&quot;14&quot; maxwidth=&quot;14&quot; button1normalimage=&quot;file='scrollbar_arrowup_normal.png' &quot; button1hotimage=&quot;file='scrollbar_arrowup_highlight.png'&quot; button1pushedimage=&quot;file='scrollbar_arrowup_down.png'&quot; button2normalimage=&quot;file='scrollbar_down_normal.png'&quot; button2hotimage=&quot;file='scrollbar_down_highlight.png'&quot; button2pushedimage=&quot;file='scrollbar_down_down.png'&quot; thumbnormalimage=&quot;file='scrollbar_bar_normal.png' corner='0,1,0,1'&quot; thumbhotimage=&quot;file='scrollbar_bar_highlight.png' corner='0,1,0,1'&quot; thumbpushedimage=&quot;file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;file='scrollbar_bkg.png'&quot;" />
+	<Default name="VScrollBar" value="
+		button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
+		button1hotimage=&quot;file='zimc_scrollbar.png'    source='16,0,32,16,16'&quot; 
+		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
+		button2normalimage=&quot;file='zimc_scrollbar.png' source='0,32,16,48'&quot; 
+		button2hotimage=&quot;file='zimc_scrollbar.png'    source='16,32,32,48'&quot; 
+		button2pushedimage=&quot;file='zimc_scrollbar.png' source='32,32,48,48'&quot; 
+		thumbnormalimage=&quot;file='zimc_scrollbar.png'   source='0,48,16,64'  corner='0,2,0,2'&quot; 
+		thumbhotimage=&quot;file='zimc_scrollbar.png'      source='16,48,32,64' corner='0,2,0,2'&quot; 
+		thumbpushedimage=&quot;file='zimc_scrollbar.png'   source='32,48,48,64' corner='0,2,0,2'&quot; 
+		bknormalimage=&quot;file='zimc_scrollbar.png'      source='0,16,16,32'&quot;" />
 
-	<HorizontalLayout name="ChatWnd">
-		<VerticalLayout bkimage="file='zimc_border.png' corner='5,5,5,5'" inset="1,1,1,1" hole="true">
+	<HorizontalLayout name="ChatWnd" bkcolor="#FFFFFFFF">
+		<VerticalLayout name="borderbg" bkimage="file='zimc_border.png' corner='5,5,5,5'" inset="1,1,1,1" hole="true">
 			<HorizontalLayout >
 				<!-------
 				-- 整个聊天框分为左右两部分, 左边宽度固定 ??? 
-				-- 控件高度 = padding.Y + height. 
+				-- 控件高度 = padding.Y + height.
 				------>
-				<VerticalLayout  name="LeftWnd"  width="320" bkimage="chat_left_bg_0.png">
+				<VerticalLayout  name="LeftWnd" bkimage="chat_left_bg_0.png" width="320" >
 					<VerticalLayout   name="Title_1"       height="66" >
 						<Text name="NickName"    width="200" height="20" padding="80,32,0,0"
 							font="0" textcolor="#FF000001" text="tojen" />
@@ -51,54 +61,52 @@
 					<VerticalLayout   name="RecordText_3"  inset="5,5,0,0" bkimage="file='chat_mid_bk.png' source='0,10,2,26'" >
 						<RichEdit name="ViewRichEdit"  multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
 					</VerticalLayout>
-<HorizontalLayout name="FontBar" bkimage="file='font_bk.bmp' corner='0,1,1,0'" height="30" inset="4,4,4,4" visible="false">
+					<HorizontalLayout name="FontBar" bkimage="file='font_bk.bmp' corner='0,1,1,0'" height="30" inset="4,4,4,4" visible="false">
 					<Combo name="FontType" droptype="droplist" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
-            <ListLabelElement padding="8,1,1,1" text="方正舒体" height="20"/>
-            <ListLabelElement padding="8,1,1,1" text="方正姚体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="仿宋_GB2312" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="黑体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文彩云" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文仿宋" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文琥珀" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文楷体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文隶书" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文宋体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文细黑" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文新魏" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文行楷" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文中宋" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="楷体_GB2312" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="隶书" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="宋体" selected="true" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="宋体方正超大" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="微软雅黑" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="新宋体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="幼圆" height="20" />
+            <ListLabelElement text="方正舒体" height="23"/>
+            <ListLabelElement text="方正姚体" height="23" />
+            <ListLabelElement text="仿宋_GB2312" height="23" />
+            <ListLabelElement text="黑体" height="23" />
+            <ListLabelElement text="华文彩云" height="23" />
+            <ListLabelElement text="华文仿宋" height="23" />
+            <ListLabelElement text="华文琥珀" height="23" />
+            <ListLabelElement text="华文楷体" height="23" />
+            <ListLabelElement text="华文隶书" height="23" />
+            <ListLabelElement text="华文宋体" height="23" />
+            <ListLabelElement text="华文细黑" height="23" />
+            <ListLabelElement text="华文新魏" height="23" />
+            <ListLabelElement text="华文行楷" height="23" />
+            <ListLabelElement text="华文中宋" height="23" />
+            <ListLabelElement text="楷体_GB2312" height="23" />
+            <ListLabelElement text="隶书" height="23" />
+            <ListLabelElement text="宋体" selected="true" height="23" />
+            <ListLabelElement text="微软雅黑" height="23" />
+            <ListLabelElement text="新宋体" height="23" />
+            <ListLabelElement text="幼圆" height="23" />
           </Combo>
           <Combo name="FontSize" droptype="droplist" width="50" height="22" textpadding="4,1,1,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
-            <ListLabelElement padding="8,1,1,1" text="8" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="9" selected="true" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="10" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="11" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="12" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="13" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="14" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="15" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="16" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="17" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="18" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="19" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="20" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="21" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="22" height="23" />
+            <ListLabelElement text="8" height="23" />
+						<ListLabelElement text="9" selected="true" height="23" />
+						<ListLabelElement text="10" height="23" />
+						<ListLabelElement text="11" height="23" />
+						<ListLabelElement text="12" height="23" />
+						<ListLabelElement text="13" height="23" />
+            <ListLabelElement text="14" height="23" />
+            <ListLabelElement text="15" height="23" />
+            <ListLabelElement text="16" height="23" />
+            <ListLabelElement text="17" height="23" />
+            <ListLabelElement text="18" height="23" />
+            <ListLabelElement text="19" height="23" />
+            <ListLabelElement text="20" height="23" />
+            <ListLabelElement text="21" height="23" />
+            <ListLabelElement text="22" height="23" />
 					</Combo>
 					<Control width="5"/>
 					<Option showhtml="true" name="boldbtn" width="26" height="22" text="{i Bold.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
           <Option showhtml="true" name="italicbtn" width="26" height="22" text="{i Italic.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
           <Option showhtml="true" name="underlinebtn" width="26" height="22" text="{i underline.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
           <Button name="Colorbtn" width="26" height="22" bkimage="file='color.png' dest='5,3,21,19'" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" pushedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
-
-					</HorizontalLayout>
+				</HorizontalLayout>
 					<VerticalLayout   name="OutputText_5"  height="80" inset="5,5,0,0" >
 						<RichEdit name="InputRichEdit" multiline="true" vscrollbar="true" autovscroll="true" 
 							enabled="true" rich="false" readonly="false" wantreturn="true" wantctrlreturn="false" />
@@ -115,9 +123,9 @@
 							normalimage="chat_btn_1.png" hotimage="chat_btn_23.png" pushedimage="chat_btn_23.png" />
 					</HorizontalLayout>
 				</VerticalLayout>
-				<!----------------------------------------------------------->
-				<VerticalLayout  name="RightWnd" bkimage="chat_right_bg_0.png">
-					<HorizontalLayout name="MaxMinClose_1" height="33">
+				<!------------------------------------------chat_right_bg_0bkimage="chat_right_bg_0.png"----------------->
+				<VerticalLayout parent="borderbg"  name="RightWnd">          
+          <HorizontalLayout name="MaxMinClose_1" height="33">
 						<Control name="_Null1" />
 						<Button  name="CloseBtn"  width="15" height="15" padding="0,10,0,0" 
 							normalimage="login_btn_close_1.png" hotimage="login_btn_close_23.png" pushedimage="login_btn_close_23.png" />
@@ -127,34 +135,6 @@
 
 						<Container name="TextChatDesc"  visible="true">
 							<VerticalLayout >
-							<!-----
-								<VerticalLayout name="AboutSelf">
-									<Label name="DescTitle1" height="20" bkimage="chat_right_title.png" 
-										text="简 历" textpadding="15,0,0,0" />
-									<HorizontalLayout   name="MyselfReview"   height="90" bkimage="chat_right_review.png">
-										<VerticalLayout name="MyselfPicture"  padding="5,8,0,0" width="55" height="80" />
-										<VerticalLayout name="MyselfTextDesc" padding="5,22,0,0">
-											<Label name="MyselfRealName"    height="11" text="姓名: "     textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfSex"         height="11" text="性别: "     textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfHeight"      height="11" text="身高: "     textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfNativePlace" height="11" text="籍贯: "     textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfBirthday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
-											<Label name="MyselfPosition"    height="11" text="应聘职位: " textcolor="0xFF000001" font="2"/>
-										</VerticalLayout>
-									</HorizontalLayout>
-									<VerticalLayout name="MyselfExpresion" padding="5,3,0,0">
-										<Label    name="MyselfStudyTitle"  height="11" text="学习情况: "     textcolor="0xFF000001" font="2"/>
-										<RichEdit name="MyselfStudies"     height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
-											inset="0,1,1,1" multiline="true" readonly="true" />
-										<Label    name="MyselfWorkTitle"   height="11" text="工作经历: "     textcolor="0xFF000001" font="2"/>
-										<RichEdit name="MyselfExperience"  height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
-											inset="0,1,1,1" multiline="true" readonly="true" />
-										<Label    name="MyselfEvalueTitle" height="11" text="自我评价: "     textcolor="0xFF000001" font="2"/>										
-										<RichEdit name="MyselfEvaluation"  height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
-											inset="0,1,1,1" multiline="true" readonly="true" />
-									</VerticalLayout>
-								</VerticalLayout>
-							------>
 								<VerticalLayout name="AboutFriend">
 									<Label name="DescTitle2" height="20" bkimage="chat_right_title.png" 
 										text="形象秀" textpadding="15,0,0,0" />
@@ -164,23 +144,23 @@
 									<HorizontalLayout   name="FriendReview"   height="90" bkimage="chat_right_review.png">
 										
 										<VerticalLayout name="FriendTextDesc" padding="5,22,0,0">
-											<Label name="FriendRealName"    height="11" text="姓名: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendSex"         height="11" text="性别: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendHeight"      height="11" text="身高: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendNativePlace" height="11" text="籍贯: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendBirthday"    height="11" text="出生日期: " textcolor="0xFF000001" font="2"/>
-											<Label name="FriendPosition"    height="11" text="应聘职位: " textcolor="0xFF000001" font="2"/>
+											<Label name="FriendRealName"    height="14" text="姓名: "     textcolor="0xFF000001" font="2"/>
+											<Label name="FriendSex"         height="14" text="性别: "     textcolor="0xFF000001" font="2"/>
+                      <Label name="FriendHeight"      height="14" text="身高: "     textcolor="0xFF000001" font="2"/>
+											<Label name="FriendNativePlace" height="14" text="籍贯: "     textcolor="0xFF000001" font="2"/>
+											<Label name="FriendBirthday"    height="14" text="出生日期: " textcolor="0xFF000001" font="2"/>
+											<Label name="FriendPosition"    height="14" text="应聘职位: " textcolor="0xFF000001" font="2"/>
 										</VerticalLayout>
 									</HorizontalLayout>
 									<VerticalLayout name="FriendExpresion" padding="5,3,0,0">
 										<!-------------
 										-- RichEdit 需要程序控制长度, 超出长度用 '...' 代替. 
 										------------------->
+                    <Label    name="FriendWorkTitle"   height="11" text="工作经验: "     textcolor="0xFF000001" font="2"/>
+                    <RichEdit name="FriendExperience"  height="22" textcolor="0xFF000001" font="3" endellipsis="true"
+											inset="0,1,1,1" multiline="true" readonly="true" />
 										<Label    name="FriendStudyTitle"  height="11" text="学习情况: "     textcolor="0xFF000001" font="2"/>
 										<RichEdit name="FriendStudies"     height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
-											inset="0,1,1,1" multiline="true" readonly="true" />
-										<Label    name="FriendWorkTitle"   height="11" text="工作经历: "     textcolor="0xFF000001" font="2"/>
-										<RichEdit name="FriendExperience"  height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
 											inset="0,1,1,1" multiline="true" readonly="true" />
 										<Label    name="FriendEvalueTitle" height="11" text="自我评价: "     textcolor="0xFF000001" font="2"/>										
 										<RichEdit name="FriendEvaluation"  height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
