@@ -27,7 +27,7 @@
 				text="华润公司致力于为用户提供健康和谐的网络交流平台" />
 		</VerticalLayout>
 		<VerticalLayout name="RecordText_3" inset="30,25,0,0" >
-			<RichEdit name="ViewRichEdit"  multiline="true" text="聊天记录" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
+			<RichEdit name="ViewRichEdit"  multiline="true" text="聊天记录" vscrollbar="true" rich="true" readonly="true" />
 		</VerticalLayout>
 		<HorizontalLayout height="43">
 			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 

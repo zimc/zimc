@@ -608,7 +608,7 @@ int     CChatDialog::OnMsgRecord(TNotifyUI & msg)
 	if(!m_pMsgRecordWindow) return 0;
 	m_pMsgRecordWindow->Create(m_hWnd, _T("聊天记录"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	//控制显示位置
-	//m_pMsgRecordWindow->CenterWindow();
+	m_pMsgRecordWindow->CenterWindow();
 	m_pMsgRecordWindow->ShowWindow(true) ;
 	return 0;
 }

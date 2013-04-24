@@ -32,7 +32,9 @@ void    CMsgRecordWindow::Notify(TNotifyUI & msg)
 		while (m_nSuffixNum > 0 && loadMsgRecord() < 0) {
 			m_nSuffixNum --;
 		}
-		m_nPage = m_vecMsgRecord.size() / PAGE_COUNT;
+		int page_count = (m_vecMsgRecord.size() + PAGE_COUNT/2) / PAGE_COUNT;
+		m_nPage = page_count - 1;
+		m_nPage = max(m_nPage, 0);
 		showMsgRecord();
 	}
 	else if(msg.sType == _T("click"))

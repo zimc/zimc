@@ -1582,7 +1582,7 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 					popMsgBox = true;
 				}
 				else if (pDelFriend->succ == 0) {
-				    sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除群 %s", ((pDelFriend->strdelName.c_str())), CA2T((pDelFriend->strdelName.c_str())));
+				    sprintf_s(tsText, sizeof(tsText)/sizeof(tsText[0]), "%s 将您移除群 %s", ((pDelFriend->strSendName.c_str())), (pDelFriend->strdelName.c_str()));
 					popMsgBox = true;
 				}
 			}
@@ -1684,14 +1684,11 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 	case Msg_ScResponseVerify:
 	case Msg_ScAddGroupVerify: 
 		{
-
-		
-		Assert(lParam != 0);
-		AddGroupInfo_t *pAddgroupinfo = (AddGroupInfo_t *)lParam;
-		DelayDispatchNetCmd(nMsg, pAddgroupinfo->nSenderId, (void*)lParam);
+			Assert(lParam != 0);
+			AddGroupInfo_t *pAddgroupinfo = (AddGroupInfo_t *)lParam;
+			DelayDispatchNetCmd(nMsg, pAddgroupinfo->nSenderId, (void*)lParam);
 		}
 		break;
-
 	case Msg_ScTextChat:
 		{
 			Assert(lParam != 0);
@@ -1743,13 +1740,15 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 
 				}
 				else if (pDelFriend->type == Type_ImcGroup) {
-					CNodeList *pNodeInfo = GetNodeInfo(nDelId);
-					m_mapGroupTable.erase(pNodeInfo);
-					Assert(pNodeInfo);
-					ItemNodeInfo_t  & itemInfo    = pNodeInfo->GetNodeData();
-					CBaseItemListUI * pItemListUi = GetNodeListUi(itemInfo.chType);
-					Assert(pItemListUi);
-					pItemListUi->RemoveNode(pNodeInfo);
+					if (nDelId != m_itemSelfInfo.nId) {
+						CNodeList *pNodeInfo = GetNodeInfo(nDelId);
+						m_mapGroupTable.erase(pNodeInfo);
+						Assert(pNodeInfo);
+						ItemNodeInfo_t  & itemInfo    = pNodeInfo->GetNodeData();
+						CBaseItemListUI * pItemListUi = GetNodeListUi(itemInfo.chType);
+						Assert(pItemListUi);
+						pItemListUi->RemoveNode(pNodeInfo);
+					}
 				}
 				else {
 				}	
