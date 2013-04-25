@@ -183,6 +183,15 @@ void    CZiMainFrame::Notify(TNotifyUI & msg)
 	{
 		OnKillFocus(msg);
 	}
+	else if (msg.sType == _T("setfocus")) {
+		/*
+		int a= 1;
+		if (msg.pSender->GetName() == _T("SearchCombo")) {
+			CComboUI * pSearchCombo = DuiControl(CComboUI, _T("SearchCombo"));
+			pSearchCombo->Activate();
+		}
+		*/
+	}
 	else if(msg.sType == _T("return"))
 	{
 		DuiClickButtonMap(_T("SearchEdit"),    OnReturnSearch);
@@ -730,11 +739,17 @@ int     CZiMainFrame::OnReturnSearch(TNotifyUI & msg)
 	LPCTSTR    ptsItemName = pSearchEdit->GetText().GetData();
 	if(!ptsItemName) return 0;
 
+	if (wcscmp(ptsItemName, m_itemSelfInfo.tstrNickName.c_str()) == 0) {
+		return 0;
+	}
+
 	// 增加 pSearchCombo 列表并显示. 
 	// 测试代码 ***
-	// AddComboItem(_T("111111"));
+	//AddComboItem(_T("111111"));
+	//return 0;
 
 	ImcNodeList_t nodeList;
+	int size = pSearchCombo->GetCount();
 	ClearComboItem();
 	m_searchNodes.clear();
 	SearchFriendsNode(ptsItemName, m_searchNodes);
@@ -756,9 +771,9 @@ int     CZiMainFrame::OnReturnSearch(TNotifyUI & msg)
 
 	// 不能够显示出来 list 的内容来, 不知道为什么 ?
 	// HWND hF = ::GetFocus();
-	// ::SendMessage(hF, WM_KILLFOCUS, 0, 0);
-	//pSearchCombo->Activate();
-	//pSearchCombo->Invalidate();
+	::SendMessage(::GetFocus(), WM_KILLFOCUS, 0, 0);
+	pSearchCombo->SetFocus();
+	pSearchCombo->Activate();
 	return 0;
 }
 
@@ -839,6 +854,8 @@ int     CZiMainFrame::AddComboItem(LPCTSTR lpctsName)
 	pItemUi->SetAttribute(_T("text"),   lpctsName);
 	pItemUi->SetAttribute(_T("font"),   _T("2"));
 	pItemUi->SetAttribute(_T("height"), _T("23"));
+	RECT rect = {8,1,1,1};
+	pItemUi->SetPadding(rect);
 
 	if(!pSearchCombo->Add(pItemUi))
 	{
@@ -854,12 +871,14 @@ int     CZiMainFrame::ClearComboItem()
 	CComboUI * pSearchCombo = DuiControl(CComboUI, _T("SearchCombo"));
 	Assert(pSearchCombo);
 
+	/*
 	for(int i = 0; i < pSearchCombo->GetCount(); i++)
 	{
 		CListLabelElementUI * pItem = static_cast<CListLabelElementUI*>(
 			pSearchCombo->GetItemAt(i));
 		delete pItem;
 	}
+	*/
 
 	pSearchCombo->RemoveAll();
 	return 0;
@@ -1385,7 +1404,16 @@ int CZiMainFrame::OnClickAddGroupResponse(WPARAM wp, LPARAM lp) {
 		if (pNodeParent) {
 			ItemNodeInfo_t item;
 			ItemDataNetToLocal(pAddgroup->userinfo, item, Type_ImcFriend);
-			AddItem(&item, pNodeParent);
+			//TODO
+			ImcGroupTable_t::iterator it = m_mapGroupTable.find(pNodeParent); 
+			if(it != m_mapGroupTable.end()) {
+				if (it->second.find(item.nId) == it->second.end()) {
+					AddItem(&item, pNodeParent);
+				}
+			}
+			else {
+				AddItem(&item, pNodeParent);
+			}
 		}
 	}
 	// Msg_ScQueryVerify -> Msg_CsResponseVerify ..??
@@ -1748,6 +1776,7 @@ LRESULT CZiMainFrame::HandleCustomMessage(UINT nMsg, WPARAM wParam, LPARAM lPara
 						CBaseItemListUI * pItemListUi = GetNodeListUi(itemInfo.chType);
 						Assert(pItemListUi);
 						pItemListUi->RemoveNode(pNodeInfo);
+						DeleteGroupNode(nDelId);
 					}
 				}
 				else {
@@ -1868,21 +1897,12 @@ void CZiMainFrame::handlerAddGroupVerify(AddGroupInfo_t *pAddgroup) {
 			CA2T(szText), _T("同意"), _T("不同意"), 
 			Msg_InAddGroupVerify, pAddgroup);
 	}
-	else { //GROUP_INFO_REPLY
-		if (IdNetToLocal(Type_ImcFriend, pAddgroup->nAdminId) != m_itemSelfInfo.nId && pAddgroup->succ == 0) {
-			CNodeList *pNodeParent = GetNodeInfo(IdNetToLocal(Type_ImcGroup,pAddgroup->groupinfo.group_id));
-			if (pNodeParent) {
-				ItemNodeInfo_t item;
-				ItemDataNetToLocal(pAddgroup->userinfo, item, Type_ImcFriend);
-				AddItem(&item, pNodeParent);
-			}
-		}
+	else { //GROUP_INFO_REPLY	
 		//TODO 如果添加者 需要弹框提示
 		if (IdNetToLocal(Type_ImcFriend, pAddgroup->nSenderId) == m_itemSelfInfo.nId) {
 			sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
 				"加入群 %s %s", 
 				pAddgroup->groupinfo.name.c_str(), (pAddgroup->succ == 0 ? "成功" : "失败"));
-
 			CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"),CA2T(szText), 0);
 			if (pAddgroup->succ == 0) {
 				//TODO 添加群
@@ -1898,6 +1918,14 @@ void CZiMainFrame::handlerAddGroupVerify(AddGroupInfo_t *pAddgroup) {
 					ItemDataNetToLocal(pAddgroup->groupinfo.members[i], group_member, Type_ImcFriendX);
 					AddItem(&group_member, pNodeParent);
 				}
+			}
+		}
+		else if (IdNetToLocal(Type_ImcFriend, pAddgroup->nAdminId) != m_itemSelfInfo.nId && pAddgroup->succ == 0) {
+			CNodeList *pNodeParent = GetNodeInfo(IdNetToLocal(Type_ImcGroup,pAddgroup->groupinfo.group_id));
+			if (pNodeParent) {
+				ItemNodeInfo_t item;
+				ItemDataNetToLocal(pAddgroup->userinfo, item, Type_ImcFriend);
+				AddItem(&item, pNodeParent);
 			}
 		}
 		m_pMainMsger->FreeDataEx(Msg_ScAddGroupVerify, pAddgroup);
