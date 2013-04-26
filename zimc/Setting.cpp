@@ -20,20 +20,27 @@ tstring CSettingWindow::GetSkinFile()
     return _T("ziconfig.xml");
 }
 
+HRESULT    CSettingWindow::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+	
+	HRESULT ret = CDuiWindowBase::OnCreate(uMsg, wParam, lParam, bHandled);
+
+	Assert(m_pMainWindow);
+	CCheckBoxUI *pCheck1 = DuiControl(CCheckBoxUI, _T("addfriend1"));
+	CCheckBoxUI *pCheck2 = DuiControl(CCheckBoxUI, _T("addfriend2"));
+	Assert(pCheck1 && pCheck2);
+	m_nSetType = m_pMainWindow->GetSelfInfo()->nAddFriendType;
+	if (m_nSetType == 0) {
+		pCheck1->SetCheck(true);
+	}
+	else {
+		pCheck2->SetCheck(true);
+	}
+	return ret;
+}
+
 void    CSettingWindow::Notify(TNotifyUI & msg)
 {
 	if (msg.sType == _T("windowinit")) {
-		Assert(m_pMainWindow);
-		CCheckBoxUI *pCheck1 = DuiControl(CCheckBoxUI, _T("addfriend1"));
-		CCheckBoxUI *pCheck2 = DuiControl(CCheckBoxUI, _T("addfriend2"));
-		Assert(pCheck1 && pCheck2);
-		
-		if (m_pMainWindow->GetSelfInfo()->nAddFriendType == 0) {
-			pCheck1->SetCheck(true);
-		}
-		else {
-			pCheck2->SetCheck(true);
-		}
 	}
     else if(msg.sType == _T("click"))
     {
@@ -62,16 +69,25 @@ int    CSettingWindow::OnExit(TNotifyUI & msg)
 
 int    CSettingWindow::OnSetting(TNotifyUI & msg)
 {
-    OnExit(msg);
+	if (m_pMainWindow->GetSelfInfo()->nAddFriendType == m_nSetType) {
+		return 0;
+	}
+	m_pMainWindow->GetSelfInfo()->nAddFriendType = m_nSetType;
+	SetInfo_t setinfo;
+	setinfo.nId = IdLocalToNet(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
+	setinfo.nInvited = m_nSetType;
+	setinfo.type = SET_INFO_INVITE;
+	m_pMainWindow->SendImMessageX(Msg_CsSetInfo, (LPARAM)&setinfo, sizeof(setinfo));
+	OnExit(msg);
     return 0;
 }
 
 int    CSettingWindow::OnSetAddFriend(TNotifyUI & msg) {
 	if (msg.pSender->GetName() == _T("addfriend2")) {
-		m_pMainWindow->GetSelfInfo()->nAddFriendType = 1;//验证后才能加入
+		m_nSetType = 1;//验证后才能加入
 	}
 	else if (msg.pSender->GetName() == _T("addfriend1")) {
-		m_pMainWindow->GetSelfInfo()->nAddFriendType = 0;
+		m_nSetType = 0;
 	}
 	return 0;
 }

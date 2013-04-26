@@ -124,6 +124,10 @@ enum enumZimcMsg
 	Msg_CsEvilReport, 
 	Msg_ScEvilReport, 
 
+	//set
+	Msg_CsSetInfo,
+	Msg_ScSetInfo,
+
 	// chat
 	Msg_CsTextChat, 
 	Msg_ScTextChat, 
@@ -442,6 +446,18 @@ public:
 	int type; //0: É¾³ýºÃÓÑ 1:É¾³ýÈº
 };
 
+enum _setFlag {
+	SET_INFO_INVITE = 0,
+};
+
+class SetInfo_t {
+public:
+	SetInfo_t(): nId(0), nInvited(0), type(0){}
+	int nId;
+	int nInvited;
+	int type;
+};
+
 // ----------------------------------------------------------
 // 
 #include <vector>
@@ -746,6 +762,7 @@ inline void ItemDataNetToLocal(NetItemInfo_t & netNode, ItemNodeInfo_t & localNo
 	localNode.tstrStudies      = CA2T(netNode.strStudies.c_str());
 	localNode.tstrExperience   = CA2T(netNode.strExperience.c_str());
 	localNode.tstrEvaluation   = CA2T(netNode.strEvaluation.c_str()); 
+	localNode.nAddFriendType   = netNode.nAddFriendType;
 }
 
 inline void ItemDataNetToLocal(GroupInfoData_t &groupNode, ItemNodeInfo_t & localNode) {

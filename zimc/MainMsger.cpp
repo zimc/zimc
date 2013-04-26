@@ -40,7 +40,7 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			jsTmp["id"]         = int(pVerifyQuery->nSenderId);
 			jsTmp["tid"]        = int(pVerifyQuery->nRecverId);
 			jsTmp["verifyinfo"] = pVerifyQuery->szVerifyData;
-            jsTmp["friend_type"] = Team_DefaultNameA;
+			jsTmp["friend_type"] = Team_DefaultNameA;
 
 			Assert(pVerifyQuery->pSenderLocalQInfo);
 			PacketFriend(&jsTmp["friend"], pVerifyQuery->pSenderLocalQInfo, Type_ImcFriend);
@@ -67,7 +67,7 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			Json::Value jsTmp;
 			jsTmp["id"]         = int(pVerifyResp->nSenderId);
 			jsTmp["tid"]        = int(pVerifyResp->nRecverId);
-            jsTmp["friend_type"] = Team_DefaultNameA;
+			jsTmp["friend_type"] = Team_DefaultNameA;
 
 			Assert(pVerifyResp->pSenderLocalRInfo);
 			PacketFriend(&jsTmp["friend"], pVerifyResp->pSenderLocalRInfo, Type_ImcFriend);
@@ -95,9 +95,9 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_type(TypeLocalToNet(pChatData->nRecvType));
 			pNetData->set_buf (pChatData->szData, pChatData->nDataLen);
 
-            //pNetData->set_user_id(pChatData->nSenderId);
+			//pNetData->set_user_id(pChatData->nSenderId);
 			pNetData->set_user_id(MagicId_F(Msg_CsTextChat, pChatData->nSenderId));
-            //pNetData->set_tuser_id(pChatData->nRecverId);
+			//pNetData->set_tuser_id(pChatData->nRecverId);
 			pNetData->set_tuser_id(MagicId_t(Msg_CsTextChat, pChatData->nRecvType, pChatData->nRecverId));
 
 			Json::Value jsTmp;
@@ -110,42 +110,42 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			*pnNetDataLen = -1;
 		}
 		break;
-    case Msg_LoadMessage:
-        {
-            NetMsg_t        * pNetData     = new NetMsg_t;
-            LoginCsData_t * pLoginQuery = (LoginCsData_t*)pLocalData;
+	case Msg_LoadMessage:
+		{
+			NetMsg_t        * pNetData     = new NetMsg_t;
+			LoginCsData_t * pLoginQuery = (LoginCsData_t*)pLocalData;
 			if(!pLoginQuery || !pNetData) return Error_OutOfMemory;
-            pNetData->set_cmd(19);
-            pNetData->set_uid(pLoginQuery->szAccount);
-            *ppbNetData   = (Byte_t *)pNetData;
+			pNetData->set_cmd(19);
+			pNetData->set_uid(pLoginQuery->szAccount);
+			*ppbNetData   = (Byte_t *)pNetData;
 			*pnNetDataLen = -1;
-        }
-        break;
-    case Msg_CsDelFriend:
-        {
-            NetMsg_t *pNetData = new NetMsg_t;
-            DelFriendItem *pDelfriend = (DelFriendItem*)pLocalData;
-            if (!pNetData || !pDelfriend) {
-                return Error_OutOfMemory;
-            }
-            pNetData->set_cmd(15);
-            pNetData->set_uid(pDelfriend->strSendName);
-            pNetData->set_tuid(pDelfriend->strdelName);
-            pNetData->set_user_id(pDelfriend->nSendId);
-            pNetData->set_tuser_id(pDelfriend->nDelId);
+		}
+		break;
+	case Msg_CsDelFriend:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			DelFriendItem *pDelfriend = (DelFriendItem*)pLocalData;
+			if (!pNetData || !pDelfriend) {
+				return Error_OutOfMemory;
+			}
+			pNetData->set_cmd(15);
+			pNetData->set_uid(pDelfriend->strSendName);
+			pNetData->set_tuid(pDelfriend->strdelName);
+			pNetData->set_user_id(pDelfriend->nSendId);
+			pNetData->set_tuser_id(pDelfriend->nDelId);
 			pNetData->set_type(pDelfriend->type);
-            *ppbNetData = (Byte_t *)pNetData;
-            *pnNetDataLen = -1;
-        }
-        break;
-    case Msg_KeepAlive:
-        {
-            NetMsg_t *pNetData = new NetMsg_t;
-            pNetData->set_cmd(18);
-            *ppbNetData = (Byte_t *)pNetData;
-            *pnNetDataLen = -1;
-        }
-        break;
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
+	case Msg_KeepAlive:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			pNetData->set_cmd(18);
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
 	case Msg_CsEvilReport:
 		{
 			NetMsg_t *pNetData = new NetMsg_t;
@@ -182,7 +182,7 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			NetMsg_t *pNetData = new NetMsg_t;
 			if (!pNetData) return Error_OutOfMemory;
 			AddGroupInfo_t *pAddgroup = (AddGroupInfo_t *)pLocalData;
-		    pNetData->set_cmd(16);
+			pNetData->set_cmd(16);
 			pNetData->set_type(pAddgroup->type);
 			pNetData->set_uid(pAddgroup->strSenderName);
 			pNetData->set_user_id(pAddgroup->nSenderId);
@@ -221,6 +221,21 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_type(GROUP_INFO_MODIFY);
 			pNetData->set_tuid(pGroupInfo->groupinfo.name);
 			pNetData->set_tuser_id(pGroupInfo->groupinfo.group_id);
+			*ppbNetData = (Byte_t *)pNetData;
+			*pnNetDataLen = -1;
+		}
+		break;
+	case Msg_CsSetInfo:
+		{
+			NetMsg_t *pNetData = new NetMsg_t;
+			if (!pNetData) return Error_OutOfMemory;
+			SetInfo_t *pSetInfo = (SetInfo_t *)pLocalData;
+			pNetData->set_cmd(21);
+			pNetData->set_type(pSetInfo->type);
+			pNetData->set_user_id(pSetInfo->nId);
+			Value json(objectValue);
+			json["invited"] = pSetInfo->nInvited;
+			pNetData->set_msg(getJsonStr(json));
 			*ppbNetData = (Byte_t *)pNetData;
 			*pnNetDataLen = -1;
 		}
@@ -276,6 +291,7 @@ int CMainMsger::FreeData  (int nMsg, void * pLocalData)
 	case Msg_CsCreateGroup:
 	case Msg_CsAddGroupVerify:
 	case Msg_CsModifyGroup:
+	case Msg_CsSetInfo:
 		{
 			delete (NetMsg_t*)pLocalData;
 		}
@@ -304,11 +320,11 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		jsReader.parse(pNetResp->msg(), jsRoot);
 	}
 
-	#define BeginScMsgMap \
-		switch(nMsg) { 
-	#define ScMsgMap(_msg, _func) \
+#define BeginScMsgMap \
+	switch(nMsg) { 
+#define ScMsgMap(_msg, _func) \
 		case _msg: nError = _func(pNetResp, jsRoot, ppbLocalData, 0); break; 
-	#define EndScMsgMap   \
+#define EndScMsgMap   \
 		default: break; }
 
 	BeginScMsgMap
@@ -317,14 +333,14 @@ int CMainMsger::NetToLocal(int nMsg, Byte_t * pbNetData,  int nNetDataLen,   voi
 		ScMsgMap(Msg_ScQueryVerify,    ParserQueryVerify)
 		ScMsgMap(Msg_ScResponseVerify, ParserResponseVerify)
 		ScMsgMap(Msg_ScTextChat,       ParserTextChat)
-        ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
+		ScMsgMap(Msg_ScDelFriend,      ParserDelFriend)
 		ScMsgMap(Msg_ScEvilReport,	   ParseReport)
 		ScMsgMap(Msg_ScCreateGroup,    ParseCreateGroup)
 		ScMsgMap(Msg_ScAddGroupVerify, ParseAddGroupVerify)
 		ScMsgMap(Msg_ScModifyGroup,    ParseModifyGroup)
-	EndScMsgMap
+		EndScMsgMap
 
-	*pnLocalDataLen = nError;
+		*pnLocalDataLen = nError;
 	return nRet;
 }
 
@@ -372,10 +388,10 @@ int CMainMsger::FreeDataEx(int nMsg, void * pNetData)
 			::free(pTextChat);
 		}
 		break;
-    case Msg_ScDelFriend:
-        {
-            delete (DelFriendItem*)pNetData;
-        }
+	case Msg_ScDelFriend:
+		{
+			delete (DelFriendItem*)pNetData;
+		}
 		break;
 	case Msg_ScEvilReport:
 		{
@@ -423,7 +439,7 @@ int CMainMsger::ParserSearchUser(NetMsg_t * pNetMsg, Json::Value & jsRoot, void 
 }
 
 int CMainMsger::ParserSearchGroup(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData) {
-    SearchGroup_t *pSearchGroup = new SearchGroup_t;
+	SearchGroup_t *pSearchGroup = new SearchGroup_t;
 	pSearchGroup->strSearchName = pNetMsg->tuid();
 	if (pNetMsg->succ() == 0) {
 		Value json = parseJsonStr(pNetMsg->msg());
@@ -492,7 +508,7 @@ int CMainMsger::ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, v
 	pVerifyResult->bIsAgree = pNetMsg->succ() == 0;
 	::strcpy_s(pVerifyResult->szSenderName2, sizeof(pVerifyResult->szSenderName2), pNetMsg->uid().c_str());
 	::strcpy_s(pVerifyResult->szRecverName2, sizeof(pVerifyResult->szRecverName2), pNetMsg->tuid().c_str());
-	
+
 	if(IsValidOfJsonValue(jsRoot,  "id") && 
 		IsValidOfJsonValue(jsRoot, "tid"))
 	{
@@ -561,15 +577,15 @@ int CMainMsger::ParserTextChat(NetMsg_t * pNetMsg, Json::Value & jsRoot, void **
 }
 
 int CMainMsger::ParserDelFriend(NetMsg_t * pNetMsg, Json::Value & jsRoot, void ** ppbLocalData, void * pUserData) {
-    DelFriendItem * pDelFriend = new DelFriendItem;
-    pDelFriend->nSendId = pNetMsg->user_id();
-    pDelFriend->nDelId = pNetMsg->tuser_id();
-    pDelFriend->strSendName = pNetMsg->uid();
-    pDelFriend->strdelName = pNetMsg->tuid();
+	DelFriendItem * pDelFriend = new DelFriendItem;
+	pDelFriend->nSendId = pNetMsg->user_id();
+	pDelFriend->nDelId = pNetMsg->tuser_id();
+	pDelFriend->strSendName = pNetMsg->uid();
+	pDelFriend->strdelName = pNetMsg->tuid();
 	pDelFriend->succ = pNetMsg->succ();
 	pDelFriend->type = pNetMsg->type();
-    *ppbLocalData = pDelFriend;
-    return 0;
+	*ppbLocalData = pDelFriend;
+	return 0;
 }
 
 int CMainMsger::ParseReport(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
@@ -599,7 +615,7 @@ int CMainMsger::ParseCreateGroup(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **
 int CMainMsger::ParseAddGroupVerify(NetMsg_t *pNetMsg, Json::Value &jsRoot, void **ppbLocalData, void *pUserData) {
 	AddGroupInfo_t *pAddgroup = new AddGroupInfo_t;
 	if (!pAddgroup) return Error_OutOfMemory;
-	
+
 	*ppbLocalData = pAddgroup;
 
 	pAddgroup->type = pNetMsg->type();
@@ -611,9 +627,9 @@ int CMainMsger::ParseAddGroupVerify(NetMsg_t *pNetMsg, Json::Value &jsRoot, void
 	Value json = parseJsonStr(pNetMsg->msg());
 	if (json.isObject() && json.isMember("verifyInfo")) {
 		/*&& json.isMember("group_id") && json.isMember("group_name")) {*/
-			pAddgroup->strVerify = json["verifyInfo"].asString();
-			//pAddgroup->groupinfo.group_id = json["group_id"].asInt();
-			//pAddgroup->groupinfo.name = json["group_name"].asString();
+		pAddgroup->strVerify = json["verifyInfo"].asString();
+		//pAddgroup->groupinfo.group_id = json["group_id"].asInt();
+		//pAddgroup->groupinfo.name = json["group_name"].asString();
 	}
 	else {
 		return Error_InvalidNetData;

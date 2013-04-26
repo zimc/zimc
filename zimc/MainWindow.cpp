@@ -488,9 +488,9 @@ int     CZiMainFrame::CreateChatDailog(CNodeList * pNodeList, CChatDialog ** ppC
 		
 		pChatDialog->Create(NULL, pNodeList->GetNodeData().tstrNickName.c_str(), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 		pChatDialog->CenterWindow();
-		::ShowWindow(*pChatDialog, SW_SHOW);
+		::ShowWindow(pChatDialog->GetHWND(), SW_SHOW);
 
-		::SetForegroundWindow(pChatDialog->GetHWND());
+		//::SetForegroundWindow(pChatDialog->GetHWND());
 
 		m_mapSubWindows.insert(std::make_pair(pNodeList->GetNodeData().nId, pChatDialog));
 	}
@@ -1556,7 +1556,7 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 
 	case Msg_ScTextChat:
 		{
-			// 没有聊天对话框, 通知用户. 
+			// 没有聊天对话框, 通知用户.  
 			// 显示聊天对话框. 
 			// 将消息显示到消息框中. ???
 			ChatCcTextData_t * pChatText   = (ChatCcTextData_t*)pNetData;

@@ -20,6 +20,7 @@ public:
 
     // INotiyUI
     void    Notify(TNotifyUI & msg);
+	HRESULT OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
     // message
     void    OnFinalMessage(HWND hWnd);

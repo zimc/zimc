@@ -280,4 +280,5 @@ void CMsgRecordWindow::showMsgRecord() {
 
 		pRichEdit->EndDown();
 	}
+	//pRichEdit->SetSel(0, 0);
 }
