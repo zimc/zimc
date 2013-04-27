@@ -60,6 +60,7 @@ int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 //上一页
 int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
+
 	if (m_nPage <= 0) {
 		int last = m_nSuffixNum;
 		m_nSuffixNum --;
@@ -77,6 +78,10 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 		m_nPage --;
 	}
 	showMsgRecord();
+	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
+	Assert(pRichEdit);
+	pRichEdit->EndDown();
+	//pRichEdit->PostMessage(WM_VSCROLL, SB_TOP, 0);
 	return 0 ;
 }
 //下一页
@@ -99,6 +104,9 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
 		m_nPage ++;
 	}
 	showMsgRecord();
+	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
+	Assert(pRichEdit);
+	pRichEdit->HomeUp();
     return 0 ;
 }
 
