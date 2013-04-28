@@ -506,8 +506,9 @@ int     CZiMainFrame::CreateChatDailog(CNodeList * pNodeList, CChatDialog ** ppC
 int     CZiMainFrame::CreateChatDailog(int nId, CChatDialog ** ppChatDialog)
 {
 	CNodeList * pNode = GetNodeInfo(nId);
-	Assert(pNode);
-
+    if (!pNode) {
+        return 1;
+    }
 	return CreateChatDailog(pNode, ppChatDialog);
 }
 
@@ -1561,7 +1562,7 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			// 将消息显示到消息框中. ???
 			ChatCcTextData_t * pChatText   = (ChatCcTextData_t*)pNetData;
 			CChatDialog      * pChatDialog = 0;
-            if (pChatText->nRecvType == Type_ImcFriend) { //好友消息
+            if (pChatText->nRecvType == Type_ImcFriend || pChatText->nRecvType == Type_ImcFriendX) { //好友消息
                 CreateChatDailog(pChatText->nSenderId, &pChatDialog);
                 if(pChatDialog)  // 可能无效. 
                 {

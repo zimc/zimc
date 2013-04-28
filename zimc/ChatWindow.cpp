@@ -458,6 +458,7 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 {
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	Assert(pRichEdit);
+    pRichEdit->EndDown();
 	
 	//save msg
 	//SaveMsgRecord(*pTextData);
@@ -556,6 +557,11 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	pRichEdit->EndDown();
 
 	::OutputDebugStringA("-------------------------------------8\n");
+
+    CRichEditUI* pRichEditSend = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
+    if( pRichEditSend == NULL ) return 1;
+    pRichEditSend->SetFocus();
+
 	return 0;
 }
 
@@ -864,7 +870,7 @@ int  CChatDialog::SaveMsgRecord(ChatCcTextData_t & Msg )
 	string msgBody,s_filename ;
     string strSenderName,strSenderTime;
     char cfilename[200] ;
-	if( Msg.nRecvType == Type_ImcFriend )
+	if( Msg.nRecvType == Type_ImcFriend || Msg.nRecvType == Type_ImcFriendX)
 	{
 		//发消息者是本人，以收消息ID命名
 		if( IdNetToLocal(Type_ImcFriend,Msg.nRecverId.nId) == m_myselfInfo.nId )
@@ -920,5 +926,5 @@ void    CChatDialog::ActiveWindow()
 	::SetActiveWindow(m_hWnd);
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	if( pRichEdit == NULL ) return;
-	pRichEdit->EndDown();
+	pRichEdit->SetFocus();
 }
