@@ -283,6 +283,10 @@ void    CChatDialog::OnTimer(TNotifyUI & msg)
 	// RichEdit 当出现屏幕切换时 (满屏时), 会触发 Timer. 
 	//          当鼠标在上面拖动选择时, 也会触发 Timer. 
 	//::OutputDebugStringA("--------timer-----------\n");
+	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
+	if (pRichEdit) {
+		pRichEdit->SetFocus();
+	}
 }
 
 void    CChatDialog::OnGroupItemClick(TNotifyUI & msg)
@@ -416,7 +420,7 @@ void	CChatDialog::OnFontColor		(TNotifyUI & msg)\
 int     CChatDialog::OnReportEvil(TNotifyUI & msg)
 {
 	//TODO 
-	m_pMainWindow->reportEvil();
+	m_pMainWindow->reportEvil(m_friendInfo.tstrNickName);
 	
 	return 0;
 }
@@ -554,7 +558,7 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	pf.dxStartIndent  = 220;
 	pRichEdit->SetParaFormat(pf);
 
-	pRichEdit->EndDown();
+	//pRichEdit->EndDown();
 
 	::OutputDebugStringA("-------------------------------------8\n");
 
@@ -922,9 +926,9 @@ void    CChatDialog::ActiveWindow()
 	{
 		return ;
 	}
-
 	::SetActiveWindow(m_hWnd);
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
-	if( pRichEdit == NULL ) return;
-	pRichEdit->SetFocus();
+	if (pRichEdit) {
+		pRichEdit->HomeUp();
+	}
 }

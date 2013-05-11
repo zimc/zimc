@@ -1934,7 +1934,7 @@ void CZiMainFrame::handlerAddGroupVerify(AddGroupInfo_t *pAddgroup) {
 }
 
 //report window
-void    CZiMainFrame::reportEvil()
+void    CZiMainFrame::reportEvil(tstring &nickname)
 {
 	//TODO 
 	if(m_pReportWindow) 
@@ -1942,7 +1942,7 @@ void    CZiMainFrame::reportEvil()
 		::SetForegroundWindow(m_pReportWindow->GetHWND());
 		return ;
 	}
-	m_pReportWindow = new CReportWindow(this);
+	m_pReportWindow = new CReportWindow(this, nickname);
 	if(!m_pReportWindow) return ;
 	m_pReportWindow->Create(NULL, _T("ReportWndX"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 	m_pReportWindow->CenterWindow();

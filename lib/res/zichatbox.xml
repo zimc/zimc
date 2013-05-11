@@ -23,27 +23,27 @@
 					<HorizontalLayout name="SubTitleTab_2" height="22" padding="0,4,0,0" >
 						<Container name="TextVideoChatTitle1" visible="true" bkimage="chat_text_av_tab_bg_0.png">
 							<HorizontalLayout>
-								<Option name="AudeoTab1" width="70" 
+								<Option name="AudeoTab1" width="70" group="menu1"
 									text="音频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="VideoTab1" width="56" 
+								<Option name="VideoTab1" width="56" group="menu1"
 									text="视频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="FileTab1"  width="65" 
+								<Option name="FileTab1"  width="65" group="menu1"
 									text="传送文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="ShareTab1" width="63" 
+								<Option name="ShareTab1" width="63" group="menu1"
 									text="共享文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="GroupTab1" width="65" 
+								<Option name="GroupTab1" width="65" group="menu1"
 									text="创建组"   textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
 							</HorizontalLayout>
 						</Container>
 						<Container name="GroupChatTitle1" visible="false" bkimage="chat_group_tab_bg_0.png">
 							<HorizontalLayout>
-								<Option name="AudioTab2" width="78" 
+								<Option name="AudioTab2" width="78" group="menu1"
 									text="音频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="VideoTab2" width="82" 
+								<Option name="VideoTab2" width="82" group="menu1"
 									text="视频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="FileTab2"  width="80" 
+								<Option name="FileTab2"  width="80" group="menu1"
 									text="传送文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
-								<Option name="ShareTab2" width="78" 
+								<Option name="ShareTab2" width="78" group="menu1"
 									text="共享文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
 							</HorizontalLayout>
 						</Container>

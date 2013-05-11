@@ -9,7 +9,7 @@ class CReportWindow
 	: public CDuiWindowBase
 {
 public:
-	CReportWindow(CZiMainFrame * pMainWnd);
+	CReportWindow(CZiMainFrame * pMainWnd, tstring &m_nickName);
 	~CReportWindow();
 
 
@@ -31,6 +31,7 @@ public:
 
 private:
 	CZiMainFrame * m_pMainWindow;
+	tstring        m_nickName;
 };
 
 

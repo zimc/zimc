@@ -210,7 +210,7 @@ public:
 	void    handlerAddGroupVerify(AddGroupInfo_t *pAddgroup);
 	void    handlerModifyGroup(GroupInfoData_t *pGroupInfoData);
 	//report window
-	void    reportEvil();
+	void    reportEvil(tstring &nickname);
 };
 
 

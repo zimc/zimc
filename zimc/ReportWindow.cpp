@@ -2,8 +2,8 @@
 #include "ReportWindow.h"
 
 
-CReportWindow::CReportWindow(CZiMainFrame* pMainWindow)
-	: m_pMainWindow(pMainWindow)
+CReportWindow::CReportWindow(CZiMainFrame* pMainWindow, tstring &nickname)
+	: m_pMainWindow(pMainWindow), m_nickName(nickname)
 {}
 
 CReportWindow::~CReportWindow()
@@ -22,7 +22,12 @@ tstring CReportWindow::GetSkinFile()
 
 void    CReportWindow::Notify(TNotifyUI & msg)
 {
-	if(msg.sType == _T("click"))
+	if (msg.sType == _T("windowinit")) {
+		CEditUI *pEdit = DuiControl(CEditUI,_T("EvilAccountEdit"));
+		pEdit->SetText(m_nickName.c_str());
+		pEdit->SetReadOnly(true);
+	}
+	else if(msg.sType == _T("click"))
 	{
 		DuiClickButtonMap(_T("CloseBtn"),   OnExit);
 		DuiClickButtonMap(_T("CancelBtn"),  OnExit);

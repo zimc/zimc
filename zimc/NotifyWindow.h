@@ -1,7 +1,6 @@
 #ifndef __NotifyWindow_H__
 #define __NotifyWindow_H__
 
-
 class CNotifyWindow 
 	: public DuiLib::CWindowWnd
 	, public DuiLib::INotifyUI
@@ -21,13 +20,22 @@ public:
 		return _T("NotifyWindow");
 	}
 
-	LPCTSTR GetSkinFolder()
+	
+	tstring GetSkinFolder()
 	{
+		/*
 		static tstring strPath = tstring(
 			CPaintManagerUI::GetInstancePath()) + _T("zimc.skin\\");
 
 		return strPath.c_str();
+		*/
+#if USE(ZIP_SKIN)
+		return tstring(CPaintManagerUI::GetInstancePath());
+#else
+		return tstring(CPaintManagerUI::GetInstancePath()) + _T("zimc.skin\\");
+#endif
 	}
+	
 
 	LPCTSTR GetSkinFile()
 	{
@@ -98,8 +106,10 @@ protected:
 
 	LRESULT OnCreate(WPARAM wParam, LPARAM lParam)
 	{
+		this->SetIcon(180);
+
 		m_pmUi.Init(m_hWnd);
-		m_pmUi.SetResourcePath(GetSkinFolder());
+		m_pmUi.SetResourcePath(GetSkinFolder().c_str());
 
 		CDialogBuilder dlgBuilder;
 		CControlUI * pCtrlUi = dlgBuilder.Create(GetSkinFile(), 0, 0, &m_pmUi);
