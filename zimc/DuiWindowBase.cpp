@@ -384,6 +384,6 @@ int     CDuiWindowBase::OnClickClose(TNotifyUI & notifyUi)
 
 int     CDuiWindowBase::OnClickMin(TNotifyUI & notifyUi)
 {
-	::ShowWindow(m_hWnd, SW_MINIMIZE);
+	::ShowWindow(m_hWnd, SW_HIDE);
 	return 0;
 }

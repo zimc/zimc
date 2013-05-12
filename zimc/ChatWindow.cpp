@@ -462,8 +462,7 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 {
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	Assert(pRichEdit);
-    pRichEdit->EndDown();
-	
+    	
 	//save msg
 	//SaveMsgRecord(*pTextData);
 	recordMsg(pTextData);
@@ -558,13 +557,9 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
 	pf.dxStartIndent  = 220;
 	pRichEdit->SetParaFormat(pf);
 
-	//pRichEdit->EndDown();
+	pRichEdit->EndDown();
 
 	::OutputDebugStringA("-------------------------------------8\n");
-
-    CRichEditUI* pRichEditSend = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
-    if( pRichEditSend == NULL ) return 1;
-    pRichEditSend->SetFocus();
 
 	return 0;
 }
@@ -930,5 +925,10 @@ void    CChatDialog::ActiveWindow()
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	if (pRichEdit) {
 		pRichEdit->HomeUp();
+	}
+
+	CRichEditUI* pRichEditSend = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
+	if( pRichEditSend)  {
+		pRichEditSend->SetFocus();
 	}
 }

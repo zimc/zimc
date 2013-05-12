@@ -69,15 +69,14 @@ int    CSettingWindow::OnExit(TNotifyUI & msg)
 
 int    CSettingWindow::OnSetting(TNotifyUI & msg)
 {
-	if (m_pMainWindow->GetSelfInfo()->nAddFriendType == m_nSetType) {
-		return 0;
+	if (m_pMainWindow->GetSelfInfo()->nAddFriendType != m_nSetType) {
+		m_pMainWindow->GetSelfInfo()->nAddFriendType = m_nSetType;
+		SetInfo_t setinfo;
+		setinfo.nId = IdLocalToNet(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
+		setinfo.nInvited = m_nSetType;
+		setinfo.type = SET_INFO_INVITE;
+		m_pMainWindow->SendImMessageX(Msg_CsSetInfo, (LPARAM)&setinfo, sizeof(setinfo));
 	}
-	m_pMainWindow->GetSelfInfo()->nAddFriendType = m_nSetType;
-	SetInfo_t setinfo;
-	setinfo.nId = IdLocalToNet(Type_ImcFriend, m_pMainWindow->GetSelfInfo()->nId);
-	setinfo.nInvited = m_nSetType;
-	setinfo.type = SET_INFO_INVITE;
-	m_pMainWindow->SendImMessageX(Msg_CsSetInfo, (LPARAM)&setinfo, sizeof(setinfo));
 	OnExit(msg);
     return 0;
 }

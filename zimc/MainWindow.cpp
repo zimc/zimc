@@ -198,6 +198,7 @@ void    CZiMainFrame::Notify(TNotifyUI & msg)
 	}
 	else if(msg.sType == _T("click"))
 	{
+		DuiClickButtonMap(_T("MinBtn"),        OnClickMin);
 		DuiClickButtonMap(_T("CloseBtn"),      OnClickClose);
 		DuiClickButtonMap(_T("SearchTip"),     OnClickMatchButton);
 		DuiClickButtonMap(_T("SettingBtn"),    OnClickSettingButton);

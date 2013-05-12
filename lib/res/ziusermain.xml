@@ -20,6 +20,8 @@
 		-- StateBtn, text需要程序动态设置. 
 		------>
 		<VerticalLayout height="138">
+      <Button name="MinBtn" float="true" pos="205,30,0,0" width="15" height="15"
+				normalimage="minimize_normal.png" hotimage="minimize_hot.png" pushedimage="minimize_hot.png" />
 			<Button name="CloseBtn" float="true" pos="230,30,0,0" width="15" height="15" 
 				normalimage="login_btn_close_1.png" hotimage="login_btn_close23.png" pushedimage="login_btn_close_23.png" />
 			<Label  name="StateBtn" float="true" pos="74,46,0,0" width="148" height="29" 
