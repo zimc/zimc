@@ -26,14 +26,14 @@
 				<Label  name="TitleLabel2" font="3" textcolor="0xFF000001" align="center" 
 				text="华润公司致力于为用户提供健康和谐的网络交流平台" />
 		</VerticalLayout>
-		<VerticalLayout name="RecordText_3" inset="30,25,0,0" >
-			<RichEdit name="ViewRichEdit"  multiline="true" text="聊天记录" vscrollbar="true" rich="true" readonly="true" />
+		<VerticalLayout name="RecordText_3" inset="30,25,4,8">
+			<RichEdit name="ViewRichEdit" maxheight="314"  multiline="true" text="聊天记录" vscrollbar="true" rich="true" readonly="true" />
 		</VerticalLayout>
 		<HorizontalLayout height="43">
 			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 
 				font="0" textcolor="0xFF000001" text="请放心, 您的隐私将会得到保护" /> 
 			<Button name="UpBtn" width="74" height="26"  padding="8,0,0,0" font="0" textcolor="0xFF000001" 
-				text = "上一页"/>
+				text = "上一页" pushedimage="user_btn_click_23.png"/>
 			<Button name="NextBtn" width="74"  height="26" padding="10,0,0,0" font="0" textcolor="0xFF000001" 
 				text = "下一页"  pushedimage="user_btn_click_23.png" />
 		</HorizontalLayout>
