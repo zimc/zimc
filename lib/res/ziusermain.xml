@@ -3,6 +3,7 @@
 	<Font name="宋体" size="12" bold="false" default="true" />
 	<Font name="宋体" size="12" bold="true"/>
 	<Font name="宋体" size="12" />
+  <!--
 	<Default name="VScrollBar" value="button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
 		button1hotimage=&quot;file='zimc_scrollbar.png' source='16,0,32,16,16'&quot; 
 		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
@@ -13,7 +14,16 @@
 		thumbhotimage=&quot;file='zimc_scrollbar.png' source='16,48,32,64' corner='0,2,0,2'&quot; 
 		thumbpushedimage=&quot;file='zimc_scrollbar.png' source='32,48,48,64' corner='0,2,0,2'&quot; 
 		bknormalimage=&quot;file='zimc_scrollbar.png' source='0,16,16,32'&quot;" />
-
+    -->
+  <Default name="VScrollBar" value="width=&quot;14&quot; maxwidth=&quot;14&quot; button1normalimage=&quot;
+    file='scrollbar_arrowup_normal.png' &quot; button1hotimage=&quot;file='scrollbar_arrowup_highlight.png'&quot; 
+    button1pushedimage=&quot;file='scrollbar_arrowup_down.png'&quot; button2normalimage=&quot;
+    file='scrollbar_down_normal.png'&quot; button2hotimage=&quot;file='scrollbar_down_highlight.png'&quot; 
+    button2pushedimage=&quot;file='scrollbar_down_down.png'&quot; thumbnormalimage=&quot;
+    file='scrollbar_bar_normal.png' corner='0,1,0,1'&quot; thumbhotimage=&quot;
+    file='scrollbar_bar_highlight.png' corner='0,1,0,1'&quot; thumbpushedimage=&quot;
+    file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;
+    file='scrollbar_bkg.png'&quot;" />
 	<VerticalLayout name="BackgroudImg" bkimage="file='user_bg_0.png' corner='230,500,1,1'" hole="true">
 		<!-----
 		-- dui 中没有设置控件高度的是通过已知控件高度计算出来的. 如果首尾控件其中一个有高度, 则计算是从有高度的一个开始. 

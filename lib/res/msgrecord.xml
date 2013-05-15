@@ -5,6 +5,7 @@
 	<Font name="宋体" size="13" bold="true"  />
 	<Font name="宋体" size="13" bold="false" />
 	<Font name="宋体" size="12" bold="false" />
+  <!--
 	<Default name="VScrollBar" value="button1normalimage=&quot;file='zimc_scrollbar.png' source='0,0,16,16'&quot; 
 		button1hotimage=&quot;file='zimc_scrollbar.png' source='16,0,32,16,16'&quot; 
 		button1pushedimage=&quot;file='zimc_scrollbar.png' source='32,0,48,16'&quot; 
@@ -15,7 +16,18 @@
 		thumbhotimage=&quot;file='zimc_scrollbar.png' source='16,48,32,64' corner='0,2,0,2'&quot; 
 		thumbpushedimage=&quot;file='zimc_scrollbar.png' source='32,48,48,64' corner='0,2,0,2'&quot; 
 		bknormalimage=&quot;file='zimc_scrollbar.png' source='0,16,16,32'&quot;" />
+    -->
+  <Default name="VScrollBar" value="width=&quot;14&quot; maxwidth=&quot;14&quot; button1normalimage=&quot;
+    file='scrollbar_arrowup_normal.png' &quot; button1hotimage=&quot;file='scrollbar_arrowup_highlight.png'&quot; 
+    button1pushedimage=&quot;file='scrollbar_arrowup_down.png'&quot; button2normalimage=&quot;
+    file='scrollbar_down_normal.png'&quot; button2hotimage=&quot;file='scrollbar_down_highlight.png'&quot; 
+    button2pushedimage=&quot;file='scrollbar_down_down.png'&quot; thumbnormalimage=&quot;
+    file='scrollbar_bar_normal.png' corner='0,1,0,1'&quot; thumbhotimage=&quot;
+    file='scrollbar_bar_highlight.png' corner='0,1,0,1'&quot; thumbpushedimage=&quot;
+    file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;
+    file='scrollbar_bkg.png'&quot;" />
 	<VerticalLayout name="BackgroudImg" bkimage="file='msg_record_bg.png'">
+    */
 		<VerticalLayout name="header" height="72">
 			<HorizontalLayout name="title">
 				<Label name="TitleLabel1" width="350" height="30" font="2" padding="70,10,0,0" textcolor="0xFF000001" text="聊天记录" />			
@@ -26,8 +38,8 @@
 				<Label  name="TitleLabel2" font="3" textcolor="0xFF000001" align="center" 
 				text="华润公司致力于为用户提供健康和谐的网络交流平台" />
 		</VerticalLayout>
-		<VerticalLayout name="RecordText_3" inset="30,25,4,8">
-			<RichEdit name="ViewRichEdit" maxheight="314"  multiline="true" text="聊天记录" vscrollbar="true" rich="true" readonly="true" />
+		<VerticalLayout name="RecordText_3" inset="30,10,4,8">
+			<RichEdit name="ViewRichEdit" maxheight="320"  multiline="true" text="聊天记录" vscrollbar="true" rich="true" readonly="true" />
 		</VerticalLayout>
 		<HorizontalLayout height="43">
 			<Label  name="EvilRecordLabel1" width="250" height="23" padding="52,0,0,0" 

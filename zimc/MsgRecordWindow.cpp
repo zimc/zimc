@@ -69,13 +69,21 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 		}
 		if (m_nSuffixNum > 0) {
 			m_nPage = (m_vecMsgRecord.size() + PAGE_COUNT/2)/ PAGE_COUNT;
-			if (m_nPage > 0) m_nPage --;
+			if (m_nPage > 0) m_nPage --;			
 		}
 		else {
 			m_nSuffixNum = last;
-		}
+			CButtonUI *pUpButton = DuiControl(CButtonUI, _T("UpBtn"));
+			if (pUpButton) {
+				pUpButton->SetEnabled(false);
+			}
+		}	
 	} else {
 		m_nPage --;
+	}
+	CButtonUI *pNextButton = DuiControl(CButtonUI, _T("NextBtn"));
+	if (pNextButton) {
+		pNextButton->SetEnabled(true);
 	}
 	showMsgRecord();
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
@@ -95,13 +103,21 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
 		}
 		if (m_nSuffixNum > m_nSuffixNum_now) {
 			m_nSuffixNum = m_nSuffixNum_now;
+			CButtonUI *pNextButton = DuiControl(CButtonUI, _T("NextBtn"));
+			if (pNextButton) {
+				pNextButton->SetEnabled(false);
+			}
 		}
 		else {
 			m_nPage = 0;
 		}
 	}
 	else {
-		m_nPage ++;
+		m_nPage ++;		
+	}
+	CButtonUI *pUpButton = DuiControl(CButtonUI, _T("UpBtn"));
+	if (pUpButton) {
+		pUpButton->SetEnabled(true);
 	}
 	showMsgRecord();
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
