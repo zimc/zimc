@@ -3,7 +3,7 @@
 	<Font name="宋体" size="13" bold="true" />
 	<Font name="宋体" size="12" bold="false" default="true" />
 	<Font name="宋体" size="12"  bold="false" />
-	<Font name="宋体" size="12"  bold="false" />
+	<Font name="宋体" size="12"  bold="true" />
 	<Default name="VScrollBar" value="width=&quot;14&quot; maxwidth=&quot;14&quot; button1normalimage=&quot;file='scrollbar_arrowup_normal.png' &quot; button1hotimage=&quot;file='scrollbar_arrowup_highlight.png'&quot; button1pushedimage=&quot;file='scrollbar_arrowup_down.png'&quot; button2normalimage=&quot;file='scrollbar_down_normal.png'&quot; button2hotimage=&quot;file='scrollbar_down_highlight.png'&quot; button2pushedimage=&quot;file='scrollbar_down_down.png'&quot; thumbnormalimage=&quot;file='scrollbar_bar_normal.png' corner='0,1,0,1'&quot; thumbhotimage=&quot;file='scrollbar_bar_highlight.png' corner='0,1,0,1'&quot; thumbpushedimage=&quot;file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;file='scrollbar_bkg.png'&quot;" />
 
 	<HorizontalLayout name="ChatWnd" bkcolor="#FFFFFFFF">
@@ -13,7 +13,7 @@
 				-- 整个聊天框分为左右两部分, 左边宽度固定 ??? 
 				-- 控件高度 = padding.Y + height.
 				------>
-				<VerticalLayout  name="LeftWnd" bkimage="chat_left_bg_0.png" width="320" >
+				<VerticalLayout  name="LeftWnd" bkimage="chat_left_bg_0.png" width="310" >
 					<VerticalLayout   name="Title_1"       height="66" >
 						<Text name="NickName"    width="200" height="20" padding="80,32,0,0"
 							font="0" textcolor="#FF000001" text="tojen" />
@@ -23,28 +23,28 @@
 					<HorizontalLayout name="SubTitleTab_2" height="22" padding="0,4,0,0" >
 						<Container name="TextVideoChatTitle1" visible="true" bkimage="chat_text_av_tab_bg_0.png">
 							<HorizontalLayout>
-								<Option name="AudeoTab1" width="70" group="menu1"
-									text="音频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+								<Option name="AudeoTab1" width="66" group="menu1"
+									text="音频"  textcolor="#FF968d84" selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="VideoTab1" width="56" group="menu1"
-									text="视频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="视频"     textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="FileTab1"  width="65" group="menu1"
-									text="传送文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="传送文件" textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="ShareTab1" width="63" group="menu1"
-									text="共享文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="共享文件" textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="GroupTab1" width="65" group="menu1"
-									text="创建组"   textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="创建组"   textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 							</HorizontalLayout>
 						</Container>
 						<Container name="GroupChatTitle1" visible="false" bkimage="chat_group_tab_bg_0.png">
 							<HorizontalLayout>
 								<Option name="AudioTab2" width="78" group="menu1"
-									text="音频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="音频"     textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="VideoTab2" width="82" group="menu1"
-									text="视频"     textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="视频"     textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="FileTab2"  width="80" group="menu1"
-									text="传送文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="传送文件" textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 								<Option name="ShareTab2" width="78" group="menu1"
-									text="共享文件" textcolor="#FF000001" selectedimage="file='zimc_select_23.png'" />
+									text="共享文件" textcolor="#FF968d84"  selectedtextcolor="FFFFFFFF" selectedimage="file='zimc_select_23.png'" />
 							</HorizontalLayout>
 						</Container>
 					</HorizontalLayout>
@@ -104,14 +104,14 @@
 					</VerticalLayout>
 					<HorizontalLayout name="Action_6"      height="54" width="318" bkimage="chat_action_bg_0.png">
 						<Button name="CrimeReportBtn"  width="80" height="28" padding="30, 15, 0, 0" 
-							text="举 报" textcolor="#FF000001" 
+							text="举 报" textcolor="#FF90867d" hottextcolor="#FFFFFFFF" 
 							normalimage="chat_btn_1.png" hotimage="chat_btn_23.png" pushedimage="chat_btn_23.png" />
 						<Button name="RecordBtn"       width="80" height="28" padding="30, 15, 0, 0" 
-							text="聊天记录" textcolor="#FF000001" 
+							text="聊天记录" textcolor="#FF90867d" hottextcolor="#FFFFFFFF" 
 							normalimage="chat_btn_1.png" hotimage="chat_btn_23.png" pushedimage="chat_btn_23.png" />
 						<Button name="SendBtn"         width="80" height="28" padding="10, 15, 0, 0" 
-							text="发 送" textcolor="#FF000001" 
-							normalimage="chat_btn_1.png" hotimage="chat_btn_23.png" pushedimage="chat_btn_23.png" />
+							text="发 送" textcolor="#FF90867d" hottextcolor="#FFFFFFFF"
+              normalimage="chat_btn_1.png" hotimage="chat_btn_23.png" pushedimage="chat_btn_23.png" />
 					</HorizontalLayout>
 				</VerticalLayout>
 				<!----------------------------------------------------------->
@@ -127,30 +127,29 @@
 						<Container name="TextChatDesc"  visible="true">
 							<VerticalLayout >
 								<VerticalLayout name="AboutFriend">
-									<Label name="DescTitle2" height="20" bkimage="chat_right_title.png" 
-										text="形象秀" textpadding="15,0,0,0" />
+									<Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png" 
+										text="形象秀" textpadding="15,0,0,0" font="0" />
 										<VerticalLayout name="FriendPicture"  padding="5,8,0,0" width="176" height="200" />
-										<Label name="DescTitle2" height="20" bkimage="chat_right_title.png" 
-										text="简 历" textpadding="15,0,0,0" />
-									<HorizontalLayout   name="FriendReview"   height="90" bkimage="chat_right_review.png">
-										
+										<Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png" 
+										text="个人名片" textpadding="15,0,0,0" font="3" />
+									<HorizontalLayout   name="FriendReview"   height="90" bkimage="chat_right_review.png">										
 										<VerticalLayout name="FriendTextDesc" padding="5,22,0,0">
-											<Label name="FriendRealName"    height="14" text="姓名: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendSex"         height="14" text="性别: "     textcolor="0xFF000001" font="2"/>
+											<Label name="FriendRealName" padding="2,2,2,2"  height="14" text="姓名: "     textcolor="0xFF000001" font="2"/>
+											<Label name="FriendSex"  padding="2,2,2,2"     height="14" text="性别: "     textcolor="0xFF000001" font="2"/>
                       <Label name="FriendHeight"      height="14" text="身高: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendNativePlace" height="14" text="籍贯: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendBirthday"    height="14" text="出生日期: " textcolor="0xFF000001" font="2"/>
-											<Label name="FriendPosition"    height="14" text="应聘职位: " textcolor="0xFF000001" font="2"/>
+											<Label name="FriendPosition" padding="2,2,2,2"  height="14" text="应聘职位: " textcolor="0xFF000001" font="2"/>
 										</VerticalLayout>
 									</HorizontalLayout>
 									<VerticalLayout name="FriendExpresion" padding="5,3,0,0">
 										<!-------------
 										-- RichEdit 需要程序控制长度, 超出长度用 '...' 代替. 
 										------------------->
-                    <Label    name="FriendWorkTitle"   height="11" text="工作经验: "     textcolor="0xFF000001" font="2"/>
+                    <Label    name="FriendWorkTitle" padding="2,2,2,2"   height="11" text="工作经验: "     textcolor="0xFF000001" font="2"/>
                     <RichEdit name="FriendExperience"  height="22" textcolor="0xFF000001" font="3" endellipsis="true"
 											inset="0,1,1,1" multiline="true" readonly="true" />
-										<Label    name="FriendStudyTitle"  height="14" text="学习情况: "     textcolor="0xFF000001" font="2"/>
+                    <Label    name="FriendStudyTitle"  height="14" text="学习情况: "     textcolor="0xFF000001" font="2"/>
 										<RichEdit name="FriendStudies"     height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
 											inset="0,1,1,1" multiline="true" readonly="true" />
 										<Label    name="FriendEvalueTitle" height="14" text="自我评价: "     textcolor="0xFF000001" font="2"/>										
