@@ -750,15 +750,17 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	#define V2(_F, _L, _W)	\
 		_F(_L, _W, RealName) \
 		_F(_L, _W, Sex) \
-		_F(_L, _W, Height) \
-		_F(_L, _W, NativePlace) \
-		_F(_L, _W, Birthday) \
 		_F(_L, _W, Position)
+		/*_F(_L, _W, Height) \
+		_F(_L, _W, NativePlace) \
+		_F(_L, _W, Birthday) \*/
+		
 
 	//_F(_E, _W, Studies)
 	#define V3(_F, _E, _W)	\
-		_F(_E, _W, Experience) \
 		_F(_E, _W, Evaluation)
+		//_F(_E, _W, Experience) 
+		
 
 
 	//ItemNodeInfo_t & Myself = m_myselfInfo;
