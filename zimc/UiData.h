@@ -334,6 +334,7 @@ typedef struct VerifyCcQuery_t
 	ItemNodeInfo_t * pSenderLocalQInfo;  // c
 	NetItemInfo_t  * pSenderNetQInfo;    // s
 	char           * szVerifyData;
+	int              nAddFriendType;
 
 	Obj_Init(VerifyCcQuery_t);
 }VerifyCcQuery_t;
@@ -350,6 +351,7 @@ typedef struct VerifyCcResponse_t
 
 	char             szRecverName2[128];
 	char             szSenderName2[128];
+	int              nAddFriendType;
 
 	Obj_Init(VerifyCcResponse_t);
 }VerifyCcResponse_t;

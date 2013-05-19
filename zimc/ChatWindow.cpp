@@ -926,6 +926,7 @@ void    CChatDialog::ActiveWindow()
 	::SetActiveWindow(m_hWnd);
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatViewRichEditName));
 	if (pRichEdit) {
+		pRichEdit->SetFocus();
 		pRichEdit->HomeUp();
 	}
 

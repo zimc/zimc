@@ -1519,15 +1519,23 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			// 还需要显示请求者的信息, 未实现 ... ???
 			VerifyScQuery_t * pVerifyQuery = (VerifyScQuery_t*)pNetData;
 			char              szText[1024] = {0};
-			sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
-				"'%s'(%d) 请求为好友, 验证信息: '%s'", 
-				pVerifyQuery->szSenderNamex, 
-				pVerifyQuery->nSenderId, 
-				pVerifyQuery->szVerifyDatax);
-
-			CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), 
-				CA2T(szText), _T("同意"), _T("不同意"), 
-				Msg_InQueryVerify, pVerifyQuery);
+			if (m_itemSelfInfo.nAddFriendType == 1) {
+				sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
+					"'%s'(%d) 请求为好友, 验证信息: '%s'", 
+					pVerifyQuery->szSenderNamex, 
+					pVerifyQuery->nSenderId, 
+					pVerifyQuery->szVerifyDatax);
+				CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), 
+					CA2T(szText), _T("同意"), _T("不同意"), 
+					Msg_InQueryVerify, pVerifyQuery);
+			}
+			else {
+				sprintf_s(szText, sizeof(szText)/sizeof(szText[0]), 
+					"'%s' 将您添加为好友,附加信息: %s", 
+					pVerifyQuery->szSenderNamex, 
+					pVerifyQuery->szVerifyDatax);
+				CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
+			}
 			bFree = FALSE;
 		}
 		break;
@@ -1538,19 +1546,27 @@ int     CZiMainFrame::HandleNetMessage(int nMsg, void * pNetData)
 			// 如果失败可以不回复对方. 
 			VerifyCcResponse_t * pVerifyResp  = (VerifyCcResponse_t*)pNetData;
 			char szText[1024] = {0};
-			sprintf_s(szText, sizeof(szText), "'%s' %s  加您为好友",
-				pVerifyResp->szSenderName2, 
-				(pVerifyResp->bIsAgree ? "同意" : "不同意"));
-			CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), CA2T(szText));
+			if (pVerifyResp->nAddFriendType == 1) {
+				sprintf_s(szText, sizeof(szText), "'%s' %s  加您为好友",
+					pVerifyResp->szSenderName2, 
+					(pVerifyResp->bIsAgree ? "同意" : "不同意"));
+				CNotifyWindow::MessageBoxX(m_hWnd, _T("验证消息"), CA2T(szText));
 
-			if(pVerifyResp->nRecvType == Type_ImcFriend)
-			{
-				Assert(pVerifyResp->pSenderNetRInfo && 
-					pVerifyResp->pSenderNetRInfo->nItemType == Type_ImcFriend);
-				CNodeList * pTeamInfo = GetTeamInfo(Team_DefaultNameT);
+				if(pVerifyResp->nRecvType == Type_ImcFriend)
+				{
+					Assert(pVerifyResp->pSenderNetRInfo && 
+						pVerifyResp->pSenderNetRInfo->nItemType == Type_ImcFriend);
+					CNodeList * pTeamInfo = GetTeamInfo(Team_DefaultNameT);
 
-				Assert(pTeamInfo);
-				if(pTeamInfo) AddItem(pVerifyResp->pSenderNetRInfo, pTeamInfo);
+					Assert(pTeamInfo);
+					if(pTeamInfo) AddItem(pVerifyResp->pSenderNetRInfo, pTeamInfo);
+				}
+			}
+			else {
+				sprintf_s(szText, sizeof(szText), "添加好友 '%s' %s", 
+					pVerifyResp->szRecverName2, 
+					pVerifyResp->bIsAgree? "成功" : "失败");
+				CNotifyWindow::MessageBoxX(m_hWnd, _T("通知"), CA2T(szText));
 			}
 			bFree = TRUE;
 		}

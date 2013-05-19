@@ -146,10 +146,19 @@ int     CAddFriendWindow::OnAddFriend(TNotifyUI & msg)
 		verifyQuery.szVerifyData  = pszVerifyText;
 		verifyQuery.nRecvType     = m_pUserInfo->chType;
 		verifyQuery.pSenderLocalQInfo = m_pMainWindow->GetNodeData(m_pMainWindow->GetSelfInfo()->nId);
+		verifyQuery.nAddFriendType = m_pUserInfo->nAddFriendType;
 
 		pVerifyUi->SetEnabled(false);
 		pAddFriendUi->SetEnabled(false);
 		m_pMainWindow->SendImMessageX(Msg_CsQueryVerify, (LPARAM)&verifyQuery, sizeof(verifyQuery));
+	}
+
+	//如果不需要验证，则直接添加
+
+	if (m_pUserInfo->nAddFriendType == 0) {
+		CNodeList * pTeamInfo = m_pMainWindow->GetTeamInfo(Team_DefaultNameT);
+		Assert(pTeamInfo);
+		if(pTeamInfo) m_pMainWindow->AddItem(m_pUserInfo, pTeamInfo);
 	}
 
 	Close();

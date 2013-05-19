@@ -33,7 +33,13 @@ int CMainMsger::LocalToNet(int nMsg, void * pLocalData, int nLocalDataLen, Byte_
 			pNetData->set_cmd (14);
 			pNetData->set_uid (pVerifyQuery->szSenderName);
 			pNetData->set_tuid(pVerifyQuery->szRecverName);
-			pNetData->set_type(0);
+			//type == 0 验证加好友， type == 100不需要验证加好友
+			if (pVerifyQuery->nAddFriendType == 1) {
+				pNetData->set_type(0);
+			}
+			else {
+				pNetData->set_type(100);
+			}
 
 			Json::Value jsTmp;
 			Json::Value jsFriends;
@@ -503,11 +509,22 @@ int CMainMsger::ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, v
 	VerifyCcResponse_t * pVerifyResult = (VerifyCcResponse_t*)::calloc(sizeof(VerifyCcResponse_t), 1);
 	if(!pVerifyResult)                           return Error_OutOfMemory;
 	if(pNetMsg->msg().empty() || jsRoot.empty()) return Error_InvalidNetData;
+	if (pNetMsg->type() == 100) {
+		pVerifyResult->nAddFriendType = 0;
+	}
+	else {
+		pVerifyResult->nAddFriendType = 1;
+	}
+	*ppbLocalData   = pVerifyResult;
 
 	int nMsgType = Type_ImcFriend;
 	pVerifyResult->bIsAgree = pNetMsg->succ() == 0;
 	::strcpy_s(pVerifyResult->szSenderName2, sizeof(pVerifyResult->szSenderName2), pNetMsg->uid().c_str());
 	::strcpy_s(pVerifyResult->szRecverName2, sizeof(pVerifyResult->szRecverName2), pNetMsg->tuid().c_str());
+
+	if (pVerifyResult->nAddFriendType == 0) {
+		return 0;
+	}
 
 	if(IsValidOfJsonValue(jsRoot,  "id") && 
 		IsValidOfJsonValue(jsRoot, "tid"))
@@ -529,9 +546,8 @@ int CMainMsger::ParserResponseVerify(NetMsg_t * pNetMsg, Json::Value & jsRoot, v
 		ParserFriend(&jsRoot["friend"], pVerifyResult->pSenderNetRInfo, nMsgType);
 	}
 	else                                     return Error_InvalidNetData;
-
 	// Assert(pVerifyResult->nRecverId == m_itemSelfInfo.nId);
-	*ppbLocalData   = pVerifyResult;
+	
 	return 0;
 }
 
