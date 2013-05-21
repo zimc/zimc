@@ -543,6 +543,38 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="http"
+			>
+			<File
+				RelativePath=".\common\EventManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\EventManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\HTTPRequest.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\HTTPRequest.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\mypthread.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\common\mypthread.h"
+				>
+			</File>
+			<File
+				RelativePath=".\common\Singleton.h"
+				>
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>

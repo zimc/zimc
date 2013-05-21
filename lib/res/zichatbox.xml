@@ -131,7 +131,9 @@
                 <VerticalLayout name="AboutFriend">
                   <Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png"
 										text="形象秀" textpadding="15,0,0,0" font="0" />
-                  <VerticalLayout name="FriendPicture"  padding="5,8,0,0" width="176" height="200" />
+                  <VerticalLayout name="FriendPictureVL"  padding="1,1,1,1" width="176" height="200">
+                    <TabLayout name="FriendPicture" padding="1,1,1,1" width="174" height="198" />
+                  </VerticalLayout>
                   <Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png"
                   text="个人名片" textpadding="15,0,0,0" font="3" />
                   <HorizontalLayout   name="FriendReview"   height="80" bkimage="chat_right_review.png">

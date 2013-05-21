@@ -20,6 +20,8 @@
 #include "IImageOle.h"
 #include "RichEditUtil.h"
 #include "common/utils2.h"
+#include "common/curl/curl.h"
+#include "common/HTTPRequest.h"
 
 using namespace std;
 const TCHAR* const g_tstrChatCloseButtonName     = _T("CloseBtn");
@@ -767,11 +769,20 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	ItemNodeInfo_t & Friend = m_friendInfo;
 
 	//V1(DuiControl_SetBkImage, VerticalLayout, Myself);
-	V1(DuiControl_SetBkImage, VerticalLayout, Friend);
+	//V1(DuiControl_SetBkImage, VerticalLayout, Friend);
 	//V2(DuiControl_AddText,    Label,          Myself);
 	V2(DuiControl_AddText,    Label,          Friend);
 	//V3(DuiControl_SetText,    RichEdit,       Myself);
 	V3(DuiControl_SetText,    RichEdit,       Friend);
+
+	//set friend picture
+	_mkdir(".data/");
+	_mkdir(".data/pictures/");
+	char *filename = ".data/1.png";
+	CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
+	if (pPicture) {
+		pPicture->SetBkImage(CA2T(filename));
+	}
 
 	return 0;
 }
