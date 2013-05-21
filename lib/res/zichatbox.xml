@@ -161,8 +161,6 @@
                 </VerticalLayout>
               </VerticalLayout>
             </Container>
-
-
             <Container name="GroupChatDesc" visible="false">
               <VerticalLayout >
                 <VerticalLayout name="GroupInfo" height="200">
@@ -234,8 +232,6 @@
                 </HorizontalLayout>
               </VerticalLayout>
             </Container>
-
-
           </HorizontalLayout>
         </VerticalLayout>
       </HorizontalLayout>
