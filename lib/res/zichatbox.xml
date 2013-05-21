@@ -52,45 +52,45 @@
 						<RichEdit name="ViewRichEdit"  multiline="true" vscrollbar="true" autovscroll="true" rich="true" readonly="true" />
 					</VerticalLayout>
 					<HorizontalLayout name="FontBar" bkimage="file='font_bk.bmp' corner='0,1,1,0'" height="30" inset="4,4,4,4" visible="false">
-					<Combo name="FontType" droptype="droplist" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
-            <ListLabelElement padding="8,1,1,1" text="方正舒体" height="20"/>
-            <ListLabelElement padding="8,1,1,1" text="方正姚体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="仿宋_GB2312" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="黑体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文彩云" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文仿宋" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文琥珀" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文楷体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文隶书" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文宋体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文细黑" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文新魏" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文行楷" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="华文中宋" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="楷体_GB2312" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="隶书" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="宋体" selected="true" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="宋体方正超大" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="微软雅黑" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="新宋体" height="20" />
-            <ListLabelElement padding="8,1,1,1" text="幼圆" height="20" />
+					<Combo name="FontType" droptype="droplist" width="100" height="22" textpadding="4,1,1,1"  normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'" itemtextpadding="8,1,1,1" itemhotbkcolor="#FFd5e5f5">
+            <ListLabelElement text="方正舒体" height="20"/>
+            <ListLabelElement text="方正姚体" height="20" />
+            <ListLabelElement text="仿宋_GB2312" height="20" />
+            <ListLabelElement text="黑体" height="20" />
+            <ListLabelElement text="华文彩云" height="20" />
+            <ListLabelElement text="华文仿宋" height="20" />
+            <ListLabelElement text="华文琥珀" height="20" />
+            <ListLabelElement text="华文楷体" height="20" />
+            <ListLabelElement text="华文隶书" height="20" />
+            <ListLabelElement text="华文宋体" height="20" />
+            <ListLabelElement text="华文细黑" height="20" />
+            <ListLabelElement text="华文新魏" height="20" />
+            <ListLabelElement text="华文行楷" height="20" />
+            <ListLabelElement text="华文中宋" height="20" />
+            <ListLabelElement text="楷体_GB2312" height="20" />
+            <ListLabelElement text="隶书" height="20" />
+            <ListLabelElement text="宋体" selected="true" height="20" />
+            <ListLabelElement text="宋体方正超大" height="20" />
+            <ListLabelElement text="微软雅黑" height="20" />
+            <ListLabelElement text="新宋体" height="20" />
+            <ListLabelElement text="幼圆" height="20" />
           </Combo>
-          <Combo name="FontSize" droptype="droplist" width="50" height="22" textpadding="4,1,1,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'">
-            <ListLabelElement padding="8,1,1,1" text="8" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="9" selected="true" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="10" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="11" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="12" height="23" />
-						<ListLabelElement padding="8,1,1,1" text="13" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="14" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="15" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="16" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="17" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="18" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="19" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="20" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="21" height="23" />
-            <ListLabelElement padding="8,1,1,1" text="22" height="23" />
+          <Combo name="FontSize" droptype="droplist" width="50" height="22" textpadding="4,1,1,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'"  itemtextpadding="8,1,1,1" itemhotbkcolor="#FFd5e5f5">
+            <ListLabelElement text="8" height="23" />
+						<ListLabelElement text="9" selected="true" height="23" />
+						<ListLabelElement text="10" height="23" />
+						<ListLabelElement text="11" height="23" />
+						<ListLabelElement text="12" height="23" />
+						<ListLabelElement text="13" height="23" />
+            <ListLabelElement text="14" height="23" />
+            <ListLabelElement text="15" height="23" />
+            <ListLabelElement text="16" height="23" />
+            <ListLabelElement text="17" height="23" />
+            <ListLabelElement text="18" height="23" />
+            <ListLabelElement text="19" height="23" />
+            <ListLabelElement text="20" height="23" />
+            <ListLabelElement text="21" height="23" />
+            <ListLabelElement text="22" height="23" />
 					</Combo>
 					<Control width="5"/>
 					<Option showhtml="true" name="boldbtn" width="26" height="22" text="{i Bold.png}{/i}" hotimage="file='aio_toolbar_highligh.png' corner='3,3,3,3'" selectedimage="file='aio_toolbar_down.png' corner='3,3,3,3'"  />
@@ -132,13 +132,13 @@
 										<VerticalLayout name="FriendPicture"  padding="5,8,0,0" width="176" height="200" />
 										<Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png" 
 										text="个人名片" textpadding="15,0,0,0" font="3" />
-									<HorizontalLayout   name="FriendReview"   height="90" bkimage="chat_right_review.png">										
+									<HorizontalLayout   name="FriendReview"   height="80" bkimage="chat_right_review.png">										
 										<VerticalLayout name="FriendTextDesc" padding="5,22,0,0">
 											<Label name="FriendRealName" padding="2,2,2,2"  height="14" text="姓名: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendSex"  padding="2,2,2,2"     height="14" text="性别: "     textcolor="0xFF000001" font="2"/>
-                      <Label name="FriendHeight"      height="14" text="身高: "     textcolor="0xFF000001" font="2"/>
+                   <!--   <Label name="FriendHeight"      height="14" text="身高: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendNativePlace" height="14" text="籍贯: "     textcolor="0xFF000001" font="2"/>
-											<Label name="FriendBirthday"    height="14" text="出生日期: " textcolor="0xFF000001" font="2"/>
+											<Label name="FriendBirthday"    height="14" text="出生日期: " textcolor="0xFF000001" font="2"/>-->
 											<Label name="FriendPosition" padding="2,2,2,2"  height="14" text="应聘职位: " textcolor="0xFF000001" font="2"/>
 										</VerticalLayout>
 									</HorizontalLayout>
@@ -146,14 +146,14 @@
 										<!-------------
 										-- RichEdit 需要程序控制长度, 超出长度用 '...' 代替. 
 										------------------->
-                    <Label    name="FriendWorkTitle" padding="2,2,2,2"   height="11" text="工作经验: "     textcolor="0xFF000001" font="2"/>
+                  <!--  <Label    name="FriendWorkTitle" padding="2,2,2,2"   height="11" text="工作经验: "     textcolor="0xFF000001" font="2"/>
                     <RichEdit name="FriendExperience"  height="22" textcolor="0xFF000001" font="3" endellipsis="true"
 											inset="0,1,1,1" multiline="true" readonly="true" />
                     <Label    name="FriendStudyTitle"  height="14" text="学习情况: "     textcolor="0xFF000001" font="2"/>
 										<RichEdit name="FriendStudies"     height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
-											inset="0,1,1,1" multiline="true" readonly="true" />
+											inset="0,1,1,1" multiline="true" readonly="true" />-->
 										<Label    name="FriendEvalueTitle" height="14" text="自我评价: "     textcolor="0xFF000001" font="2"/>										
-										<RichEdit name="FriendEvaluation"  height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
+										<RichEdit name="FriendEvaluation"  height="64" textcolor="0xFF000001" font="3" endellipsis="true" 
 											inset="0,1,1,1" multiline="true" readonly="true" />
 									</VerticalLayout>
 								</VerticalLayout>
