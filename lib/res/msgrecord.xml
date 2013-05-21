@@ -27,7 +27,6 @@
     file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;
     file='scrollbar_bkg.png'&quot;" />
 	<VerticalLayout name="BackgroudImg" bkimage="file='msg_record_bg.png'">
-    */
 		<VerticalLayout name="header" height="72">
 			<HorizontalLayout name="title">
 				<Label name="TitleLabel1" width="350" height="30" font="2" padding="70,10,0,0" textcolor="0xFF000001" text="聊天记录" />			
