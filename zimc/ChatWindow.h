@@ -28,6 +28,8 @@ public:
 	void    recordMsg(ChatCcTextData_t *pChatData);
 	void    ActiveWindow();
 
+	LRESULT HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+
 
 private:
 	LPCTSTR GetWindowClassName() const;	
@@ -81,6 +83,7 @@ protected:
 
 
 private: 
+	UINT             m_nTimer;
 	int              m_nChatType;
 	ChatFont_t     * m_pChatFont;
 	CNodeList      * m_pGroupInfo;
@@ -95,6 +98,8 @@ private:
 	CZiMainFrame   * m_pMainWindow;
 	//added by tian
 	CRichEditUI* m_pSendEdit, * m_pRecvEdit;
+
+	string       m_strPicFile;
 };
 
 

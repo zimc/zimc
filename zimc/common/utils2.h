@@ -69,6 +69,7 @@ std::string base64_decode(std::string const& encoded_string);
 
 int getFileSuffixNum(time_t);
 
+void httpCompelte(string &strurl, string &filename);
 
 #endif //__UTILS_2_H__
 

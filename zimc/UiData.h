@@ -13,6 +13,8 @@
 #define VCC(_MsgDef)			_MsgDef(MagicId_t)
 
 
+#define TMP_DATA_DIR ".data"
+
 #define Public_Item_Info_Define(_string_type, _pre, _id_type)  struct                      \
 { \
 	/* public */       \

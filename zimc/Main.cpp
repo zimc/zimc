@@ -4,6 +4,7 @@
 #include "MainWindow.h"
 #include "ZimcHelper.h"
 #include "WinDump.h"
+#include "common/HTTPRequest.h"
 
 #include <shellapi.h>
 
@@ -80,6 +81,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 		return nRet;
 	}
 
+	HTTPRequest::instance()->run();
 
 //#define _TestMainFrame
 #ifndef _TestMainFrame
@@ -111,5 +113,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 
 	// 退出, 退出时网络层最后退出. 
 	CNetLayer::GetInstance()->Uninit();
+
+	HTTPRequest::instance()->stop();
+
 	return 0;
 }

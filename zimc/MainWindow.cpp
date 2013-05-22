@@ -11,6 +11,7 @@
 #include "ReportWindow.h"
 #include "CreateGroupWindow.h"
 #include "Setting.h"
+#include "common/HTTPRequest.h"
 
 #include <time.h>
 
@@ -1440,6 +1441,7 @@ void    CZiMainFrame::FlashTray(BOOL bFlashOrNot)
 void    CZiMainFrame::OnTimer()
 {
     OnKeepAlive();
+	HTTPRequest::instance()->dispatch();
 	//Assert(!m_listNetData.empty());
     CGenericLockHandler h(m_mainLock);
     if (!m_listNetData.empty()) {

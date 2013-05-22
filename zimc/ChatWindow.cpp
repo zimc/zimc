@@ -1,12 +1,14 @@
 #include "stdafx.h" 
 #include <windows.h>
 #include <shellapi.h>
-#include<stdio.h>
+#include <stdio.h>
 #include <atlstr.h>
-#include<fstream>
-#include<string>
+#include <fstream>
+#include <string>
 #include <direct.h>
 #include <WinUser.h>
+#include <fstream>
+#include  <io.h>
 
 #include "ChatWindow.h"
 #include "ConcreteItemListUI.h"
@@ -66,11 +68,26 @@ CChatDialog::CChatDialog(
 	, m_nChatFlag(Flag_TextChat)
 	, m_pMainWindow(pMainWindow)
 	, m_pMsgRecordWindow(0)
+	, m_nTimer(0)
 {}
 
 CChatDialog::~CChatDialog()
 {
 }
+
+LRESULT CChatDialog::HandleCustomMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) {
+	LRESULT ret = S_OK;
+	switch(uMsg) {
+		case WM_TIMER:
+			if(wParam == 1){
+				TNotifyUI  msg;
+				OnTimer(msg);
+			}
+			break;
+	}
+	return ret;
+}
+
 LRESULT CChatDialog::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled)
 {
 	// 利用 WS_EX_TOOLWINDOW 不能够成功的隐藏任务栏图标, 
@@ -78,6 +95,11 @@ LRESULT CChatDialog::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & bH
 
 	CDuiWindowBase::OnCreate(nMsg, wParam, lParam, bHandled);
 	SetIcon(128);
+
+	if (m_nTimer == 0) {
+		m_nTimer = ::SetTimer(m_hWnd, 1, 2000, 0);
+	}
+
 	return S_OK;
 }
 
@@ -166,7 +188,7 @@ void    CChatDialog::Notify(TNotifyUI& msg)
     }
 	else if(_tcsicmp(msg.sType, _T("timer")) == 0)
 	{
-		return OnTimer(msg);
+		//return OnTimer(msg);
 	}
 	else if(_tcsicmp(msg.sType, _T("selectchanged")) == 0)
 	{
@@ -288,6 +310,11 @@ void    CChatDialog::OnTimer(TNotifyUI & msg)
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
 	if (pRichEdit) {
 		pRichEdit->SetFocus();
+	}
+
+	CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
+	if (pPicture) {
+		pPicture->SetBkImage(CA2T(m_strPicFile.c_str()));
 	}
 }
 
@@ -775,13 +802,23 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	//V3(DuiControl_SetText,    RichEdit,       Myself);
 	V3(DuiControl_SetText,    RichEdit,       Friend);
 
-	//set friend picture
+	// TODO 测试代码
 	_mkdir(".data/");
 	_mkdir(".data/pictures/");
-	char *filename = ".data/1.png";
-	CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
-	if (pPicture) {
-		pPicture->SetBkImage(CA2T(filename));
+	
+	string path;
+	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), path);
+	m_strPicFile = ".data/pictures/1.jpg";
+	string filename = path + "/.data/pictures/1.jpg" + ".bak";
+
+	if( (_access(m_strPicFile.c_str(), 0 )) != -1 ) {
+		CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
+		if (pPicture) {
+			pPicture->SetBkImage(CA2T(m_strPicFile.c_str()));
+		}
+	}
+	else {
+		HTTPRequest::instance()->send_request(EVENT_DOWNLOAD_FILE, "http://qlogo4.store.qq.com/qzone/2253698143/2253698143/100", filename.c_str(),  httpCompelte, NULL);
 	}
 
 	return 0;

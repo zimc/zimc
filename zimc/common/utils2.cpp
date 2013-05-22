@@ -5,6 +5,7 @@
 #include <time.h>
 #include <errno.h>
 #include <assert.h>
+#include<iostream>
 
 // long long hl_timestamp(void)
 // {   
@@ -174,3 +175,16 @@ int getFileSuffixNum(time_t t) {
 	return (int)((t - 1325347200LL)/86400/60); // since 2012-01-01
 }
 
+void httpCompelte(string &strurl, string &filename) {
+	//cout<<str<<endl;
+	//cout<<strurl<<" complete\n";
+	//xxxxx.xxx.bak
+	if (filename.length() > 4 ) {
+		int l = filename.length();
+		const char *str = filename.c_str() + l - 4;
+		if (strcmp(str, ".bak") == 0) {
+			rename(filename.c_str(), filename.substr(0, l-4).c_str());
+		}
+		cout<<strurl<<" "<<filename<<endl;
+	}
+}

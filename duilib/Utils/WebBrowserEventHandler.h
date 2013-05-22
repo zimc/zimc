@@ -34,10 +34,12 @@ namespace DuiLib
 		virtual HRESULT STDMETHODCALLTYPE GetHostInfo(
 			/* [out][in] */ DOCHOSTUIINFO __RPC_FAR *pInfo)
 		{
-			// 		if (pInfo != NULL)
-			// 		{
-			// 			pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER;
-			// 		}
+			if (pInfo != NULL)
+			{
+				pInfo->cbSize = sizeof(DOCHOSTUIINFO);
+				pInfo->dwFlags |= DOCHOSTUIFLAG_NO3DBORDER | DOCHOSTUIFLAG_SCROLL_NO;
+				pInfo->dwDoubleClick = DOCHOSTUIDBLCLK_DEFAULT;
+			}
 			return S_OK;
 		}
 

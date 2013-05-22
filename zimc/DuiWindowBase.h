@@ -58,6 +58,8 @@ public:
 	virtual int     OnClickClose(TNotifyUI & notifyUi);
 	virtual int     OnClickMin(TNotifyUI & notifyUi);
 
+	CPaintManagerUI *GetPaintManagerUI() { return &m_pmUi; }
+
 
 protected:
 	virtual tstring GetSkinFolder();
