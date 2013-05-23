@@ -24,6 +24,7 @@
 #include "common/utils2.h"
 #include "common/curl/curl.h"
 #include "common/HTTPRequest.h"
+#include "common/utils2.h"
 
 using namespace std;
 const TCHAR* const g_tstrChatCloseButtonName     = _T("CloseBtn");
@@ -597,14 +598,18 @@ void   CChatDialog::recordMsg(ChatCcTextData_t *pChatData) {
 	//string &strSender, string &strTime, int nSenderId, int nRecverId, const char *szData, int nDataLen
 	char filename[256] = {0};
 	char filepath[256] = {0};
-	char *prefix = ".data";
-	_mkdir(prefix);
-	sprintf(filepath, "%s\\%d", prefix, m_myselfInfo.nId);
-	_mkdir(filepath);
+
+	string tmp_file;
+	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), tmp_file);
+	sprintf(filepath, "%s\\%d", TMP_DATA_PREFIX, m_myselfInfo.nId);
 	sprintf(filename, "%s\\%s%d.%d", filepath, 
 		(m_friendInfo.chType == Type_ImcGroup ? "group" : "friend"), 
 		m_friendInfo.nId, getFileSuffixNum(time(NULL)));
-	FILE *fp = fopen(filename, "ab+");
+	tmp_file.append("\\");
+	tmp_file.append(filename);
+	createDirectory(tmp_file.c_str());
+
+	FILE *fp = fopen(tmp_file.c_str(), "ab+");
 	if (fp) {
 		//TODO ´íÎó´¦Àí
 		char *start_token = "textbegin@";
@@ -803,22 +808,29 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 	V3(DuiControl_SetText,    RichEdit,       Friend);
 
 	// TODO ²âÊÔ´úÂë
-	_mkdir(".data/");
-	_mkdir(".data/pictures/");
-	
-	string path;
-	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), path);
-	m_strPicFile = ".data/pictures/1.jpg";
-	string filename = path + "/.data/pictures/1.jpg" + ".bak";
+	char picfile[512] = {0};
+	string uripath = CT2A(m_friendInfo.tstrPicture.c_str());
+	sprintf(picfile, "%s\\%s", TMP_DATA_DIR, uripath.c_str());
+	m_strPicFile = picfile;
 
-	if( (_access(m_strPicFile.c_str(), 0 )) != -1 ) {
+	string tmp_file;
+	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), tmp_file);
+	tmp_file.append("\\");
+	tmp_file.append(m_strPicFile);
+	string pic_url = "www.arebank.com/";
+	pic_url.append(uripath);
+	check_file_path(tmp_file);
+
+	if( (_access(tmp_file.c_str(), 0 )) != -1 ) {
 		CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
 		if (pPicture) {
 			pPicture->SetBkImage(CA2T(m_strPicFile.c_str()));
 		}
 	}
 	else {
-		HTTPRequest::instance()->send_request(EVENT_DOWNLOAD_FILE, "http://qlogo4.store.qq.com/qzone/2253698143/2253698143/100", filename.c_str(),  httpCompelte, NULL);
+		createDirectory(tmp_file.c_str());
+		tmp_file.append(".bak");
+		HTTPRequest::instance()->send_request(EVENT_DOWNLOAD_FILE, pic_url.c_str(), tmp_file.c_str(),  httpCompelte, NULL);
 	}
 
 	return 0;

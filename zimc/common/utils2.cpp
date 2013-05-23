@@ -5,7 +5,8 @@
 #include <time.h>
 #include <errno.h>
 #include <assert.h>
-#include<iostream>
+#include <iostream>
+#include <direct.h>
 
 // long long hl_timestamp(void)
 // {   
@@ -186,5 +187,40 @@ void httpCompelte(string &strurl, string &filename) {
 			rename(filename.c_str(), filename.substr(0, l-4).c_str());
 		}
 		cout<<strurl<<" "<<filename<<endl;
+	}
+}
+
+void check_file_path(string &filepath) {
+	for (size_t i = 0; i < filepath.length(); i++) {
+		if (filepath.at(i) == '/') {
+			filepath[i] = '\\';
+		}
+	}
+}
+
+void createDirectory(const char *filepath) {
+	if(filepath == NULL) return;
+	string path = string(filepath);
+	check_file_path(path);
+	//C:\Program Files
+	int pos = path.find(":\\");
+	if (pos == path.npos) {
+		pos = 0;
+	}
+	else {
+		pos += 2;
+	}
+	while (pos < (int)path.length()) {
+		int tmp = path.find_first_of("\\", pos);
+		if (tmp == path.npos) {
+			if (path.find_first_of(".", pos) == path.npos) {
+				_mkdir(path.c_str());
+			}
+			pos = path.length();
+		}
+		else {
+			_mkdir(path.substr(0, tmp).c_str());
+			pos = tmp + 1;
+		}
 	}
 }

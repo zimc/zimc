@@ -71,5 +71,9 @@ int getFileSuffixNum(time_t);
 
 void httpCompelte(string &strurl, string &filename);
 
+void check_file_path(string &filepath);
+
+void createDirectory(const char *filepath);
+
 #endif //__UTILS_2_H__
 

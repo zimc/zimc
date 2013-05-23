@@ -9,7 +9,12 @@
 #include "shellapi.h"
 #include <atlbase.h>
 #include <list>
+#include <string>
 
+#include "common/utils2.h"
+
+
+using namespace std;
 
 #define  g_szLoginFile				"zius.dat"
 #define  g_tsRegisterUrl			_T("www.arebank.com/?app=reg_gr")
@@ -196,6 +201,14 @@ LRESULT CZiLogin::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHand
 
 	TNotifyUI notify;
 	OnWindowUp(notify);
+
+	//确保缓存文件夹存在
+	string tmp_path;
+	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), tmp_path);
+	//tmp_path.append("\\");
+	tmp_path.append(TMP_DATA_DIR);
+	createDirectory(tmp_path.c_str());
+
 	return S_OK;
 }
 

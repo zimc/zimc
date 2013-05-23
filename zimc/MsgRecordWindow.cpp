@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "MsgRecordWindow.h"
-#include<iostream>
-#include<fstream>
-#include<vector>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+#include "ZimcHelper.h"
+#include "common/utils2.h"
 
 
 CMsgRecordWindow::CMsgRecordWindow(CChatDialog * pChatDialog, int suffix_num)
@@ -129,11 +132,18 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
 
 int CMsgRecordWindow::loadMsgRecord() {
 	char filename[256] = {0};
-	sprintf(filename, ".data\\%d\\%s%d.%d", 
+	sprintf(filename, "%s\\%d\\%s%d.%d", 
+		TMP_DATA_PREFIX,
 		m_pChatDialog->GetSelfInfo()->nId, 
 		(m_pChatDialog->GetFriendInfo()->chType == Type_ImcGroup ? "group" : "friend"),
 		m_pChatDialog->GetFriendInfo()->nId, m_nSuffixNum);
-	FILE *fp = fopen(filename, "rb");
+	string tmp_file;
+	CZimcHelper::WideToMulti2(GetPaintManagerUI()->GetInstancePath().GetData(), tmp_file);
+	tmp_file.append("\\");
+	tmp_file.append(filename);
+	createDirectory(tmp_file.c_str());
+
+	FILE *fp = fopen(tmp_file.c_str(), "rb");
 	if (fp) {
 		int succ = 0;
 		m_vecMsgRecord.clear();

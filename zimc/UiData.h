@@ -13,7 +13,8 @@
 #define VCC(_MsgDef)			_MsgDef(MagicId_t)
 
 
-#define TMP_DATA_DIR ".data"
+#define TMP_DATA_DIR ".data\\pictures"
+#define TMP_DATA_PREFIX ".data"
 
 #define Public_Item_Info_Define(_string_type, _pre, _id_type)  struct                      \
 { \
@@ -755,6 +756,7 @@ inline void ItemDataNetToLocal(NetItemInfo_t & netNode, ItemNodeInfo_t & localNo
 	localNode.nId              = netNode.nId;
 	localNode.nAdminId         = netNode.nAdminId;
 	localNode.tstrNickName     = CA2T(netNode.strNickName.c_str());
+	localNode.tstrPicture      = CA2T(netNode.strPicture.c_str());
 	localNode.tstrAdminName    = CA2T(netNode.strAdminName.c_str());
 	localNode.tstrDescription  = CA2T(netNode.strDescription.c_str());
 	localNode.tstrRealName     = CA2T(netNode.strRealName.c_str());
