@@ -150,7 +150,7 @@ void CZiLogin::Notify(TNotifyUI& msg)
 		DuiClickButtonMap(_T("WinPushBtn"),     OnWindowPush)
 		DuiClickButtonMap(_T("WinUpBtn"),       OnWindowUp)
 
-		DuiClickButtonMap(_T("LoginBtn"),       OnLogin)
+		DuiClickButtonMap(_T("LoginBtn"),       OnClickLogOn)
 		DuiClickButtonMap(_T("RegisterBtn"),    OnRegister)
 		DuiClickButtonMap(_T("FindPwdBtn"),     OnFindPwd)
 		DuiClickButtonMap(_T("MinBtn"),         OnClickMin)
@@ -352,6 +352,16 @@ int     CZiLogin::OnFocusPwd(TNotifyUI & notifyUi)
 	}
 
 	return 0;
+}
+
+int     CZiLogin::OnClickLogOn(TNotifyUI & notifyUI) {
+	CButtonUI *pLogin = DuiControl(CButtonUI, _T("LoginBtn"));
+	Assert(pLogin);
+	if (!pLogin->IsEnabled()) {
+		return 1;
+	}
+	pLogin->SetEnabled(false);
+	return OnReturnAccount(notifyUI);
 }
 
 int     CZiLogin::OnReturnAccount(TNotifyUI & notifyUi)
@@ -1021,6 +1031,7 @@ int     CZiLogin::AsyncLoginReturn(int nLoginResult, LoginScData_t * pLoginResul
 	int nRet = 0;
 	CEditUI * pAccountEdit  = DuiControl(CEditUI, AccountControlName());
 	CEditUI * pPasswordEdit = DuiControl(CEditUI, PasswordControlName());
+	CButtonUI *pLogin = DuiControl(CButtonUI, _T("LoginBtn"));
 
 	// 1 等待 Login 初始化完成
 	// 暂时不需要. 退出不需要等待界面 ******
@@ -1035,6 +1046,7 @@ int     CZiLogin::AsyncLoginReturn(int nLoginResult, LoginScData_t * pLoginResul
 		// 设置为激活状态. 
 		pAccountEdit ->SetEnabled(true);
 		pPasswordEdit->SetEnabled(true);
+		pLogin->SetEnabled(true);
 		return nError;
 	}
 

@@ -38,6 +38,7 @@ private:
 	int     OnSelectAcount (TNotifyUI & notifyUi);
 	int     OnFocusAccount (TNotifyUI & notifyUi);
 	int     OnFocusPwd     (TNotifyUI & notifyUi);
+	int     OnClickLogOn   (TNotifyUI & notifyUI);
 	int     OnReturnAccount(TNotifyUI & notifyUi);
 	int     OnReturnPwd    (TNotifyUI & notifyUi);
 	int     OnClickAccount (TNotifyUI & notifyUi);
