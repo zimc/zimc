@@ -69,6 +69,13 @@
 	char                      * szRecverName; \
 }
 
+enum enumMenuEvent
+{
+	Event_OpenItem = 0, 
+	Event_ModifyItem, 
+	Event_DeleteItem, 
+	Event_CreateGroup,
+};
 
 // ----------------------------------------------------------
 // 消息定义

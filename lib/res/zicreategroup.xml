@@ -2,7 +2,7 @@
 <Window name="CreateGroupWnd" size="394,310" caption="0,0,0,50" roundcorner="4,4,4,4" bordersize="1" bktrans="true">
 	<Font name="宋体" size="12" bold="false" default="true" />
 	<Font name="宋体" size="14" bold="false" default="false" />
-	<VerticalLayout bkimage="create_group_bg.png">
+	<VerticalLayout bkimage="createGroup_bg.png">
 		<VerticalLayout name="header" height="72">
 			<HorizontalLayout name="title">
 				<Label name="TitleLabel1" width="350" height="30" font="1" padding="20,10,0,0" textcolor="0xFF000001" text="创建群组" />			

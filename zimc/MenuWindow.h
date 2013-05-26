@@ -1,14 +1,6 @@
 #pragma once
 
 
-enum enumMenuEvent
-{
-	Event_OpenItem = 0, 
-	Event_ModifyItem, 
-	Event_DeleteItem, 
-	Event_CreateGroup,
-};
-
 #define DuiClickMenuMap(_ev, _func)	\
 	if(_ev == msg.wParam) { _func(msg); return; }
 

@@ -70,6 +70,7 @@ CChatDialog::CChatDialog(
 	, m_pMainWindow(pMainWindow)
 	, m_pMsgRecordWindow(0)
 	, m_nTimer(0)
+	, m_inputEditKillFocus(false)
 {}
 
 CChatDialog::~CChatDialog()
@@ -191,6 +192,11 @@ void    CChatDialog::Notify(TNotifyUI& msg)
 	{
 		//return OnTimer(msg);
 	}
+	else if (_tcsicmp(msg.sType, _T("setfocus")) == 0) {
+		if (msg.pSender->GetName() == g_tstrChatInputRichEditName) {
+			m_inputEditKillFocus = false;
+		}
+	}
 	else if(_tcsicmp(msg.sType, _T("selectchanged")) == 0)
 	{
 		// ...???
@@ -223,7 +229,15 @@ void    CChatDialog::Notify(TNotifyUI& msg)
 		DuiClickButtonMap(g_tstrChatItalicButtonName,   OnFoutItalic);
 		DuiClickButtonMap(g_tstrUnderlineButtonName,   OnFontUnderLine);
 		DuiClickButtonMap(g_tstrFontColor,   OnFontColor);
+		DuiClickButtonMap(_T("GroupTab1"),  OnCreateGroup);
 	}
+}
+
+void CChatDialog::OnCreateGroup(TNotifyUI &msg) {
+	m_inputEditKillFocus = true;
+	TNotifyUI msgui = msg;
+	msgui.wParam = Event_CreateGroup;
+	m_pMainWindow->OnCreateGroup(msgui);
 }
 
 void    CChatDialog::OnPrepare(TNotifyUI & msg)
@@ -309,12 +323,13 @@ void    CChatDialog::OnTimer(TNotifyUI & msg)
 	//          当鼠标在上面拖动选择时, 也会触发 Timer. 
 	//::OutputDebugStringA("--------timer-----------\n");
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
-	if (pRichEdit) {
+	if (pRichEdit && !m_inputEditKillFocus) {
 		pRichEdit->SetFocus();
 	}
 
 	CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));
 	if (pPicture) {
+		check_file_path(m_strPicFile);
 		pPicture->SetBkImage(CA2T(m_strPicFile.c_str()));
 	}
 }
@@ -809,7 +824,10 @@ int     CChatDialog::UpdateTextChatWindow(CContainerUI * pChatUi)
 
 	// TODO 测试代码
 	char picfile[512] = {0};
-	string uripath = CT2A(m_friendInfo.tstrPicture.c_str());
+	string uripath = "style/default/images/head_default.jpg";
+	if (m_friendInfo.tstrPicture.size() > 0) {
+		uripath = CT2A(m_friendInfo.tstrPicture.c_str());
+	}
 	sprintf(picfile, "%s\\%s", TMP_DATA_DIR, uripath.c_str());
 	m_strPicFile = picfile;
 

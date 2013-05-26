@@ -45,6 +45,7 @@ private:
 protected:
 	void    Notify             (TNotifyUI & msg);
 	void    OnPrepare          (TNotifyUI & msg);
+	void    OnCreateGroup      (TNotifyUI &msg);
 	void    OnFontStyleChanged1(TNotifyUI & msg);
 	void    OnFontStyleChanged2(TNotifyUI & msg);
 	void    OnTimer            (TNotifyUI & msg);
@@ -100,6 +101,7 @@ private:
 	CRichEditUI* m_pSendEdit, * m_pRecvEdit;
 
 	string       m_strPicFile;
+	bool         m_inputEditKillFocus;
 };
 
 

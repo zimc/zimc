@@ -655,6 +655,7 @@ int     CZiMainFrame::OnCreateGroup(TNotifyUI &msg) {
 		m_pCreateGroupWindow->Create(NULL, _T("创建群组"), UI_WNDSTYLE_FRAME | WS_POPUP, NULL, 0, 0, 0, 0);
 		m_pCreateGroupWindow->CenterWindow();
 		m_pCreateGroupWindow->ShowWindow(true);	
+		::SetForegroundWindow(m_pCreateGroupWindow->GetHWND());
 	}
 	else {
 		Assert(0);

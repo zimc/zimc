@@ -67,6 +67,8 @@ public:
 	void    CancelWatch(int nChatId);
 	int     SendImMessageX(int nMsg, LPARAM lp, WPARAM wp);
 
+	int		OnCreateGroup(TNotifyUI &msg);
+
 
 private:
 	LPCTSTR GetWindowClassName() const;
@@ -98,7 +100,7 @@ private:
 
 	int     OnClickRightButton(TNotifyUI & msg);
 	int     OnClickRightMenu(TNotifyUI & msg);
-	int		OnCreateGroup(TNotifyUI &msg);
+	
 	int     OnModifyGroupName(CNodeList *pNode);
 	int     OnReturnSearch(TNotifyUI & msg);
 	int     OnSelectSearch(TNotifyUI & msg);
