@@ -102,6 +102,11 @@ LRESULT CChatDialog::OnCreate(UINT nMsg, WPARAM wParam, LPARAM lParam, BOOL & bH
 		m_nTimer = ::SetTimer(m_hWnd, 1, 2000, 0);
 	}
 
+	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
+	if (pRichEdit) {
+		pRichEdit->SetFocus();
+	}
+
 	return S_OK;
 }
 
@@ -262,6 +267,7 @@ void    CChatDialog::OnPrepare(TNotifyUI & msg)
 
 	// …Ë÷√”“±ﬂµƒ¥∞ø⁄
 	UpdateRightChatWindow();
+
 }
 
 void    CChatDialog::OnFontStyleChanged1(TNotifyUI & msg)
@@ -324,7 +330,7 @@ void    CChatDialog::OnTimer(TNotifyUI & msg)
 	//::OutputDebugStringA("--------timer-----------\n");
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
 	if (pRichEdit && !m_inputEditKillFocus) {
-		pRichEdit->SetFocus();
+		//pRichEdit->SetFocus();
 	}
 
 	CTabLayoutUI *pPicture = DuiControl(CTabLayoutUI, _T("FriendPicture"));

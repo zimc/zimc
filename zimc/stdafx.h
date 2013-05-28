@@ -27,8 +27,6 @@ using namespace DuiLib;
 #   endif
 #endif
 
-#pragma comment(lib, "libcurld_imp.lib")
-
 #include <string>
 #include <vector>
 #include <atlbase.h>          // for 'CT2A', 'CA2T'. 

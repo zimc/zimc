@@ -8,6 +8,7 @@
 
 #include <shellapi.h>
 
+#pragma comment(lib, "..\\lib\\libcurl_imp.lib")
 
 class CZimcInit
 {
