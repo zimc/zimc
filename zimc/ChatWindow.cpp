@@ -593,7 +593,7 @@ int     CChatDialog::OnTextMsgShow(ChatCcTextData_t * pTextData)
     cf.dwMask = CFM_COLOR| CFM_FACE | CFM_SIZE;
     cf.yHeight = cht.dwFontSize;
     cf.crTextColor = cht.dwTextColor;
-	cf.yHeight = cht.dwFontSize*cht.dwFontSize;
+	cf.yHeight = cht.dwFontSize*18;
 	_tcscpy_s(cf.szFaceName, cht.tszFontName);
     if (cht.bBold) {
         cf.dwMask |= CFM_BOLD;
