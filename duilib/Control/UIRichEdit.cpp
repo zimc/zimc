@@ -22,7 +22,7 @@ EXTERN_C const IID IID_ITextHost = { /* c5bdd8d0-d26e-11ce-a89e-00aa006cadc5 */
 };
 
 #ifndef LY_PER_INCH
-#define LY_PER_INCH 1440
+#define LY_PER_INCH 2000/*1440*/
 #endif
 
 #ifndef HIMETRIC_PER_INCH
@@ -824,7 +824,8 @@ void CTxtWinHost::SetFont(HFONT hFont)
 
 void CTxtWinHost::SetColor(DWORD dwColor)
 {
-    cf.crTextColor = RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor));
+    cf.crTextColor = dwColor;/*RGB(GetBValue(dwColor), GetGValue(dwColor), GetRValue(dwColor))*/;
+	cf.dwEffects &= ~CFE_AUTOCOLOR;
     pserv->OnTxPropertyBitsChange(TXTBIT_CHARFORMATCHANGE, 
         TXTBIT_CHARFORMATCHANGE);
 }

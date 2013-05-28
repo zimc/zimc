@@ -456,6 +456,14 @@ void	CChatDialog::OnFontColor		(TNotifyUI & msg)\
 		if (m_pChatFont->dwTextColor != clrText)
 		{
 			m_pChatFont->dwTextColor = clrText;
+			CRichEditUI * pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(g_tstrChatInputRichEditName));
+			if(pRichEdit)
+			{
+				pRichEdit->SetFont(
+					m_pChatFont->tszFontName, m_pChatFont->dwFontSize, m_pChatFont->bBold, m_pChatFont->bUnderline, m_pChatFont->bItalic);
+				pRichEdit->SetTextColor(m_pChatFont->dwTextColor);
+			}
+			/*
 			m_pSendEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("InputRichEdit")));
 			//m_pSendEdit->SetTextColor(m_pChatFont->dwTextColor);//不晓得为什么不好使，只好用下面笨重的方法来做了。
 			ITextServices * pTextServices = m_pSendEdit->GetTextServices();
@@ -464,6 +472,7 @@ void	CChatDialog::OnFontColor		(TNotifyUI & msg)\
 			m_pChatFont->bBold, m_pChatFont->bUnderline, FALSE);
 			pTextServices->Release();
 			//g_buddyFontInfo.m_clrText = m_fontInfo.m_clrText;
+			*/
 		}
 	}
 }
