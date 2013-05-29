@@ -598,7 +598,7 @@ typedef struct ChatFont_t
 		, dwFontSize(12)
 		, dwTextColor(0xFF000000)
 	{
-		_tcscpy_s(tszFontName, _T("Î¢ÈíÑÅºÚ"));
+		_tcscpy_s(tszFontName, _T("ËÎÌå"));
 	}
 }ChatFont_t;
 
