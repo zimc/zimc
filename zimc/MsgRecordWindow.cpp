@@ -63,7 +63,7 @@ int   CMsgRecordWindow::OnExit(TNotifyUI & msg)
 //上一页
 int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 {
-
+	bool homeup = false;
 	if (m_nPage <= 0) {
 		int last = m_nSuffixNum;
 		m_nSuffixNum --;
@@ -72,7 +72,7 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 		}
 		if (m_nSuffixNum > 0) {
 			m_nPage = (m_vecMsgRecord.size() + PAGE_COUNT/2)/ PAGE_COUNT;
-			if (m_nPage > 0) m_nPage --;			
+			if (m_nPage > 0) m_nPage --;	
 		}
 		else {
 			m_nSuffixNum = last;
@@ -80,6 +80,7 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 			if (pUpButton) {
 				pUpButton->SetEnabled(false);
 			}
+			homeup = true;
 		}	
 	} else {
 		m_nPage --;
@@ -91,12 +92,18 @@ int   CMsgRecordWindow::OnUp(TNotifyUI & msg)
 	showMsgRecord();
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
 	Assert(pRichEdit);
-	pRichEdit->EndDown();
+	if (homeup) {
+		pRichEdit->HomeUp();
+	}
+	else {
+		pRichEdit->EndDown();
+	}
 	//pRichEdit->PostMessage(WM_VSCROLL, SB_TOP, 0);
 	return 0 ;
 }
 //下一页
 int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
+	bool homeup = false;
 	int count = (m_vecMsgRecord.size() + PAGE_COUNT/2) / PAGE_COUNT;
 	count = max(count ,1);
 	if (m_nPage >= count - 1) {
@@ -113,10 +120,12 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
 		}
 		else {
 			m_nPage = 0;
+			homeup = true;
 		}
 	}
 	else {
-		m_nPage ++;		
+		m_nPage ++;	
+		homeup = true;
 	}
 	CButtonUI *pUpButton = DuiControl(CButtonUI, _T("UpBtn"));
 	if (pUpButton) {
@@ -125,7 +134,12 @@ int CMsgRecordWindow::OnNext(TNotifyUI & msg) {
 	showMsgRecord();
 	CRichEditUI* pRichEdit = static_cast<CRichEditUI*>(m_pmUi.FindControl(_T("ViewRichEdit")));
 	Assert(pRichEdit);
-	pRichEdit->HomeUp();
+	if (homeup) {
+		pRichEdit->HomeUp();
+	}
+	else {
+		pRichEdit->EndDown();
+	}
     return 0 ;
 }
 
