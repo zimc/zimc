@@ -300,9 +300,8 @@ void CMsgRecordWindow::showMsgRecord() {
 		//LPCTSTR pStrFontName, int nSize, bool bBold, bool bUnderline, bool bItalic
 		//TODO 大小 未解决 ??? 
 		cf.dwMask = CFM_COLOR| CFM_FACE | CFM_SIZE;
-		cf.yHeight = cht.dwFontSize;
 		cf.crTextColor = cht.dwTextColor;
-		cf.yHeight = cht.dwFontSize*cht.dwFontSize;
+		cf.yHeight = cht.dwFontSize*22;
 		_tcscpy_s(cf.szFaceName, cht.tszFontName);
 		if (cht.bBold) {
 			cf.dwMask |= CFM_BOLD;

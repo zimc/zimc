@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_487BF6977A42650E9380DC81EF29B731"
+        "OwnerKey" = "8:_A2590A59346E43B5B8FFA286E1A15070"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_60CFD3AFF6064305940060BDB9DBFE7B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -140,6 +146,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5"
+                    {
+                    "Name" = "8:.NET Framework 3.5"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -186,6 +205,26 @@
             {
             "SourcePath" = "8:DuiLib_ud.dll"
             "TargetName" = "8:DuiLib_ud.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_40EC0F2F1D184416A718C65920DF4D5E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_487BF6977A42650E9380DC81EF29B731"
+            {
+            "SourcePath" = "8:libcurl.dll"
+            "TargetName" = "8:libcurl.dll"
             "Tag" = "8:"
             "Folder" = "8:_40EC0F2F1D184416A718C65920DF4D5E"
             "Condition" = "8:"
@@ -420,14 +459,14 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:chat-setup"
-        "ProductCode" = "8:{D1400AE7-F45D-434D-9514-5A86EEDD54DB}"
-        "PackageCode" = "8:{6BBC5CCF-601A-4E4C-AF7A-4022B206439C}"
-        "UpgradeCode" = "8:{609E5875-1642-4933-951E-0E8E3F42FC30}"
+        "ProductCode" = "8:{304F4B2B-6BCC-4441-91EC-B6F21C30D26C}"
+        "PackageCode" = "8:{72CCBAEB-4875-4DF2-9678-897EA02C6081}"
+        "UpgradeCode" = "8:{ED0C9980-237D-4E7A-AA25-1077EA603C64}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "InstallAllUsers" = "11:TRUE"
+        "ProductVersion" = "8:1.0.7"
         "Manufacturer" = "8:Huarui"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -571,7 +610,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F981C95B924749BDBE32788498BEFA04"
             {
             "Name" = "8:chatUninstall.exe"
-            "Arguments" = "8:/x{D1400AE7-F45D-434D-9514-5A86EEDD54DB}"
+            "Arguments" = "8:/x {304F4B2B-6BCC-4441-91EC-B6F21C30D26C}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

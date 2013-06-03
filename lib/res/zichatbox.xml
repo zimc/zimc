@@ -78,10 +78,10 @@
             </Combo>
             <Combo name="FontSize" droptype="droplist" width="50" height="22" textpadding="4,1,1,1" normalimage="file='combo.png' source='0,0,100,22' corner='2,2,20,2'" hotimage="file='combo.png' source='0,22,100,44' corner='2,2,22,2'" pushedimage="file='combo.png' source='0,44,100,66' corner='2,2,22,2'"  itemtextpadding="8,1,1,1" itemhotbkcolor="#FFd5e5f5">
               <ListLabelElement text="8" height="23" />
-              <ListLabelElement text="9" selected="true" height="23" />
+              <ListLabelElement text="9" height="23" />
               <ListLabelElement text="10" height="23" />
               <ListLabelElement text="11" height="23" />
-              <ListLabelElement text="12" height="23" />
+              <ListLabelElement text="12" selected="true" height="23" />
               <ListLabelElement text="13" height="23" />
               <ListLabelElement text="14" height="23" />
               <ListLabelElement text="15" height="23" />
