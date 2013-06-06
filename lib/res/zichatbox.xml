@@ -2,10 +2,8 @@
 <Window size="464,486" mininfo="464,486" maxinfo="464,486" caption="0,0,0,40" sizebox="4,4,4,4" roundcorner="4,4,4,4">
   <Font name="宋体" size="13" bold="true" />
   <Font name="宋体" size="12" bold="false" default="true" />
-  <Font name="宋体" size="22"  bold="true" />
   <Font name="宋体" size="12"  bold="false" />
-  <Font name="宋体" size="22"  bold="false" />
-  
+  <Font name="宋体" size="12"  bold="true" />
   <Default name="VScrollBar" value="width=&quot;14&quot; maxwidth=&quot;14&quot; button1normalimage=&quot;file='scrollbar_arrowup_normal.png' &quot; button1hotimage=&quot;file='scrollbar_arrowup_highlight.png'&quot; button1pushedimage=&quot;file='scrollbar_arrowup_down.png'&quot; button2normalimage=&quot;file='scrollbar_down_normal.png'&quot; button2hotimage=&quot;file='scrollbar_down_highlight.png'&quot; button2pushedimage=&quot;file='scrollbar_down_down.png'&quot; thumbnormalimage=&quot;file='scrollbar_bar_normal.png' corner='0,1,0,1'&quot; thumbhotimage=&quot;file='scrollbar_bar_highlight.png' corner='0,1,0,1'&quot; thumbpushedimage=&quot;file='scrollbar_bar_down.png' corner='0,1,0,1'&quot; bknormalimage=&quot;file='scrollbar_bkg.png'&quot;" />
 
 
@@ -72,7 +70,7 @@
               <ListLabelElement text="华文中宋" height="20" />
               <ListLabelElement text="楷体_GB2312" height="20" />
               <ListLabelElement text="隶书" height="20" />
-              <ListLabelElement text="宋体" selected="true" height="20" />
+              <ListLabelElement text="宋体"  selected="true" height="20" />
               <ListLabelElement text="宋体方正超大" height="20" />
               <ListLabelElement text="微软雅黑" height="20" />
               <ListLabelElement text="新宋体" height="20" />
@@ -132,23 +130,23 @@
               <VerticalLayout >
                 <VerticalLayout name="AboutFriend">
                   <Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png"
-										text="形象秀" textpadding="15,0,0,0" font="0" />
-                  <VerticalLayout name="FriendPictureVL"  padding="1,1,1,1" width="176" height="200">
-                    <TabLayout name="FriendPicture" padding="1,1,1,1" width="174" height="198" />
+										text="形象秀" textpadding="12,0,0,0" font="0" />
+                  <VerticalLayout name="FriendPictureVL"  padding="1,1,1,4" width="148" height="200">
+                    <TabLayout name="FriendPicture" padding="2,1,1,1" width="146" height="198" />
                   </VerticalLayout>
                   <Label name="DescTitle2" height="20" bkimage="chat_right_title_line.png"
-                  text="个人名片" textpadding="15,0,0,0" font="3" />
-                  <HorizontalLayout   name="FriendReview"   height="80" bkimage="chat_right_review.png">
-                    <VerticalLayout name="FriendTextDesc" padding="5,22,0,0">
-                      <Label name="FriendRealName" padding="2,2,2,2"  height="14" text="姓名: "     textcolor="0xFF000001" font="3"/>
-                      <Label name="FriendSex"  padding="2,2,2,2"     height="14" text="性别: "     textcolor="0xFF000001" font="3"/>
+                  text="个人名片" textpadding="12,0,0,0" font="3" />
+                  <HorizontalLayout   name="FriendReview"   height="56" bkimage="chat_right_review.png">
+                    <VerticalLayout name="FriendTextDesc" padding="0,4,0,0">
+                      <Label name="FriendRealName" padding="2,2,2,2"  height="14" text="姓名: "     textcolor="0xFF000001" font="2"/>
+                      <Label name="FriendSex"  padding="2,2,2,2"     height="14" text="性别: "     textcolor="0xFF000001" font="2"/>
                       <!--   <Label name="FriendHeight"      height="14" text="身高: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendNativePlace" height="14" text="籍贯: "     textcolor="0xFF000001" font="2"/>
 											<Label name="FriendBirthday"    height="14" text="出生日期: " textcolor="0xFF000001" font="2"/>-->
-                      <Label name="FriendPosition" padding="2,2,2,2"  height="14" text="应聘职位: " textcolor="0xFF000001" font="3"/>
+                      <Label name="FriendPosition" padding="2,2,2,2"  height="14" text="职位: " textcolor="0xFF000001" font="2"/>
                     </VerticalLayout>
                   </HorizontalLayout>
-                  <VerticalLayout name="FriendExpresion" padding="5,3,0,0" >
+                  <VerticalLayout name="FriendExpresion" padding="2,3,0,0">
                     <!-------------
 										-- RichEdit 需要程序控制长度, 超出长度用 '...' 代替. 
 										------------------->
@@ -158,9 +156,9 @@
                     <Label    name="FriendStudyTitle"  height="14" text="学习情况: "     textcolor="0xFF000001" font="2"/>
 										<RichEdit name="FriendStudies"     height="22" textcolor="0xFF000001" font="3" endellipsis="true" 
 											inset="0,1,1,1" multiline="true" readonly="true" />-->
-                    <Label    name="FriendEvalueTitle" height="14" text="自我评价: "     textcolor="0xFF000001" font="3" />
-                    <RichEdit name="FriendEvaluation"  height="64" textcolor="0xFF000001" font="4" endellipsis="true"
-											inset="0,1,1,1" multiline="true" readonly="true" />
+                    <Label    name="FriendEvalueTitle" height="14" text="自我评价: "     textcolor="0xFF000001" font="2"/>
+                    <RichEdit name="FriendEvaluation"  height="124" textcolor="0xFF000001" font="2" endellipsis="true"
+											inset="0,1,1,1" multiline="true" readonly="true" vscrollbar="true" autovscroll="true"/>
                   </VerticalLayout>
                 </VerticalLayout>
               </VerticalLayout>
